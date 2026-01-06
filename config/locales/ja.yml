@@ -3,8 +3,6 @@ ja:
     previous: "<<"
     next: ">>"
     today: "今日"
-    lastYear: "<"
-    following: ">"
   date:
     year: "年"
     abbr_day_names: [日, 月, 火, 水, 木, 金, 土]
@@ -88,6 +86,6 @@ ja:
     select:
       prompt: 選択してください
     submit:
-      create: 登録する
+      create: 投稿する
       submit: 保存する
       update: 更新する
