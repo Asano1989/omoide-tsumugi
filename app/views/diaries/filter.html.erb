@@ -1,4 +1,4 @@
-<div id="filter_diaries" class="min-h-screen bg-lime-50 pb-20">
+<div id="filter_diaries" class="min-h-full bg-lime-50 pb-20">
   <div class="px-4 py-6">
     <h1 class="text-2xl font-bold text-amber-900 text-center mb-6">日記を絞り込む</h1>
 
@@ -33,7 +33,7 @@
           </div>
         <% end %>
 
-        <%# --- すべてクリアボタン（あると親切） --- %>
+        <%# --- すべてクリアボタン --- %>
         <div class="ml-4 flex items-center">
           <%= link_to "クリア", filter_diaries_path, class: "text-sm text-gray-500 underline hover:text-gray-700" %>
         </div>
@@ -51,6 +51,13 @@
           <p class="text-muted-foreground text-center">該当する日記はありません。</p>
         </div>
       <% end %>
+      <div class="mt-8 text-center">
+        <%= link_to diaries_path,
+            class: "inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity",
+            data: { turbo: false } do %>
+          カレンダーに戻る
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
