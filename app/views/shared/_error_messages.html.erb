@@ -1,0 +1,7 @@
+<% if object.errors.any? %>
+  <% object.errors.full_messages.each do |message| %>
+  <div class="flex bg-red-100 border border-red-400 text-red-700 px-4 py-2 my-2 rounded-md pointer-events-auto">
+    <%= message %>
+  </div>
+  <% end %>
+<% end %>
