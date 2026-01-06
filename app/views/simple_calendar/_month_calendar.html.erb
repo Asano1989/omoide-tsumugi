@@ -4,12 +4,12 @@
       <!-- Year & Month Previous Buttons -->
       <div class="flex gap-2">
         <%= link_to url_for(params.permit(:start_date).to_h.merge(start_date: start_date.beginning_of_year - 1.year)),
-            class: "w-12 h-12 flex items-center justify-center rounded-full bg-white border border-amber-200 shadow-sm text-amber-600 hover:bg-amber-50 transition-all active:scale-95",
+            class: "w-10 h-10 flex items-center justify-center rounded-full bg-white border border-amber-200 shadow-sm text-amber-600 hover:bg-amber-50 transition-all active:scale-95",
             title: "Previous Year" do %>
           <span class="icon-[lucide--chevrons-left] text-xl"></span>
         <% end %>
         <%= link_to url_for(params.permit(:start_date).to_h.merge(start_date: start_date.beginning_of_month - 1.month)),
-            class: "w-12 h-12 flex items-center justify-center rounded-full bg-white border border-amber-200 shadow-sm text-amber-600 hover:bg-amber-50 transition-all active:scale-95",
+            class: "w-10 h-10 flex items-center justify-center rounded-full bg-white border border-amber-200 shadow-sm text-amber-600 hover:bg-amber-50 transition-all active:scale-95",
             title: "Previous Month" do %>
           <span class="icon-[lucide--chevron-left] text-xl"></span>
         <% end %>
@@ -21,12 +21,12 @@
       <!-- Month & Year Next Buttons -->
       <div class="flex gap-2">
         <%= link_to url_for(params.permit(:start_date).to_h.merge(start_date: start_date.beginning_of_month + 1.month)),
-            class: "w-12 h-12 flex items-center justify-center rounded-full bg-white border border-amber-200 shadow-sm text-amber-600 hover:bg-amber-50 transition-all active:scale-95",
+            class: "w-10 h-10 flex items-center justify-center rounded-full bg-white border border-amber-200 shadow-sm text-amber-600 hover:bg-amber-50 transition-all active:scale-95",
             title: "Next Month" do %>
           <span class="icon-[lucide--chevron-right] text-xl"></span>
         <% end %>
         <%= link_to url_for(params.permit(:start_date).to_h.merge(start_date: start_date.beginning_of_year + 1.year)),
-            class: "w-12 h-12 flex items-center justify-center rounded-full bg-white border border-amber-200 shadow-sm text-amber-600 hover:bg-amber-50 transition-all active:scale-95",
+            class: "w-10 h-10 flex items-center justify-center rounded-full bg-white border border-amber-200 shadow-sm text-amber-600 hover:bg-amber-50 transition-all active:scale-95",
             title: "Next Year" do %>
           <span class="icon-[lucide--chevrons-right] text-xl"></span>
         <% end %>
