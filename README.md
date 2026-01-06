@@ -126,10 +126,9 @@
 
 ## 使用する技術スタック
  - バックエンド：Ruby on Rails
- - フロントエンド：React + TypeScript
  - データベース：PostgreSQL、Supabase（ユーザー認証）
- - デプロイ先：DBはNeon、APはfly.io
- - 使用予定のライブラリ（Gem）：bcrypt、gemoji、simple_calendar、Action Mailer、ransack、act_as_taggrable_on、kaminari、rubocop、Tailwind CSS
+ - デプロイ先：DBはNeon、APはkoyeb
+ - 使用予定のライブラリ（Gem）：simple_calendar、Action Mailer、ransack、act_as_taggrable_on、kaminari、rubocop、Tailwind CSS
 
 
 ## 画面遷移図
@@ -138,4 +137,4 @@
 ## ER図
  - https://www.mermaidchart.com/app/projects/8ef929a7-6ce2-47cc-8b6d-dabfd595e0e1/diagrams/ecf9d67c-e800-4b28-aa41-99b6c51f2afa/share/invite/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkb2N1bWVudElEIjoiZWNmOWQ2N2MtZTgwMC00YjI4LWFhNDEtOTliNmM1MWYyYWZhIiwiYWNjZXNzIjoiVmlldyIsImlhdCI6MTc2Mzc5NzkxMn0.PmJv0CZFbV6UB6tsgOEIIEtweJsKH6pgy6HSPZCAHnU
 
-[![おもいでつむぎ - ER図](https://i.gyazo.com/fe80f8394f34f8b4b63e93396fbb95c2.png)](https://gyazo.com/fe80f8394f34f8b4b63e93396fbb95c2)
+[![おもいでつむぎ - ER図](https://i.gyazo.com/2c1e38d569e1a47b55ead42b250a5a79.png)](https://gyazo.com/2c1e38d569e1a47b55ead42b250a5a79)
