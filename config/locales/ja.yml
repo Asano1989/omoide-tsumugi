@@ -86,6 +86,13 @@ ja:
     select:
       prompt: 選択してください
     submit:
-      create: 投稿する
-      submit: 保存する
-      update: 更新する
+      diary:
+        create: 投稿する
+        submit: 保存する
+        update: 更新する
+        destroy: 削除する
+    message:
+      no_diary_found: 該当する日記はありません。
+      no_diary_on_day: この日の日記はありません。
+    link:
+      back_to_calendar: カレンダーに戻る

@@ -1,10 +1,9 @@
-<div id="diary_index" class="bg-amber-50 min-h-screen">
+<div id="diary_index" class="bg-amber-50 min-h-full">
   <div class="max-w-4xl mx-auto">
     <div id="diary_calendar" class="w-full">
       <%= month_calendar(attribute: :date, events: @diaries) do |date, diary| %>
-        <%# _month_calendar.html.erbで日付がレンダリングされるため、ここでは絵文字のみを処理します %>
         <% diary.each do |d| %>
-          <%= link_to d.emoji.character, diary_path(d.id), data: { turbo: false }, class: "text-2xl hover:scale-110 transition-transform" %>
+          <%= link_to d.emoji.character, diary_path(d.id), data: { turbo: false }, class: "text-2xl lg:m-2 hover:scale-110 transition-transform" %>
         <% end %>
       <% end %>
     </div>

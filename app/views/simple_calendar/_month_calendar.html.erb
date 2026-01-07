@@ -1,5 +1,5 @@
-<div class="simple-calendar bg-amber-50 min-h-screen pt-8 font-sans text-[#5D2E17]">
-  <div class="max-w-md mx-auto mb-4 px-4">
+<div class="simple-calendar bg-amber-50 min-h-full py-2 font-sans text-[#5D2E17]">
+  <div class="max-w-md mx-auto m-2 px-4">
     <div class="flex items-center justify-between">
       <!-- Year & Month Previous Buttons -->
       <div class="flex gap-2">
@@ -15,7 +15,7 @@
         <% end %>
       </div>
       <!-- Centered Month and Year -->
-      <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-amber-900">
+      <h2 class="text-3xl sm:text-3xl font-black tracking-tight text-amber-900">
         <%= start_date.year %>年 <%= t('date.month_names')[start_date.month] %>
       </h2>
       <!-- Month & Year Next Buttons -->
@@ -34,14 +34,14 @@
     </div>
 
     <!-- Today Button centered below -->
-    <div class="flex justify-center mt-4">
+    <div class="flex justify-center mt-2">
       <%= link_to t('simple_calendar.today', default: 'Today'), calendar.url_for_today_view,
           class: "text-sm font-bold text-amber-700 bg-amber-200/50 hover:bg-amber-200 px-3 py-2 rounded-full transition-colors" %>
     </div>
   </div>
 
-  <div class="max-w-full mx-auto bg-amber-100 rounded-3xl sm:rounded-3xl py-6 px-1 shadow-md border border-amber-200/50">
-    <div class="grid grid-cols-7 mb-4">
+  <div class="max-w-full mx-2 bg-amber-100 rounded-3xl sm:rounded-3xl py-6 px-1 shadow-md border border-amber-200/50">
+    <div class="grid grid-cols-7 mb-2">
       <% date_range.slice(0, 7).each do |day| %>
         <div class="text-center">
           <span class="text-md sm:text-md font-black text-amber-800 uppercase tracking-wider">
@@ -54,19 +54,19 @@
       <% date_range.each do |day| %>
         <%= content_tag :div, class: "relative group transition-all" do %>
           <!-- Increased cell size on mobile and ensured fixed height with hidden scrollbars -->
-          <div class="aspect-[3/4.5] min-h-[80px] flex flex-col items-stretch transition-all overflow-hidden
-            <%= day.month == start_date.month ? 'bg-amber-50' : 'bg-lime-50/40 opacity-40' %>
-            border border-lime-200 cursor-pointer"
+          <div class="aspect-[3/4] min-h-[65px] flex flex-col items-stretch transition-all overflow-hidden
+            <%= day.month == start_date.month ? 'bg-amber-50' : 'bg-lime-100/50 opacity-40' %>
+            border border-lime-400/50 cursor-pointer rounded-md lg:rounded-xl"
           >
             <!-- Date link positioned at the top-center of the cell -->
-            <div class="text-center pt-1 pb-1 relative inline-flex items-center justify-center">
+            <div class="text-center pt-1 relative inline-flex items-center justify-center">
               <% if day == Date.today %>
                 <div class="absolute w-6 h-6 bg-rose-200/80 rounded-full blur-xs"></div>
               <% end %>
               <%= link_to day.day, date_index_diaries_path(date: day), class: "text-base font-bold transition-colors text-amber-800 hover:text-rose-600 #{day == Date.today ? 'relative': ''}" %>
             </div>
             <!-- Scrollable container with no-scrollbar class to hide ugly browser scrollbars -->
-            <div class="flex-grow overflow-y-auto no-scrollbar py-1">
+            <div class="flex-grow overflow-y-auto no-scrollbar">
               <div class="flex flex-wrap items-center justify-center gap-1 min-h-full">
                 <!-- Centered emoji container with stable positioning -->
                 <div class="text-xl leading-none flex flex-wrap justify-center gap-1">

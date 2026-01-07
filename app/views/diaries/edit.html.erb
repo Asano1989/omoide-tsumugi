@@ -1,52 +1,59 @@
-<div id="edit_diary" class="text-center">
-  <h1 class="text-3xl font-bold m-6">日記を編集</h1>
+<div class="min-h-full bg-lime-50 flex flex-col items-center py-3 px-4 sm:px-6 lg:px-8">
+  <!-- Container -->
+  <div class="w-full max-w-md p-2 space-y-2">
+    <!-- Header Section -->
+    <h1 class="text-3xl font-extrabold text-lime-800 text-center mb-4">日記を編集</h1>
 
-  <div id="diary_edit_form">
-    <%= form_with(model: @diary, url: diary_path(diary_id: @diary.id), data: { turbo: false }, local: true) do |f| %>
-    <div class="my-4">
-      <div>
-        <%= f.label :date, "日付", class: "font-bold" %>
-      </div>
-      <div>
-        <%= f.date_field :date, class: "border border-default-medium" %>
-      </div>
-    </div>
-    <div class="my-4">
-      <div>
-        <%= f.label :child_ids, "どの子？", class: "font-bold" %>
-      </div>
-      <div>
-        <%= f.select :child_ids, Diary.child_combination_options(current_user.family),
-              include_blank: "選択してください",
-              name: "diary[child_ids][]",
-              class: "border border-default-medium" %>
-      </div>
-    </div>
-    <div class="my-4">
-        <%= f.label :emoji_id, "絵文字", class: "font-bold" %>
-      </div>
-      <div>
-        <%= f.select :emoji_id,
-            options_from_collection_for_select(@emojis, :id, :character, f.object.emoji_id), 
-            { include_blank: "選択してください" },
-            { class: "border border-default-medium" } %>
-      </div>
-    </div>
-    <div class="my-4">
-      <div>
-        <%= f.label :body, "本文", class: "font-bold" %>
-      </div>
-      <div>
-        <%= f.text_area :body, class: "border border-default-medium" %>
-      </div>
-    </div>
-    <div class="my-4">
-      <%= f.submit "更新する", class: "box-border border border-default-medium shadow-xs font-medium leading-5 rounded-full text-sm px-4 py-2.5" %>
-    </div>
-    <% end %>
-  </div>
+    <!-- Form Card -->
+    <div class="bg-amber-50 rounded-2xl shadow-md border-2 border-amber-100 p-6 sm:p-8 space-y-4">
+      <%= form_with(model: @diary, method: :patch, data: { turbo: false }, local: true) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
 
-  <div class="text-center">
-    <%= button_to "削除する", diary_path(@diary.id), method: :delete, data: { turbo_confirm: '本当にこの日記を削除しますか？' }, class: "box-border border border-default-medium shadow-xs font-medium leading-5 rounded-full text-sm px-4 py-2 m-2" %>
+        <div class="mb-6">
+          <div class="flex items-center mb-2">
+            <span class="icon-[formkit--date] text-xl text-amber-600 mr-2"></span>
+            <%= f.label :date, t('activerecord.attributes.diary.date'), class: "font-semibold text-amber-800 text-lg" %>
+          </div>
+          <%= f.date_field :date, class: "w-full p-3 border border-amber-400 rounded-lg bg-white text-lime-800 shadow-sm" %>
+        </div>
+
+        <div class="mb-6">
+          <div class="flex items-center mb-2">
+            <span class="icon-[lucide--smile-plus] text-xl text-amber-600 mr-2"></span>
+            <%= f.label :emoji_id, t('activerecord.attributes.diary.emoji'), class: "font-semibold text-amber-800 text-lg" %>
+          </div>
+          <div class="relative">
+            <%= f.collection_select :emoji_id, @emojis, :id, :character, { include_blank: "選択してください" }, { class: "w-full p-3 border border-amber-400 rounded-lg bg-white text-lime-800 text-md shadow-sm appearance-none cursor-pointer" } %>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <div class="flex items-center mb-2">
+            <span class="icon-[hugeicons--child] text-xl text-amber-600 mr-2"></span>
+            <%= f.label :child_ids, "どの子？", class: "font-semibold text-amber-800 text-lg" %>
+          </div>
+          <div class="relative">
+            <%= f.select :child_ids, Diary.child_combination_options(current_user.family), { include_blank: "選択してください", selected: f.object.child_ids }, { name: "diary[child_ids][]", class: "w-full p-3 border border-amber-400 rounded-lg bg-white text-lime-800 text-md shadow-sm appearance-none cursor-pointer" } %>
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <div class="flex items-center mb-2">
+            <span class="icon-[mdi--lead-pencil] text-xl text-amber-600 mr-2"></span>
+            <%= f.label :body, "今日は何があった？", class: "font-semibold text-amber-800 text-lg" %>
+          </div>
+          <%= f.text_area :body, class: "w-full p-3 border border-amber-400 rounded-lg h-28 resize-y bg-white text-lime-800 shadow-sm", placeholder: "今日はその子に何があった？" %>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+          <%= f.submit t('helpers.submit.diary.update'), class: "w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-full shadow-md transition duration-300 ease-in-out" %>
+        </div>
+      <% end %>
+
+      <div class="text-center">
+        <%= button_to t('helpers.submit.diary.destroy'), diary_path(@diary.id), method: :delete, data: { turbo_confirm: '本当にこの日記を削除しますか？' }, class: "w-full bg-rose-400 hover:bg-rose-500 text-white font-bold py-2 px-6 rounded-full shadow-md transition duration-300 ease-in-out" %>
+      </div>
+    </div>
   </div>
 </div>
