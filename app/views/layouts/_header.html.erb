@@ -10,10 +10,20 @@
         <span class="text-[12px] font-bold text-lime-900">ログアウト</span>
       <% end %>
     <% else %>
-      <%= link_to auth_path, data: { turbo: :false }, class: "flex flex-col items-center gap-1 group" do %>
-        <span class="icon-[lucide--log-in] text-xl text-lime-700 transition-transform group-active:scale-95"></span>
-        <span class="text-[12px] font-bold text-lime-900">ログイン・新規登録</span>
-      <% end %>
+      <div class="flex justify-center gap-6">
+        <div>
+          <%= link_to signup_path, data: { turbo: :false }, class: "flex flex-col items-center gap-1 group" do %>
+            <span class="icon-[lucide--user-plus] text-xl text-lime-700 transition-transform group-active:scale-95"></span>
+            <span class="text-[12px] font-bold text-lime-900">新規登録</span>
+          <% end %>
+        </div>
+        <div>
+          <%= link_to login_path, data: { turbo: :false }, class: "flex flex-col items-center gap-1 group" do %>
+            <span class="icon-[lucide--log-in] text-xl text-lime-700 transition-transform group-active:scale-95"></span>
+            <span class="text-[12px] font-bold text-lime-900">ログイン</span>
+          <% end %>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>
