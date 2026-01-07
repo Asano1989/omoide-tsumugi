@@ -48,15 +48,13 @@
         </div>
       <% else %>
         <div class="flex flex-col items-center justify-center py-12">
-          <p class="text-muted-foreground text-center">該当する日記はありません。</p>
+          <p class="text-muted-foreground text-center"><%= t('helpers.message.no_diary_found') %></p>
         </div>
       <% end %>
       <div class="mt-8 text-center">
-        <%= link_to diaries_path,
+        <%= link_to t('helpers.link.back_to_calendar'), diaries_path,
             class: "inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity",
-            data: { turbo: false } do %>
-          カレンダーに戻る
-        <% end %>
+            data: { turbo: false } %>
       </div>
     </div>
   </div>
