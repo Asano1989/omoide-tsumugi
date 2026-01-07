@@ -1,87 +1,86 @@
-<div id="diary_show" class="text-center">
-  <h1 class="text-3xl font-bold m-6">日記の詳細</h1>
+<div id="diary_show" class="min-h-full bg-amber-100/70 py-4 px-4">
+  <h1 class="text-center text-3xl font-bold text-amber-900 mb-4">日記の詳細</h1>
 
-  <div id="diary_detail">
-    <table class="mx-auto border-collapse border">
-      <tbody>
-        <tr>
-          <th class="border-collapse border p-2">id</th>
-          <td class="border-collapse border p-2"><%= @diary.id %></td>
-        </tr>
-        <tr>
-          <th class="border-collapse border p-2">date</th>
-          <td class="border-collapse border p-2"><%= @diary.date %></td>
-        </tr>
-        <tr>
-          <th class="border-collapse border p-2">user's<br/>family_id</th>
-          <td class="border-collapse border p-2"><%= @diary.user.family_id %></td>
-        </tr>
-        <tr>
-          <th class="border-collapse border p-2">user's<br/>family</th>
-          <td class="border-collapse border p-2"><%= @diary.user.family.name %></td>
-        </tr>
-        <tr>
-          <th class="border-collapse border p-2">user</th>
-          <td class="border-collapse border p-2"><%= @diary.user.name %></td>
-        </tr>
-        <tr>
-          <th class="border-collapse border p-2">children</th>
-          <td class="border-collapse border p-2">
-            <% @diary.children.each do |child| %>
-              <%
-                current_ids = Array.wrap(params[:child_ids]).map(&:to_s)
-                
-                if current_ids.include?(child.id.to_s)
-                  # すでに選択済みなら、そのIDを取り除く（解除リンクになる）
-                  next_ids = current_ids - [child.id.to_s]
-                else
-                  # 未選択なら、IDを追加する
-                  next_ids = current_ids + [child.id.to_s]
-                end
-              %>
-                <%= link_to child.name, filter_diaries_path(child_ids: next_ids, emoji_id: params[:emoji_id]), data: { turbo: false } %><br/>
-            <% end %>
-          </td>
-        </tr>
-        <tr>
-          <th class="border-collapse border p-2">emoji's id</th>
-          <td class="border-collapse border p-2">
-              <%= @diary.emoji.id %>
-          </td>
-        </tr>
-        <tr>
-          <th class="border-collapse border p-2">emoji</th>
-          <td class="border-collapse border p-2">
-            <%= link_to filter_diaries_path(child_ids: params[:child_ids], emoji_id: @diary.emoji.id), data: { turbo: false } do %>
-              <%= @diary.emoji.character %>
-            <% end %>
-          </td>
-        </tr>
-        <tr>
-          <th class="border-collapse border p-2">body</th>
-          <td class="border-collapse border p-2"><%= @diary.body %></td>
-        </tr>
-        <% if current_user.id == @diary.user_id %>
-        <tr>
-          <td colspan="2">
-            <div class="flex p-2">
-              <div class="flex-auto">
-                <%= button_to "編集", edit_diary_path(diary_id: @diary.id), method: :get, data: { turbo: false }, class: "box-border border border-default-medium shadow-xs font-medium leading-5 rounded-full text-sm px-4 py-2 m-2" %>
-              </div>
-              <div class="flex-auto">
-                <%= button_to "削除", diary_path(@diary.id), method: :delete, data: { turbo_method: :delete, turbo_confirm: '本当にこの日記を削除しますか？' }, class: "box-border border border-default-medium shadow-xs font-medium leading-5 rounded-full text-sm px-4 py-2 m-2" %>
-              </div>
-          </td>
-        </tr>
+  <article id="@diary_<%= @diary.id %>" class="mx-auto max-w-2xl bg-white rounded-2xl shadow-md overflow-hidden border-1 border-lime-500">
+    
+    <!-- Top section: Date and Emoji prominently displayed -->
+    <div class="w-full bg-lime-200/90 py-2 border-b-1 border-lime-500 flex items-center">
+      <div class="w-full flex items-center justify-around gap-4">
+        <div class="px-6">
+          <p class="text-lg font-semibold">
+            <%= link_to l(@diary.created_at, format: :date_long), date_index_diaries_path(date: @diary.date), class: "text-xl font-bold transition-colors text-lime-900" %>
+            <%=  %>
+          </p>
+        </div>
+        <div class="text-4xl mx-6 flex items-center justify-center size-14 rounded-full bg-amber-soft dark:bg-[#3d3220] shadow-inner">
+          <%= link_to filter_diaries_path(child_ids: params[:child_ids], emoji_id: @diary.emoji.id), data: { turbo: false } do %>
+            <%= @diary.emoji.character %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content: Body text in white section -->
+    <div class="px-5 py-5">
+      <!-- Children tags -->
+      <div class="flex flex-wrap gap-2 mb-2">
+        <% @diary.children.each do |child| %>
+          <%
+            current_ids = Array.wrap(params[:child_ids]).map(&:to_s)
+            if current_ids.include?(child.id.to_s)
+              next_ids = current_ids - [child.id.to_s]
+            else
+              next_ids = current_ids + [child.id.to_s]
+            end
+          %>
+          <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full">
+            <%= link_to child.name, filter_diaries_path(child_ids: next_ids, emoji_id: params[:emoji_id]), data: { turbo: false }, class: "hover:underline" %>
+          </span>
         <% end %>
-        <% if @diary.user != current_user %>
-        <tr>
-          <td colspan="2"  class="border-collapse border p-2">
-            <%= render 'diaries/reaction', diary: @diary %>
-          </td>
-        </tr>
+      </div>
+
+      <!-- Body text -->
+      <p class="text-neutral-700 text-base p-4">
+        <%= @diary.body %>
+      </p>
+
+      <!-- Tags -->
+      <div class="flex flex-wrap gap-2">
+        <!-- % if @diary.tags.any? % -->
+          <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-lime-200/80 text-lime-800">
+            <span class="text-xs font-semibold"># タグ<%# = tag.name %></span>
+          </div>
+        <!-- % end % -->
+      </div>
+
+      <!-- Reactions -->
+      <div class="flex justify-end">
+        <%= render 'reaction', diary: @diary %>
+      </div>
+    </div>
+
+    <!-- Bottom section: User info moved to footer -->
+    <div class="min-w-full bg-lime-200/90 px-6 py-4 border-t-1 border-lime-500 flex items-center">
+      <div class="min-w-full flex items-center gap-3">
+        <div class="size-12 rounded-full bg-gray-200 overflow-hidden ring-2 ring-lime-600">
+          <%= image_tag @diary.user.display_avatar, class: "w-full h-full object-cover" %>
+        </div>
+        <div>
+          <p class="font-bold text-lime-800 text-sm"><%= @diary.user.name %></p>
+          <p class="text-xs text-neutral-500"><%= l(@diary.created_at, format: :only_time) %></p>
+        </div>
+        <% if @diary.user == current_user %>
+        <div class="flex-auto text-right">
+          <%= button_to t('helpers.submit.diary.edit'), edit_diary_path(diary_id: @diary.id), method: :get, data: { turbo: false }, class: "bg-amber-400 hover:bg-amber-500 text-amber-800 font-bold py-2 px-6 rounded-full shadow-md transition duration-300 ease-in-out" %>
+        </div>
         <% end %>
-      </tbody>
-    </table>
+      </div>
+    </div>
+  </article>
+
+  <div class="mt-8 text-center">
+    <%= link_to t('helpers.link.back_to_calendar'), diaries_path,
+          class: "inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity text-amber-900",
+          data: { turbo: false } %>
   </div>
 </div>
