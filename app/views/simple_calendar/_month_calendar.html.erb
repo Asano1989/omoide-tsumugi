@@ -1,5 +1,5 @@
-<div class="simple-calendar bg-amber-50 min-h-screen pt-8 font-sans text-[#5D2E17]">
-  <div class="max-w-md mx-auto mb-4 px-4">
+<div class="simple-calendar bg-amber-50 min-h-screen py-2 font-sans text-[#5D2E17]">
+  <div class="max-w-md mx-auto m-2 px-4">
     <div class="flex items-center justify-between">
       <!-- Year & Month Previous Buttons -->
       <div class="flex gap-2">
@@ -34,14 +34,14 @@
     </div>
 
     <!-- Today Button centered below -->
-    <div class="flex justify-center mt-4">
+    <div class="flex justify-center mt-2">
       <%= link_to t('simple_calendar.today', default: 'Today'), calendar.url_for_today_view,
           class: "text-sm font-bold text-amber-700 bg-amber-200/50 hover:bg-amber-200 px-3 py-2 rounded-full transition-colors" %>
     </div>
   </div>
 
   <div class="max-w-full mx-auto bg-amber-100 rounded-3xl sm:rounded-3xl py-6 px-1 shadow-md border border-amber-200/50">
-    <div class="grid grid-cols-7 mb-4">
+    <div class="grid grid-cols-7 mb-2">
       <% date_range.slice(0, 7).each do |day| %>
         <div class="text-center">
           <span class="text-md sm:text-md font-black text-amber-800 uppercase tracking-wider">
