@@ -34,6 +34,8 @@ ja:
       user:
         name: 名前
         email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認）
         birthday: 誕生日
         avatar: プロフィール画像
       family:
