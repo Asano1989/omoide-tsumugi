@@ -12,7 +12,7 @@
         <div class="mb-6">
           <div class="flex items-center mb-2">
             <span class="icon-[formkit--date] text-xl text-amber-600 mr-2"></span>
-            <%= f.label :date, "日付", class: "font-semibold text-amber-800 text-lg" %>
+            <%= f.label :date, t('activerecord.attributes.diary.date'), class: "font-semibold text-amber-800 text-lg" %>
           </div>
           <%= f.date_field :date, class: "w-full p-3 border border-amber-400 rounded-lg bg-white text-lime-800 shadow-sm" %>
         </div>
@@ -20,7 +20,7 @@
         <div class="mb-6">
           <div class="flex items-center mb-2">
             <span class="icon-[lucide--smile-plus] text-xl text-amber-600 mr-2"></span>
-            <%= f.label :emoji_id, "絵文字", class: "font-semibold text-amber-800 text-lg" %>
+            <%= f.label :emoji_id, t('activerecord.attributes.diary.emoji'), class: "font-semibold text-amber-800 text-lg" %>
           </div>
           <div class="relative">
             <%= f.collection_select :emoji_id, @emojis, :id, :character, { include_blank: "選択してください" }, { class: "w-full p-3 border border-amber-400 rounded-lg bg-white text-lime-800 text-md shadow-sm appearance-none cursor-pointer" } %>
@@ -42,7 +42,7 @@
             <span class="icon-[mdi--lead-pencil] text-xl text-amber-600 mr-2"></span>
             <%= f.label :body, "今日は何があった？", class: "font-semibold text-amber-800 text-lg" %>
           </div>
-          <%= f.text_area :body, class: "w-full p-3 border border-amber-400 rounded-lg h-28 resize-y bg-white text-lime-800 shadow-sm", placeholder: "今日あったことを書いてみよう！" %>
+          <%= f.text_area :body, class: "w-full p-3 border border-amber-400 rounded-lg h-28 resize-y bg-white text-lime-800 shadow-sm", placeholder: "今日はその子に何があった？" %>
         </div>
 
         <!-- Submit Button -->

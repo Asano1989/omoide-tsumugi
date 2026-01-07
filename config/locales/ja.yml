@@ -86,6 +86,8 @@ ja:
     select:
       prompt: 選択してください
     submit:
-      create: 投稿する
-      submit: 保存する
-      update: 更新する
+      diary:
+        create: 投稿する
+        submit: 保存する
+        update: 更新する
+        destroy: 削除する
