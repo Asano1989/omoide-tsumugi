@@ -32,8 +32,10 @@ ja:
       reaction: リアクション
     attributes:
       user:
-        name: 名前
+        name: 表示名
         email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認）
         birthday: 誕生日
         avatar: プロフィール画像
       family:
@@ -94,8 +96,12 @@ ja:
         update: 更新する
         destroy: 削除する
         edit: 編集する
+      user:
+        create: 登録する
+        update: 更新する
     message:
       no_diary_found: 該当する日記はありません。
       no_diary_on_day: この日の日記はありません。
     link:
       back_to_calendar: カレンダーに戻る
+      go_to_login: ← ログインはこちら

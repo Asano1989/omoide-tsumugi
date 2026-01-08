@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
   root 'top#index'
 
+  # 認証用ルート
   get 'auth', to: 'auth#index'
-  delete 'logout', to: 'auth#destroy', as: :logout
-  post 'auth/set_cookie', to: 'auth#set_cookie'
-  get 'auth/current_header', to: 'auth#current_header'
+  get  'signup', to: 'auth#signup'
+  post 'signup', to: 'auth#create_signup'
+  get  'login',  to: 'auth#login'
+  post 'login',  to: 'auth#create_login'
+  delete 'logout', to: 'auth#destroy'
   
   resource :mypage, only: [:show, :edit, :update]
 

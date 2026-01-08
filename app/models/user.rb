@@ -5,8 +5,14 @@ class User < ApplicationRecord
   has_many :diaries, dependent: :destroy
   has_many :reactions
 
-  validates :supabase_uid, presence: true, uniqueness: true
+  attr_accessor :password, :password_confirmation
+
   validates :email, presence: true, uniqueness: true
+  validates :password, presence: true, length: { minimum: 6 }, on: :create
+  validates :password_confirmation, presence: true, on: :create
+  validate :password_match, on: :create
+  validates :name, presence: true
+
   # 招待時のロジックなどで、既に家族がいる場合はエラーにする
   validate :must_not_belong_to_multiple_families, on: :create_membership
 
@@ -29,6 +35,12 @@ class User < ApplicationRecord
   end
 
   private
+
+  def password_match
+    if password != password_confirmation
+      errors.add(:password_confirmation, "がパスワードと一致しません")
+    end
+  end
 
   def must_not_belong_to_multiple_families
     if family_id.present?
