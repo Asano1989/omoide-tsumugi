@@ -1,16 +1,6 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?
 
-  def require_login
-    # current_userを呼び出すだけで、認証プロセスが実行される
-    unless current_user
-      flash[:alert] = 'ログインが必要です。'
-      # ログアウト処理後にリダイレクト先が正しいか確認 (root_pathなど)
-      redirect_to auth_path
-      return false
-    end
-  end
-
   def current_user
     # セッションにIDがあれば、そのユーザーをDBから探す（結果を@current_userにキャッシュ）
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
