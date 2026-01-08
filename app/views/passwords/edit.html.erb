@@ -1,0 +1,23 @@
+<div class="flex-grow w-full flex bg-gray-100 p-6 justify-center items-start">
+  <div class="w-full max-w-md bg-white p-6 shadow-md rounded-lg space-y-4">
+    <h2 class="text-xl font-bold text-gray-800">パスワードの変更</h2>
+
+    <%= form_with url: password_update_path, method: :patch, local: true, class: "space-y-4" do |f| %>
+      <div>
+        <%= f.label :password, "新しいパスワード", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.password_field :password, required: true, minlength: 6, class: "w-full p-2 border border-gray-400 rounded-lg" %>
+      </div>
+
+      <div>
+        <%= f.label :password_confirmation, "新しいパスワード（確認）", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.password_field :password_confirmation, required: true, class: "w-full p-2 border border-gray-400 rounded-lg" %>
+      </div>
+
+      <%= f.submit "パスワードを更新する", class: "w-full bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 rounded-lg transition duration-200 cursor-pointer" %>
+    <% end %>
+
+    <div class="mt-4 text-center">
+      <%= link_to "キャンセル", root_path, class: "text-sm text-gray-600 hover:underline" %>
+    </div>
+  </div>
+</div>
