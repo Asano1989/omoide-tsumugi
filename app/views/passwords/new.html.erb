@@ -1,0 +1,8 @@
+<div class="max-w-md mx-auto bg-white p-6 shadow rounded">
+  <h2 class="text-xl font-bold mb-4">パスワードを再設定する</h2>
+  <%= form_with url: password_reset_path, local: true do |f| %>
+    <%= f.label :email, "登録済みのメールアドレス" %>
+    <%= f.email_field :email, required: true, class: "w-full p-2 border rounded mb-4" %>
+    <%= f.submit "再設定メールを送信", class: "w-full bg-gray-800 text-white p-2 rounded" %>
+  <% end %>
+</div>
