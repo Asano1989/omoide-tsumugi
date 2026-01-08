@@ -1,7 +1,7 @@
 <div class="min-h-full bg-lime-50 flex flex-col justify-center items-center py-4 px-4 sm:px-6 lg:px-8">
-  <h2 class="text-3xl font-extrabold text-lime-800 text-center mb-4">ユーザー登録</h2>
+  <h2 class="text-3xl font-extrabold text-lime-900 text-center mb-4">ユーザー登録</h2>
 
-  <div class="w-full max-w-sm bg-amber-100/70 rounded-2xl shadow-lg p-6 space-y-6 border border-amber-200">
+  <div class="w-full max-w-sm bg-amber-100/60 rounded-2xl shadow-lg p-6 space-y-6 border border-amber-200 mb-4">
   <%= form_with(model: @user, url: signup_path, method: :post, local: true, multipart: true, class: "space-y-6") do |f| %>
     <%# エラー表示 %>
     <%= render 'shared/error_messages', object: f.object %>
@@ -43,8 +43,11 @@
     </div>
     
     <%# 登録ボタン %>
-    <%= f.submit t('helpers.submit.user.create'), class: "w-full bg-rose-400 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50 tracking-wide mt-4" %> <% end %> <div class="mt-8 text-center">
-    
-    <%= link_to "← ログインはこちら", login_path, class: "text-base font-medium text-lime-600 hover:text-lime-800 transition-colors duration-200" %> </div>
+    <%= f.submit t('helpers.submit.user.create'), class: "w-full bg-rose-400 text-white font-bold py-3 px-6 rounded-full shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-rose-600 focus:ring-opacity-50 tracking-wide my-2" %>
+    <% end %>
+  </div>
+  
+  <div class="my-4 text-center">
+    <%= link_to "← ログインはこちら", login_path, class: "text-base font-medium text-lime-600 hover:text-lime-700 transition-colors duration-200" %>
   </div>
 </div>
