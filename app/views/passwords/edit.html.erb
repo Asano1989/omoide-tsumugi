@@ -21,3 +21,23 @@
     </div>
   </div>
 </div>
+
+<script>
+  // Rails 7 の Turbo 遷移に対応させるため、turbo:load イベントを使用
+  document.addEventListener("turbo:load", () => {
+    // 1. URLのハッシュを取得
+    const hash = window.location.hash;
+    
+    if (hash && hash.includes("access_token=")) {
+      // 2. ハッシュを解析してトークンを取り出す
+      const params = new URLSearchParams(hash.replace("#", "?"));
+      const token = params.get("access_token");
+      
+      // 3. 隠しフィールドにセット
+      const hiddenInput = document.getElementById("hidden_access_token");
+      if (hiddenInput) {
+        hiddenInput.value = token;
+      }
+    }
+  });
+</script>
