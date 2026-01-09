@@ -1,4 +1,4 @@
-<div class="grid grid-cols-3 gap-2 items-center p-4 bg-lime-300 border-b border-lime-500">
+<div class="grid grid-cols-3 gap-1 items-center py-4 px-4 sm:px-4 lg:px-6 bg-lime-300 border-b border-lime-500">
   <div class="text-left col-span-2">
     <%=link_to image_tag('/tsumugi-logo.png', class: "max-w-4/5 md:w-1/2 lg:w-1/3 object-contain"), root_path %>
   </div>
@@ -10,7 +10,7 @@
         <span class="text-[12px] font-bold text-lime-900">ログアウト</span>
       <% end %>
     <% else %>
-      <div class="flex justify-center gap-6">
+      <div class="flex justify-center gap-5">
         <div>
           <%= link_to signup_path, data: { turbo: :false }, class: "flex flex-col items-center gap-1 group" do %>
             <span class="icon-[lucide--user-plus] text-xl text-lime-700 transition-transform group-active:scale-95"></span>
