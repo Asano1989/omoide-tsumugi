@@ -2,12 +2,19 @@ Rails.application.routes.draw do
   root 'top#index'
 
   # 認証用ルート
-  get 'auth', to: 'auth#index'
   get  'signup', to: 'auth#signup'
   post 'signup', to: 'auth#create_signup'
   get  'login',  to: 'auth#login'
   post 'login',  to: 'auth#create_login'
   delete 'logout', to: 'auth#destroy'
+
+  # パスワードリセットリクエスト
+  get  'password/reset', to: 'passwords#new', as: :new_password_reset
+  post 'password/reset', to: 'passwords#create'
+
+  # パスワード更新画面
+  get  'password/edit',  to: 'passwords#edit', as: :edit_password
+  patch 'password/update', to: 'passwords#update'
   
   resource :mypage, only: [:show, :edit, :update]
 

@@ -98,10 +98,20 @@ ja:
         edit: 編集する
       user:
         create: 登録する
+        submit: ログイン
         update: 更新する
+      password:
+        create: 再設定メールを送信
+        update: パスワードを更新する
     message:
       no_diary_found: 該当する日記はありません。
       no_diary_on_day: この日の日記はありません。
     link:
+      signup: 新規登録
+      login: ログイン
+      logout: ログアウト
       back_to_calendar: カレンダーに戻る
       go_to_login: ← ログインはこちら
+      go_to_signup: → 新規登録はこちら
+      back_to_login: ← ログインページに戻る
+      forget_password: パスワードをお忘れですか？

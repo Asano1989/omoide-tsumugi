@@ -1,5 +1,5 @@
 class DiariesController < ApplicationController
-  before_action :require_login
+  before_action :authenticate_user!
   before_action :set_diary, only: [:edit, :update, :destroy]
   before_action :check_family, only: [:index, :show, :new, :create, :edit, :update, :destroy]
   

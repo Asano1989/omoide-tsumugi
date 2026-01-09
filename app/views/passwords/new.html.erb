@@ -1,0 +1,19 @@
+<div class="min-h-full bg-lime-50 flex flex-col justify-center items-center py-8 px-4 sm:px-6 lg:px-8">
+  <h2 class="text-2xl font-extrabold text-lime-800 text-center mb-4">パスワードを再設定</h2>
+
+  <div class="w-full max-w-sm bg-amber-100/60 rounded-2xl shadow-xl p-6 space-y-4 border border-amber-200">
+  <p class="text-sm text-amber-800 text-center mb-4"> 登録済みメールアドレスに、再設定用のリンクをお送りします。 </p>
+    <%= form_with url: password_reset_path, local: true, class: "space-y-4" do |f| %>
+      <div>
+        <%= f.label :email, "登録済みのメールアドレス", class: "block text-base font-semibold text-lime-900 mb-2" %>
+        <%= f.email_field :email, required: true, class: "w-full p-2 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-lime-800 shadow-sm" %>
+      </div>
+      
+      <%= f.submit t('helpers.submit.password.create'), class: "w-full bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-full shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50 tracking-wide mt-2" %>
+    <% end %>
+    
+    <div class="mt-6 text-center">
+      <%= link_to t('helpers.link.back_to_login'), login_path, class: "text-sm font-medium text-lime-600 hover:text-lime-800 transition-colors duration-200" %>
+    </div>
+  </div>
+</div>

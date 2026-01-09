@@ -15,7 +15,7 @@
         <% end %>
       </div>
       <!-- Centered Month and Year -->
-      <h2 class="text-3xl sm:text-3xl font-black tracking-tight text-amber-900">
+      <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-amber-900">
         <%= start_date.year %>年 <%= t('date.month_names')[start_date.month] %>
       </h2>
       <!-- Month & Year Next Buttons -->
@@ -34,19 +34,21 @@
     </div>
 
     <!-- Today Button centered below -->
-    <div class="flex justify-center mt-2">
+    <div class="flex justify-center my-2.5 lg:my-4">
       <%= link_to t('simple_calendar.today', default: 'Today'), calendar.url_for_today_view,
-          class: "text-sm font-bold text-amber-700 bg-amber-200/50 hover:bg-amber-200 px-3 py-2 rounded-full transition-colors" %>
+          class: "text-xs font-bold text-amber-700 bg-amber-200/50 hover:bg-amber-200 px-3 py-1.5 rounded-full transition-colors" %>
     </div>
   </div>
 
-  <div class="max-w-full mx-2 bg-amber-100 rounded-3xl sm:rounded-3xl py-6 px-1 shadow-md border border-amber-200/50">
+  <div class="max-w-full mx-2 bg-amber-100 rounded-3xl sm:rounded-2xl py-3 px-1 shadow-md border border-amber-200/50">
     <div class="grid grid-cols-7 mb-2">
       <% date_range.slice(0, 7).each do |day| %>
-        <div class="text-center">
-          <span class="text-md sm:text-md font-black text-amber-800 uppercase tracking-wider">
-            <%= t('date.abbr_day_names')[day.wday] %>
-          </span>
+        <div class="grid justify-items-stretch gap-2">
+          <div class="text-center py-1">
+            <span class="text-md sm:text-md font-black text-lime-700">
+              <%= t('date.abbr_day_names')[day.wday] %>
+            </span>
+          </div>
         </div>
       <% end %>
     </div>
@@ -54,14 +56,14 @@
       <% date_range.each do |day| %>
         <%= content_tag :div, class: "relative group transition-all" do %>
           <!-- Increased cell size on mobile and ensured fixed height with hidden scrollbars -->
-          <div class="aspect-[3/4] min-h-[65px] flex flex-col items-stretch transition-all overflow-hidden
+          <div class="aspect-[4/5] min-h-[65px] flex flex-col items-stretch transition-all overflow-hidden
             <%= day.month == start_date.month ? 'bg-amber-50' : 'bg-lime-100/50 opacity-40' %>
-            border border-lime-400/50 cursor-pointer rounded-md lg:rounded-xl"
+            border border-lime-400/50 cursor-pointer rounded-md lg:rounded-x2 my-1"
           >
             <!-- Date link positioned at the top-center of the cell -->
             <div class="text-center pt-1 relative inline-flex items-center justify-center">
               <% if day == Date.today %>
-                <div class="absolute w-6 h-6 bg-rose-200/80 rounded-full blur-xs"></div>
+                <div class="absolute w-6 h-6 bg-rose-200/70 rounded-full blur-xs"></div>
               <% end %>
               <%= link_to day.day, date_index_diaries_path(date: day), class: "text-base font-bold transition-colors text-amber-800 hover:text-rose-600 #{day == Date.today ? 'relative': ''}" %>
             </div>
