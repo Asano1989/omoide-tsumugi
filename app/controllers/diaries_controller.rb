@@ -2,6 +2,8 @@ class DiariesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_diary, only: [:edit, :update, :destroy]
   before_action :check_family, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+
+  DIARY_COUNT = 5
   
   def index
     @diaries = current_user.family.diaries.order(date: :desc)
@@ -56,12 +58,12 @@ class DiariesController < ApplicationController
   def date_index
     @date = params[:date]
     # 指定された日付に一致する日記を取得
-    @diaries =current_user.family.diaries.where(date: @date).order(created_at: :asc)
+    @diaries =current_user.family.diaries.where(date: @date).order(created_at: :asc).page(params[:page]).per(DIARY_COUNT)
   end
 
   def filter
     # 1. ベースのクエリ（N+1対策含む）
-    @diaries = current_user.family.diaries.includes(:children, :emoji).order(date: :desc)
+    @diaries = current_user.family.diaries.includes(:children, :emoji).order(date: :desc).page(params[:page]).per(DIARY_COUNT)
 
     # パラメータの整理
     @target_child_ids = Array.wrap(params[:child_ids]).reject(&:blank?)

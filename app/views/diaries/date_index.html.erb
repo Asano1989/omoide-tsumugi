@@ -14,6 +14,8 @@
       </div>
     <% end %>
 
+    <%= paginate @diaries %>
+
     <div class="my-6 text-center">
       <%= link_to t('helpers.link.back_to_calendar'), diaries_path,
             class: "inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity text-lime-900",
