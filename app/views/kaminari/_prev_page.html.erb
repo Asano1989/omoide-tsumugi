@@ -6,4 +6,4 @@
     per_page:      number of items to fetch per page
     remote:        data-remote
 -%>
-<%= link_to_unless current_page.first?, t('views.pagination.previous').html_safe, url, rel: 'prev', remote: remote, class: "bg-white hover:bg-gray-100 text-gray-800 font-light py-2 px-4 mr-2 border border-gray-400 rounded shadow" %>
+<%= link_to_unless current_page.first?, t('views.pagination.previous').html_safe, url, rel: 'prev', remote: remote, class: "w-10 h-10 mr-2 flex items-center justify-center rounded-full bg-white border border-amber-200 shadow-sm text-lg text-amber-600 hover:bg-amber-50 transition-all active:scale-95" %>
