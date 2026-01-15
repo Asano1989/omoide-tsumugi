@@ -1,6 +1,6 @@
 module Families
   class FamiliesController < ApplicationController
-    before_action :require_login
+    before_action :authenticate_user!
     before_action :set_family, only: [:edit, :update]
     before_action :authorize_owner, only: [:edit, :update]
 

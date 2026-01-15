@@ -17,8 +17,6 @@ class AuthController < ApplicationController
       if supabase_response[:success]
         @user.supabase_uid = supabase_response[:uid]
 
-        logger.debug "--- User UID to be saved: #{@user.supabase_uid} ---"
-        
         # passwordはattr_accessorのため、saveしてもDBには保存されない
         if @user.save
           # 3. ログイン状態にする
