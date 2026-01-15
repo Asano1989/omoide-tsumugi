@@ -50,7 +50,7 @@ ja:
         body: 本文
     errors:
       messages:
-        record_invalid: 'バリデーションに失敗しました: %{errors}'
+        record_invalid: "バリデーションに失敗しました: %{errors}"
         restrict_dependent_destroy:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
@@ -115,6 +115,7 @@ ja:
       go_to_signup: → 新規登録はこちら
       back_to_login: ← ログインページに戻る
       forget_password: パスワードをお忘れですか？
+      back_to_mypage: マイページに戻る
   views:
     pagination:
       first: "&laquo;"

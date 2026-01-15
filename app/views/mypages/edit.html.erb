@@ -1,46 +1,53 @@
-<div id="edit_user" class="text-center">
-  <h1 class="text-3xl font-bold m-6">プロフィール編集</h1>
+<div class="min-h-full bg-lime-50 flex flex-col items-center pb-8 px-4 sm:px-6 lg:px-8">
+  <h1 class="text-2xl font-bold text-amber-900 text-center my-4">プロフィール編集</h1>
 
-  <div id="user_form">
-    <%= form_with model: @user, url: mypage_path, method: :patch, data: { turbo: false }, local: true do |f| %>
-    <div class="my-4">
-      <div class="justify-self-center">
-        <%= image_tag @user.display_avatar, class: "w-24 h-24 rounded-full object-cover" %>
+  <div class="w-full max-w-md bg-amber-50 rounded-3xl shadow-md p-4 space-y-7 border border-amber-200">
+    <div id="user_form">
+    <%= form_with model: @user, url: mypage_path, method: :patch, data: { turbo: false }, local: true, class: "space-y-6" do |f| %>
+      <div class="flex flex-col items-center space-y-3 mb-8">
+        <div class="relative">
+          <div class="size-24 rounded-full bg-white overflow-hidden ring-2 ring-amber-600 shadow-xs">
+            <%= image_tag @user.display_avatar, class: "w-full h-full object-cover" %>
+          </div>
+        </div>
+        
+        <div class="w-full">
+          <div class="flex items-center">
+            <span class="icon-[mdi--camera-outline] text-xl text-amber-600 mr-2 mb-2"></span>
+            <%= f.label :avatar, "プロフィール画像を変更", class: "font-semibold text-amber-800 mb-2" %>
+          </div>
+          <%= f.file_field :avatar, accept: "image/*", class: "w-full p-2 text-sm text-amber-800 bg-white rounded-lg border border-amber-300 shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-lime-100 file:text-lime-700 hover:file:bg-lime-200 cursor-pointer" %>
+        </div>
       </div>
-      <div>
-        <%= f.label :avatar, "プロフィール画像", class: "font-bold" %>
+      
+      <div class="space-y-1">
+        <div class="flex items-center">
+          <span class="icon-[mdi--account-outline] text-xl text-amber-600 mr-2"></span>
+          <%= f.label :name, t('activerecord.attributes.user.name'), class: "font-bold text-amber-800" %>
+        </div>
+        <%= f.text_field :name, class: "w-full p-3 border border-amber-300 rounded-xl focus:ring-2 focus:ring-lime-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-amber-800 shadow-sm", placeholder: "名前を入力してください" %>
       </div>
-      <div>
-        <%= f.file_field :avatar, class: "border border-default-medium rounded-lg" %>
+        
+      <div class="space-y-1">
+        <div class="flex items-center">
+          <span class="icon-[mdi--cake-variant-outline] text-xl text-amber-600 mr-2"></span>
+          <%= f.label :birthday, t('activerecord.attributes.user.birthday'), class: "font-bold text-amber-800" %>
+        </div>
+        <%= f.date_field :birthday, class: "w-full p-3 border border-amber-300 rounded-xl focus:ring-2 focus:ring-lime-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-amber-800 shadow-sm" %>
       </div>
-    </div>
-    <div class="my-4">
-      <div>
-        <%= f.label :name, "名前", class: "font-bold" %>
+      
+      <div class="py-4 text-center">
+        <%= f.submit t('helpers.submit.user.update'), data: { turbo: false }, class: "w-full bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer" %>
       </div>
-      <div>
-        <%= f.text_field :name, class: "border border-default-medium rounded-base" %>
-      </div>
-    </div>
-    <div class="my-4">
-      <div>
-        <%= f.label :birthday, "誕生日", class: "font-bold" %>
-      </div>
-      <div>
-        <%= f.date_field :birthday, class: "border border-default-medium rounded-base" %>
-      </div>
-    </div>
-    <div class="my-4">
-      <%= f.submit "更新する", data: { turbo: false }, class: "box-border border border-default-medium shadow-xs font-medium leading-5 rounded-full text-sm px-4 py-2.5" %>
-    </div>
     <% end %>
+    </div>
   </div>
 
-  <div class="my-8">
-    <%= link_to "戻る", mypage_path, data: { turbo: false } %>
+  <div class="text-center my-8">
+    <%= link_to t('helpers.link.back_to_mypage'), mypage_path, data: { turbo: false }, class: "inline-flex items-center text-amber-900 font-medium hover:text-lime-600 transition-colors duration-200" %>
   </div>
+</div>
 
-  <div>
-    <%= render 'layouts/footer' %>
-  </div>
+<div>
+  <%= render 'layouts/footer' %>
 </div>
