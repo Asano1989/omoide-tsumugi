@@ -115,3 +115,10 @@ ja:
       go_to_signup: → 新規登録はこちら
       back_to_login: ← ログインページに戻る
       forget_password: パスワードをお忘れですか？
+  views:
+    pagination:
+      first: "&laquo;"
+      last: "&raquo;"
+      previous: "&lsaquo;"
+      next: "&rsaquo;"
+      truncate: "&hellip;"
