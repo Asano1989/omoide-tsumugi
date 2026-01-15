@@ -24,7 +24,7 @@
         <%# --- 絵文字のバッジ表示 --- %>
         <% if @selected_emoji.present? %>
           <div class="flex items-center border border-yellow-500 bg-yellow-50 px-3 py-1 rounded-full text-lg shadow-sm">
-            <%# クリックで絵文字を解除（emoji_idをnilにするが、child_idsは維持） %>
+            <%# クリックで絵文字を解除 %>
             <%= link_to filter_diaries_path(child_ids: params[:child_ids], emoji_id: nil), 
                         data: { turbo: false }, class: "flex items-center hover:opacity-70" do %>
               <span class="mr-2 text-sm text-yellow-700">✕</span>
@@ -33,7 +33,7 @@
           </div>
         <% end %>
 
-        <%# --- すべてクリアボタン --- %>
+        <%# --- クリアボタン --- %>
         <div class="ml-4 flex items-center">
           <%= link_to "クリア", filter_diaries_path, class: "text-sm text-gray-500 underline hover:text-gray-700" %>
         </div>
@@ -52,9 +52,11 @@
         </div>
       <% end %>
 
-      <div class="flex justify-center">
-        <%= paginate @diaries %>
-      </div>
+      <% if @diaries.any? %>
+        <div class="flex justify-center">
+          <%= paginate @diaries %>
+        </div>
+      <% end %>
 
       <div class="mt-8 text-center">
         <%= link_to t('helpers.link.back_to_calendar'), diaries_path,
