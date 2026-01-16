@@ -104,7 +104,9 @@ ja:
         submit: ログイン
         update: 更新する
       family:
+        create: 家族を作成する
         update: 家族名を更新する
+        destroy: 家族を削除する
       password:
         create: 再設定メールを送信
         update: パスワードを更新する
@@ -112,6 +114,8 @@ ja:
       no_diary_found: 該当する日記はありません
       no_diary_on_day: この日の日記はありません
       no_children_data: 子どもの情報が登録されていません
+      not_a_member_of_family: 現在、あなたは家族に所属していません。
+      need_to_apply_for_be_family: 家族（グループ）の管理ユーザーにメールアドレスを伝え、メンバーに追加してもらいましょう。
     button:
       family:
         add_member: メンバーを追加
