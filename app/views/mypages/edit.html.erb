@@ -6,7 +6,7 @@
     <%= form_with model: @user, url: mypage_path, method: :patch, data: { turbo: false }, local: true, class: "space-y-6" do |f| %>
       <div class="flex flex-col items-center space-y-3 mb-8">
         <div class="relative">
-          <div class="size-24 rounded-full bg-white overflow-hidden ring-2 ring-amber-600 shadow-xs">
+          <div class="size-24 rounded-full bg-lime-200 overflow-hidden shadow-xs">
             <%= image_tag @user.display_avatar, class: "w-full h-full object-cover" %>
           </div>
         </div>
