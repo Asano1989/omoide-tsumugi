@@ -107,6 +107,8 @@ ja:
         create: 家族を作成する
         update: 家族名を更新する
         destroy: 家族を削除する
+      members:
+        create: 家族に招待する
       password:
         create: 再設定メールを送信
         update: パスワードを更新する
