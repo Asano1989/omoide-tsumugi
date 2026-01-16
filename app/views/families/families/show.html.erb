@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-lime-100 flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
+<div class="min-h-full bg-lime-100 flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
   <h1 class="text-2xl font-extrabold text-lime-900 text-center mb-6">家族の情報</h1>
   
   <div class="w-full max-w-md space-y-6">
@@ -6,10 +6,10 @@
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center">
           <span class="icon-[material-symbols--family-group-rounded] text-2xl text-amber-600 mr-3"></span>
-          <h2 class="text-md font-bold text-amber-800">家族（グループ）名</h2>
+          <h2 class="text-md font-bold text-amber-800"><%= t('activerecord.attributes.family.name') %></h2>
         </div>
         <% if current_user.id == @family.owner_id %>
-          <%= link_to edit_family_path, class: "size-8 text-amber-600 hover:text-lime-600 transition-colors p-2 bg-amber-50 rounded-full shadow-sm" do %>
+          <%= link_to edit_family_path, class: "size-8 text-amber-600 hover:text-lime-600 transition-colors p-2 bg-rose-50 rounded-full shadow-sm" do %>
             <span class="icon-[mdi--pencil] text-lg"></span>
           <% end %>
         <% end %>
@@ -20,52 +20,49 @@
     </div>
     
     <div class="bg-white rounded-2xl shadow-md p-5 border border-amber-200">
-      <div class="flex items-center mb-4">
-        <span class="icon-[mdi--account-group] text-2xl text-amber-600 mr-2"></span>
-        <h2 class="text-md font-bold text-amber-800">メンバー一覧</h2>
-      </div>
-        <ul class="space-y-3 mb-4">
-          <% @members.each do |member| %>
-            <li class="flex items-center justify-between bg-amber-100/50 rounded-2xl p-3 shadow-sm">
-              <div class="flex items-center">
-                <div class="size-10 rounded-full flex items-center justify-center mr-3 shadow-inner">
-                  <%= image_tag member.display_avatar, class: "rounded-full" %>
-                </div>
-                <div>
-                  <span class="<%= member.id == current_user.id ? "bg-rose-200/70 font-semibold text-md text-amber-900" : "font-semibold text-md text-amber-900" %>"><%= member.name %></span>
-                </div>
-              </div>
-              <% if member.id == @family.owner_id %>
-                <span class="flex items-center text-xs font-medium text-lime-900 bg-lime-300/70 px-2 py-1 rounded-full">
-                  <span class="icon-[mdi--shield-check] mr-1"></span>管理者
-                </span>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
-        
-      <div class="space-y-3">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center">
+          <span class="icon-[mdi--account-group] text-2xl text-amber-600 mr-2"></span>
+          <h2 class="text-md font-bold text-amber-800"><%= t('activerecord.attributes.family.members') %></h2>
+        </div>
         <% if current_user.id == @family.owner_id %>
-          <%= link_to new_family_member_path(family_id: @family.id), class: "flex items-center justify-center w-full py-3 bg-lime-500 hover:bg-lime-600 text-white font-bold rounded-full shadow-md transition-all active:scale-95" do %>
-            <span class="icon-[mdi--account-plus] mr-2 text-lg"></span>メンバーを追加
-          <% end %>
-          <% if @members.count > 1 %>
-            <%= link_to family_members_path(family_id: @family.id), class: "flex items-center justify-center w-full py-3 bg-white border-2 border-rose-400 text-rose-500 hover:bg-rose-50 font-bold rounded-full transition-all active:scale-95" do %>
-              <span class="icon-[mdi--account-remove] mr-2 text-lg"></span>メンバーを削除
-            <% end %>
-          <% end %>
-        <% else %>
-          <%= link_to family_members_path(family_id: @family.id), class: "flex items-center justify-center w-full py-3 bg-white border-2 border-rose-400 text-rose-500 hover:bg-rose-50 font-bold rounded-full transition-all active:scale-95" do %>
-            <span class="icon-[mdi--logout] mr-2 text-lg"></span>家族から脱退
+          <%= link_to edit_family_path, class: "size-8 text-rose-600 p-2 bg-rose-100 rounded-full shadow-sm" do %>
+            <span class="icon-[mdi--user-edit] text-xl"></span>
           <% end %>
         <% end %>
       </div>
+      <ul class="space-y-3 mb-4">
+        <% @members.each do |member| %>
+          <li class="flex items-center justify-between bg-amber-100/50 rounded-2xl p-3 shadow-sm">
+            <div class="flex items-center">
+              <div class="size-10 rounded-full flex items-center justify-center mr-3 shadow-inner">
+                <%= image_tag member.display_avatar, class: "rounded-full" %>
+              </div>
+              <div>
+                <span class="<%= member.id == current_user.id ? "bg-rose-200/70 font-semibold text-md text-amber-900" : "font-semibold text-md text-amber-900" %>"><%= member.name %></span>
+              </div>
+            </div>
+            <% if member.id == @family.owner_id %>
+              <span class="flex items-center text-xs font-medium text-lime-900 bg-lime-300/70 px-2 py-1 rounded-full">
+                <span class="icon-[mdi--shield-check] mr-1"></span><%= t('activerecord.attributes.family.owner') %>
+              </span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
     </div>
 
     <div class="bg-white rounded-2xl shadow-md p-6 border border-amber-200">
-      <div class="flex items-center mb-4">
-        <span class="icon-[mdi--baby-face-outline] text-2xl text-amber-600 mr-2"></span>
-        <h2 class="text-xl font-bold text-amber-900">子ども一覧</h2>
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center">
+          <span class="icon-[mdi--baby-face-outline] text-2xl text-amber-600 mr-2"></span>
+          <h2 class="text-xl font-bold text-amber-900"><%= t('activerecord.attributes.family.children') %></h2>
+        </div>
+        <% if current_user.id == @family.owner_id %>
+          <%= link_to edit_family_path, class: "size-8 text-rose-600 p-2 bg-rose-100 rounded-full shadow-sm" do %>
+            <span class="icon-[tabler--mood-edit] text-xl"></span>
+          <% end %>
+        <% end %>
       </div>
       <% if @family.children.any? %>
         <ul class="grid grid-cols-2 gap-3 mb-4">
@@ -76,20 +73,7 @@
           <% end %>
         </ul>
       <% else %>
-        <p class="text-amber-800 text-sm text-center mb-6 italic bg-amber-50 py-4 rounded-md">子どもの情報が登録されていません</p>
-      <% end %>
-
-      <% if current_user.id == @family.owner_id %>
-        <div class="space-y-3">
-          <%= link_to new_family_child_path(family_id: @family.id), class: "flex items-center justify-center w-full py-3 bg-lime-500 hover:bg-lime-600 text-white font-bold rounded-full shadow-md transition-all active:scale-95" do %>
-            <span class="icon-[mdi--plus-circle] mr-2 text-lg"></span>子どもの情報を追加
-          <% end %>
-          <% if @family.children.count > 0 %>
-            <%= link_to family_children_path(family_id: @family.id), class: "flex items-center justify-center w-full py-3 bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold rounded-full transition-all active:scale-95" do %>
-              <span class="icon-[mdi--account-edit] mr-2 text-lg"></span>子どもの情報を編集・削除
-            <% end %>
-          <% end %>
-        </div>
+        <p class="text-amber-800 text-sm text-center mb-6 italic bg-amber-50 py-4 rounded-md"><%= t('helpers.message.no_children_data') %></p>
       <% end %>
     </div>
     
