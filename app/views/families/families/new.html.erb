@@ -7,22 +7,6 @@
       <p class="text-amber-900 font-semibold text-sm"> <%= t('helpers.message.not_a_member_of_family') %> </p>
     </div>
 
-    <!--
-    <div class="bg-white rounded-3xl shadow-xl p-7 border border-amber-200">
-      <div class="flex items-center mb-6"> <span class="icon-[mdi--link-variant] text-2xl text-amber-600 mr-2"></span>
-        <h2 class="text-xl font-bold text-amber-900">家族に参加する</h2>
-      </div>
-      
-      <%= form_with url: root_path, data: { method: :get }, local: true, class: "space-y-5" do |f| %>
-        <div class="space-y-2">
-          <%= f.label :code, '共有された家族コード', class: "block text-sm font-bold text-amber-800 ml-1" %>
-          <%= f.text_field :code, class: "w-full p-3 bg-lime-50 border border-amber-200 rounded-xl text-lg font-bold text-lime-900 focus:ring-2 focus:ring-lime-500 focus:border-transparent outline-none transition-all placeholder:text-amber-300" %>
-        </div>
-        <%= f.submit '家族メンバーになる', class: "w-full py-3 bg-lime-500 hover:bg-lime-600 text-white font-bold rounded-full shadow-md transition-all active:scale-95 cursor-pointer" %>
-      <% end %>
-    </div>
-    -->
-
     <div class="bg-white border border-amber-200 rounded-3xl py-6 px-4 flex flex-col shadow-sm">
         <div class="flex items-center mb-4">
           <span class="icon-[bi--house-add-fill] text-xl text-amber-600 mx-2"></span>
