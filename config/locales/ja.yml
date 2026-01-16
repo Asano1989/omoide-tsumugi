@@ -39,7 +39,10 @@ ja:
         birthday: 誕生日
         avatar: プロフィール画像
       family:
-        name: 家族の名前
+        name: 家族（グループ）名
+        members: メンバー一覧
+        children: 子ども一覧
+        owner: 管理者
       child:
         name: 子どもの名前
         birthday: 誕生日
@@ -100,12 +103,23 @@ ja:
         create: 登録する
         submit: ログイン
         update: 更新する
+      family:
+        update: 家族名を更新する
       password:
         create: 再設定メールを送信
         update: パスワードを更新する
     message:
-      no_diary_found: 該当する日記はありません。
-      no_diary_on_day: この日の日記はありません。
+      no_diary_found: 該当する日記はありません
+      no_diary_on_day: この日の日記はありません
+      no_children_data: 子どもの情報が登録されていません
+    button:
+      family:
+        add_member: メンバーを追加
+        delete_member: メンバーを削除
+        optout_family: 家族から脱退
+      children:
+        add_child: 子どもの情報を追加
+        edit_children: 子どもの情報を編集・削除
     link:
       signup: 新規登録
       login: ログイン
@@ -116,6 +130,7 @@ ja:
       back_to_login: ← ログインページに戻る
       forget_password: パスワードをお忘れですか？
       back_to_mypage: マイページに戻る
+      back_to_family_page: 家族の情報に戻る
   views:
     pagination:
       first: "&laquo;"
