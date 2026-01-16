@@ -33,7 +33,9 @@
             </div>
             <% if member.id == @family.owner_id %>
               <span class="flex items-center text-xs font-medium text-lime-900 bg-lime-300/70 px-2 py-1 rounded-full">
-              <span class="icon-[mdi--shield-check] mr-1"></span>管理者 </span>
+                <span class="icon-[mdi--shield-check] mr-1"></span>
+                <%= t('activerecord.attributes.family.owner') %>
+              </span>
             <% end %>
           </li>
         <% end %>
