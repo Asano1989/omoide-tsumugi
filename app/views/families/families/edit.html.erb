@@ -1,63 +1,98 @@
-<div id="edit_family" class="text-center">
-  <h1 class="text-3xl font-bold m-6">家族（グループ）の編集</h1>
-  <div id="family_form">
-    <%= form_with model: @family, url: family_path(id: @family.id), data: { turbo: false }, local: true do |f| %>
-      <div>
-        <div>
-          <%= f.label :name, "家族（グループ）名", class: "font-bold" %>
-        </div>
-        <div>
-          <%= f.text_field :name, class: "border border-default-medium rounded-base" %>
-          <%= f.submit "更新", data: { turbo: false }, class: "box-border border border-default m-2 pl-2 pr-2" %>
-        </div>
-      </div>
-    <% end %>
-  </div>
+<div class="min-h-full bg-lime-100 flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
+  <h1 class="text-2xl font-extrabold text-lime-900 text-center mb-6">家族情報の編集</h1>
 
-  <div id="family_info">
-    <div class="mt-6 m-2">
-      <span class="font-bold">家族（グループ）メンバー一覧</span>
+  <div class="w-full max-w-md space-y-6">
+    <div class="bg-white rounded-2xl shadow-md p-5 border border-amber-200">
+      <div class="flex items-center mb-4">
+        <span class="icon-[material-symbols--family-group-rounded] text-2xl text-amber-600 mr-3"></span>
+        <h2 class="text-md font-bold text-amber-800"><%= t('activerecord.attributes.family.name') %>を編集</h2>
+      </div>
+      <%= form_with model: @family, url: family_path(id: @family.id), data: { turbo: false }, local: true, class: "space-y-4" do |f| %>
+        <div class="flex flex-col space-y-3">
+          <%= f.text_field :name, class: "w-full p-3 bg-lime-50 border border-lime-400 rounded-xl text-lg font-bold text-lime-900 focus:ring-2 focus:ring-lime-500 focus:border-transparent outline-none transition-all", placeholder: "家族名を入力" %>
+          <%= f.submit t('helpers.submit.family.update'), data: { turbo: false }, class: "w-full py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-full shadow-sm transition-all active:scale-95 cursor-pointer" %>
+        </div>
+      <% end %>
     </div>
-    <div>
-      <ul class="list-disc list-inside">
+    
+    <div class="bg-white rounded-2xl shadow-md p-5 border border-amber-200">
+      <div class="flex items-center mb-4">
+        <span class="icon-[mdi--account-group] text-2xl text-amber-600 mr-2"></span>
+        <h2 class="text-md font-bold text-amber-800"><%= t('activerecord.attributes.family.members') %></h2>
+      </div>
+      <ul class="space-y-3 my-4">
         <% @members.each do |member| %>
-          <li>
-            <%= member.name %>
-            <% if member.id == @family.owner_id %>（管理者）<% end %>
+          <li class="flex items-center justify-between bg-amber-100/50 rounded-2xl p-3 shadow-sm">
+            <div class="flex items-center">
+              <div class="size-10 rounded-full flex items-center justify-center mr-3 shadow-inner overflow-hidden">
+                <%= image_tag member.display_avatar, class: "w-full h-full object-cover" %>
+              </div>
+              <div>
+                <span class="font-semibold text-md text-amber-900"><%= member.name %></span>
+              </div>
+            </div>
+            <% if member.id == @family.owner_id %>
+              <span class="flex items-center text-xs font-medium text-lime-900 bg-lime-300/70 px-2 py-1 rounded-full">
+              <span class="icon-[mdi--shield-check] mr-1"></span>管理者 </span>
+            <% end %>
           </li>
         <% end %>
       </ul>
-    </div>
 
-    <div class="mt-10">
-      <span class="font-bold">子ども一覧</span>
-    </div>
-    <div class="my-2">
-      <ul class="list-disc list-inside">
-        <% @family.children.each do |child| %>
-          <li>
-            <%= child.name %>
-          </li>
+      <div class="space-y-3">
+        <% if current_user.id == @family.owner_id %>
+          <%= link_to new_family_member_path(family_id: @family.id), class: "flex items-center justify-center w-full py-3 bg-lime-500 hover:bg-lime-600 text-white font-bold rounded-full shadow-md transition-all active:scale-95" do %>
+            <span class="icon-[mdi--account-plus] mr-2 text-lg"></span><%= t('helpers.button.family.add_member') %>
+          <% end %>
+          <% if @members.count > 1 %>
+            <%= link_to family_members_path(family_id: @family.id), class: "flex items-center justify-center w-full py-3 bg-white border-2 border-rose-400 text-rose-500 hover:bg-rose-50 font-bold rounded-full transition-all active:scale-95" do %>
+              <span class="icon-[mdi--account-remove] mr-2 text-lg"></span><%= t('helpers.button.family.delete_member') %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <%= link_to family_members_path(family_id: @family.id), class: "flex items-center justify-center w-full py-3 bg-white border-2 border-rose-400 text-rose-500 hover:bg-rose-50 font-bold rounded-full transition-all active:scale-95" do %>
+            <span class="icon-[mdi--logout] mr-2 text-lg"></span><%= t('helpers.button.family.optout_family') %>
+          <% end %>
         <% end %>
-      </ul>
+      </div>
     </div>
-    <% if @family.children.count > 0 && current_user.id == @family.owner_id %>
-      <div>
-        <%= button_to "子どもの情報を編集・削除", family_children_path(family_id: @family.id), method: :get, data: { turbo: false }, class: "box-border border border-default-medium shadow-xs font-medium leading-5 rounded-full text-sm px-4 py-2 m-2" %>
-        <%= button_to "子どもの情報を追加", new_family_child_path(family_id: @family.id), method: :get, class: "box-border border border-default-medium shadow-xs font-medium leading-5 rounded-full text-sm px-4 py-2 m-2" %>
+      
+      <div class="bg-white rounded-2xl shadow-md p-5 border border-amber-200">
+        <div class="flex items-center mb-4">
+          <span class="icon-[mdi--baby-face-outline] text-2xl text-amber-600 mr-2"></span>
+          <h2 class="text-md font-bold text-amber-800"><%= t('activerecord.attributes.family.children') %></h2>
+        </div>
+        <% if @family.children.any? %>
+          <ul class="grid grid-cols-2 gap-3 mb-6">
+            <% @family.children.each do |child| %>
+              <li class="bg-amber-50 rounded-2xl p-4 text-center border border-amber-100 shadow-sm">
+                <span class="font-extrabold text-amber-900"><%= child.name %></span>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-amber-800 text-sm text-center mb-6 italic bg-amber-50 py-4 rounded-xl border border-amber-100"><%= t('helpers.message.no_children_data') %></p>
+        <% end %>
+        
+        <div class="space-y-3">
+          <%= link_to new_family_child_path(family_id: @family.id), data: { turbo: false }, class: "flex items-center justify-center w-full py-3 bg-lime-500 hover:bg-lime-600 text-white font-bold rounded-full shadow-md transition-all active:scale-95" do %>
+            <span class="icon-[mdi--plus-circle] mr-2 text-lg"></span><%= t('helpers.button.children.add_child') %>
+          <% end %>
+          <% if @family.children.count > 0 %>
+            <%= link_to family_children_path(family_id: @family.id), data: { turbo: false }, class: "flex items-center justify-center w-full py-3 bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold rounded-full transition-all active:scale-95" do %>
+              <span class="icon-[mdi--account-edit] mr-2 text-lg"></span><%= t('helpers.button.children.edit_children') %>
+            <% end %>
+          <% end %>
+        </div>
       </div>
-    <% elsif current_user.id == @family.owner_id %>
-      <div>
-        <%= button_to "子どもの情報を追加", new_family_child_path(family_id: @family.id), method: :get, data: { turbo: false }, class: "box-border border border-default-medium shadow-xs font-medium leading-5 rounded-full text-sm px-4 py-2 m-2" %>
-      </div>
+      
+    <div class="pt-4 text-center"> <%= link_to family_path(@family), data: { turbo: false }, class: "inline-flex items-center text-lime-900 font-bold hover:text-amber-700 transition-colors" do %>
+      <span class="icon-[mdi--arrow-left] mr-1"></span> <%= t('helpers.link.back_to_family_page') %>
     <% end %>
+    </div>
   </div>
+</div>
 
-  <div class="my-8">
-    <%= link_to "戻る", family_path(@family), data: { turbo: false } %>
-  </div>
-
-  <div>
-    <%= render 'layouts/footer' %>
-  </div>
+<div>
+  <%= render 'layouts/footer' %>
 </div>
