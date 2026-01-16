@@ -33,20 +33,21 @@
       </div>
       <ul class="space-y-3 mb-4">
         <% @members.each do |member| %>
-          <li class="flex items-center justify-between bg-amber-100/50 rounded-2xl p-3 shadow-sm">
-            <div class="flex items-center">
-              <div class="size-10 rounded-full flex items-center justify-center mr-3 shadow-inner">
-                <%= image_tag member.display_avatar, class: "rounded-full" %>
+          <li class="w-full flex flex-wrap items-center justify-between bg-amber-100/50 rounded-2xl p-3 shadow-sm">
+            <div class="w-full flex items-center">
+              <div class="size-10 rounded-full flex flex-none items-center justify-center mr-3 shadow-inner overflow-hidden">
+                <%= image_tag member.display_avatar, class: "w-full h-full object-cover" %>
               </div>
-              <div>
-                <span class="<%= member.id == current_user.id ? "bg-rose-200/70 font-semibold text-md text-amber-900" : "font-semibold text-md text-amber-900" %>"><%= member.name %></span>
+              <div class="text-wrap">
+                <span class="<%= current_user.id == member.id ? "bg-rose-200 font-semibold text-md text-amber-900" : "font-semibold text-md text-amber-900" %>"><%= member.name %></span>
               </div>
+              <% if member.id == @family.owner_id %>
+                <div class="flex flex-nowrap items-center ml-auto text-xs font-medium text-lime-900 bg-lime-300/70 px-2 py-1 rounded-full">
+                  <span class="icon-[mdi--shield-check] mr-1"></span>
+                  <span class="text-nowrap"><%= t('activerecord.attributes.family.owner') %></span>
+                </div>
+              <% end %>
             </div>
-            <% if member.id == @family.owner_id %>
-              <span class="flex items-center text-xs font-medium text-lime-900 bg-lime-300/70 px-2 py-1 rounded-full">
-                <span class="icon-[mdi--shield-check] mr-1"></span><%= t('activerecord.attributes.family.owner') %>
-              </span>
-            <% end %>
           </li>
         <% end %>
       </ul>

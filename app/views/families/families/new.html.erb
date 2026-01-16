@@ -1,41 +1,50 @@
-<div id="new_family" class="text-center">
-  <h1 class="text-3xl font-bold m-6">家族（グループ）の作成</h1>
+<div class="min-h-full bg-lime-100 flex flex-col items-center py-10 px-4 sm:px-6 lg:px-8">
+  <h1 class="text-2xl font-extrabold text-lime-900 text-center mb-8">家族（グループ）への参加／作成</h1>
+  
+  <div class="w-full max-w-md space-y-6">
+    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center shadow-sm">
+      <span class="icon-[mdi--information-outline] text-2xl text-amber-600 mr-3"></span>
+      <p class="text-amber-900 font-semibold text-sm"> <%= t('helpers.message.not_a_member_of_family') %> </p>
+    </div>
 
-  <div id="not_belongs_family" class="my-8">
-    <div>
-      あなたは家族（グループ）に所属していません
+    <div class="bg-white border border-amber-200 rounded-3xl py-6 px-4 flex flex-col shadow-sm">
+        <div class="flex items-center mb-4">
+          <span class="icon-[bi--house-add-fill] text-xl text-amber-600 mx-2"></span>
+          <h2 class="text-xl font-bold text-amber-900 mr-2">既にある家族（グループ）に参加</h2>
+        </div>
+      <div class="bg-rose-100 rounded-2xl">
+        <p class="text-rose-600 font-medium text-sm p-4"> <%= t('helpers.message.need_to_apply_for_be_family') %> </p>
+      </div>
+    </div>
+    
+    <div class="flex items-center justify-center space-x-4">
+      <div class="h-px bg-amber-300 flex-grow"></div>
+        <span class="text-amber-600 font-bold text-sm">または</span>
+        <div class="h-px bg-amber-300 flex-grow"></div>
+      </div>
+      
+      <div class="bg-white rounded-3xl shadow-md p-7 border border-amber-200">
+        <div class="flex items-center mb-6">
+          <span class="icon-[material-symbols--family-group-rounded] text-2xl text-amber-600 mr-2"></span>
+          <h2 class="text-xl font-bold text-amber-900">新しく家族を作成</h2>
+        </div>
+        
+        <%= form_with(model: @family, url: families_path, data: { turbo: false }, local: true, class: "space-y-5") do |f| %>
+          <div class="space-y-2">
+            <%= f.label :name, t('activerecord.attributes.family.name'), class: "block text-sm font-bold text-amber-800 ml-1" %>
+            <%= f.text_field :name, class: "w-full p-3 bg-lime-50 border border-amber-300 rounded-xl text-md font-bold text-lime-900 focus:ring-2 focus:ring-lime-500 focus:border-transparent outline-none transition-all placeholder:text-lime-400", placeholder: "家族（グループ）名を入力してください" %>
+          </div>
+          <%= f.submit t('helpers.submit.family.create'), data: { turbo: false }, class: "w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-full shadow-md transition-all active:scale-95 cursor-pointer" %>
+        <% end %>
+      </div>
+    <div class="text-center pt-2">
+      <%= link_to mypage_path, class: "inline-flex items-center text-lime-900 font-bold hover:text-amber-700 transition-colors" do %>
+        <span class="icon-[mdi--arrow-left] mr-1"></span> <%= t('helpers.link.back_to_mypage') %>
+      <% end %>
     </div>
   </div>
+</div>
 
-  <div id="family_code_form" class="my-10">
-    <%= form_with url: root_path, data: { turbo: false }, local: true do |f| %>
-      <div>
-        <%= f.label :code, '家族コードを入力' %>
-      </div>
-      <div>
-        <%= f.text_field :code, class: "border border-default-medium rounded-base" %>
-      </div>
-      <div>
-        <%= f.submit '家族（グループ）メンバーになる', class: "box-border border border-default-medium shadow-xs font-medium rounded-full text-sm px-4 py-2 m-2" %>
-      </div>
-    <% end %>
-  </div>
-
-  <div id="create_family_form" class="my-10">
-    <%= form_with(model: @family, url: families_path, data: { turbo: false }, local: true) do |f| %>
-      <div>
-        <%= f.label :name, "家族（グループ）名" %>
-      </div>
-      <div>
-        <%= f.text_field :name, class: "border border-default-medium rounded-base" %>
-      </div>
-      <div>
-        <%= f.submit "家族（グループ）を作成", data: { turbo: false }, class: "box-border border border-default-medium shadow-xs font-medium rounded-full text-sm px-4 py-2 m-2" %>
-      </div>
-    <% end %>
-  </div>
-
-  <div>
-    <%= render 'layouts/footer' %>
-  </div>
+<div>
+  <%= render 'layouts/footer' %>
 </div>
