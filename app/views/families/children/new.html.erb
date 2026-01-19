@@ -1,8 +1,8 @@
-<div class="min-h-full bg-lime-100 flex flex-col items-center py-10 px-4 sm:px-6 lg:px-8">
+<div class="h-full bg-lime-100 flex flex-col items-center py-10 px-4 sm:px-6 lg:px-8">
   <div class="w-full max-w-md space-y-6">
     <h1 class="text-2xl justify-self-center font-extrabold text-lime-900">子どもの情報を新規登録</h1>
     
-    <div class="bg-white rounded-3xl shadow-xl p-7 border border-amber-200">
+    <div class="bg-white rounded-3xl shadow-md p-7 border border-amber-200">
       <%= form_with(model: [@family, @child], data: { turbo: false }, class: "space-y-6") do |f| %>
         <div class="space-y-2">
           <div class="flex items-center ml-1">
