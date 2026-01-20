@@ -122,6 +122,8 @@ ja:
       not_a_member_of_family: 現在、あなたは家族に所属していません。
       need_to_apply_for_be_family: 家族（グループ）の管理ユーザーにメールアドレスを伝え、メンバーに追加してもらいましょう。
     button:
+      mypages:
+        edit_password: パスワードを変更する
       family:
         add_member: メンバーを追加
         delete_member: メンバーを削除
