@@ -76,7 +76,9 @@ module Families
     # オーナー以外は編集できないようにする
     def authorize_owner
       if current_user.family.present?
-        unless @family.owner_id == current_user.id
+        if @family.nil?
+          redirect_to root_path, alert: '家族（グループ）の情報を取得できませんでした。'
+        elsif @family.owner_id != current_user.id
           redirect_to root_path, alert: '編集権限がありません。'
         end
       else
