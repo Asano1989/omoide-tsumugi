@@ -1,32 +1,34 @@
-<div id="edit_child" class="text-center">
-  <h1 class="text-3xl font-bold m-6">子供の情報を編集</h1>
-  <div class="my-10">
-    <%= form_with(model: [@family, @child], data: { turbo: false }) do |f| %>
-      <div>
-        <%= f.label :name, "名前" %>
-      </div>
-      <div>
-        <%= f.text_field :name, class: "border border-default-medium rounded-base" %>
-      </div>
-
-      <div>
-        <%= f.label :birthday, "誕生日" %>
-      </div>
-      <div>
-        <%= f.date_field :birthday, class: "border border-default-medium rounded-base" %>
-      </div>
-
-      <div>
-        <%= f.submit "更新する", data: { turbo: false }, class: "box-border border border-default-medium shadow-xs font-medium rounded-full text-sm px-4 py-2 m-2" %>
-      </div>
-    <% end %>
-  </div>
-
-  <div>
-    <%= link_to "キャンセル", family_path(@family), data: { turbo: false } %>
-  </div>
-
-  <div>
-    <%= render 'layouts/footer' %>
+<div class="h-full bg-lime-100 flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
+  <div class="w-full max-w-md space-y-6">
+    <h1 class="text-2xl justify-self-center font-extrabold text-lime-900">子どもの情報を編集</h1>
+    
+    <div class="bg-white rounded-3xl shadow-md p-7 border border-amber-200">
+      <%= form_with(model: [@family, @child], data: { turbo: false }, class: "space-y-6") do |f| %>
+        <div class="space-y-2">
+          <div class="flex items-center ml-1">
+            <span class="icon-[cil--child] text-xl text-amber-600 mr-2"></span>
+            <%= f.label :name, t('activerecord.attributes.child.name'), class: "font-bold text-amber-900" %>
+          </div>
+            <%= f.text_field :name, class: "w-full p-3 bg-lime-50 border border-amber-200 rounded-xl text-lg font-medium text-lime-900 focus:ring-2 focus:ring-lime-500 focus:border-transparent outline-none transition-all placeholder:text-amber-300", placeholder: "例：はなこ" %>
+          </div>
+          
+          <div class="space-y-2">
+            <div class="flex items-center ml-1">
+              <span class="icon-[mdi--cake-variant-outline] text-xl text-amber-600 mr-2"></span>
+              <%= f.label :birthday, t('activerecord.attributes.child.birthday'), class: "font-bold text-amber-900" %>
+            </div>
+            <%= f.date_field :birthday, class: "w-full p-3 bg-lime-50 border border-amber-200 rounded-xl text-lg font-medium text-lime-900 focus:ring-2 focus:ring-lime-500 focus:border-transparent outline-none transition-all", placeholder: "誕生日を選択" %>
+          </div>
+            
+          <div class="pt-4">
+            <%= f.submit t('helpers.submit.children.update'), data: { turbo: false }, class: "w-full py-4 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-full shadow-lg transition-all active:scale-95 cursor-pointer flex items-center justify-center text-lg" %>
+          </div>
+      <% end %>
+        </div>
+        
+    <div class="text-center pt-4">
+      <%= link_to family_children_path, data: { turbo: false }, class: "inline-flex items-center text-lime-900 font-bold hover:text-amber-700 transition-colors" do %> <span class="icon-[mdi--arrow-left] mr-1"></span> <%= t('helpers.link.back_to_children_page') %>
+      <% end %>
+    </div>
   </div>
 </div>
