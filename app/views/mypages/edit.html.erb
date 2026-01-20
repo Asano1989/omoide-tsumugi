@@ -36,8 +36,14 @@
         <%= f.date_field :birthday, class: "w-full p-3 border border-amber-300 rounded-xl focus:ring-2 focus:ring-lime-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-amber-800 shadow-sm" %>
       </div>
       
-      <div class="py-4 text-center">
-        <%= f.submit t('helpers.submit.user.update'), data: { turbo: false }, class: "w-full bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer" %>
+      <div class="text-center">
+        <div class="flex flex-col gap-4">
+          <%= f.submit t('helpers.submit.user.update'), data: { turbo: false }, class: "w-full bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-full shadow-sm transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer" %>
+
+          <%= link_to edit_password_path, data: { turbo: false }, class: "w-full bg-amber-500 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-full shadow-sm transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer" do %>
+            <span><%= t('helpers.button.mypages.edit_password') %></span>
+          <% end %>
+        </div>
       </div>
     <% end %>
     </div>
