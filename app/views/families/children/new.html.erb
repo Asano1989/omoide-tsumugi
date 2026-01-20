@@ -27,7 +27,7 @@
         </div>
         
     <div class="text-center pt-4">
-      <%= link_to family_path(@family), data: { turbo: false }, class: "inline-flex items-center text-lime-900 font-bold hover:text-amber-700 transition-colors" do %> <span class="icon-[mdi--arrow-left] mr-1"></span> <%= t('helpers.link.back_to_family_page') %>
+      <%= link_to edit_family_path(@family), data: { turbo: false }, class: "inline-flex items-center text-lime-900 font-bold hover:text-amber-700 transition-colors" do %> <span class="icon-[mdi--arrow-left] mr-1"></span> <%= t('helpers.link.back_to_family_page') %>
       <% end %>
     </div>
   </div>
