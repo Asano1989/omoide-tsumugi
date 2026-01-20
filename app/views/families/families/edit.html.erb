@@ -88,13 +88,11 @@
         </div>
       </div>
 
-    <!--
     <div class="space-y-3">
       <%= button_to family_path(family_id: @family.id), method: :delete, data: { turbo_confirm: "本当にこの家族を削除しますか？" }, class: "flex items-center justify-center w-full py-3 bg-rose-500/80 hover:bg-rose-600/80 text-white font-bold rounded-full shadow-md transition-all active:scale-95" do %>
         <span class="icon-[mdi--house-off] mr-2 text-lg"></span><%= t('helpers.submit.family.destroy') %>
       <% end %>
     </div>
-    -->
       
     <div class="pt-4 text-center">
       <%= link_to family_path(@family), data: { turbo: false }, class: "inline-flex items-center text-lime-900 font-bold hover:text-amber-700 transition-colors" do %>
