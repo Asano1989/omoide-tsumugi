@@ -111,6 +111,7 @@ ja:
         create: 家族に招待する
       children:
         create: 登録する
+        update: 更新する
       password:
         create: 再設定メールを送信
         update: パスワードを更新する
@@ -127,7 +128,10 @@ ja:
         optout_family: 家族から脱退
       children:
         add_child: 子どもの情報を追加
+        add_new_child: 新しい子どもの情報を追加
         edit_children: 子どもの情報を編集・削除
+      edit: 編集
+      delete: 削除
     link:
       signup: 新規登録
       login: ログイン
@@ -139,6 +143,7 @@ ja:
       forget_password: パスワードをお忘れですか？
       back_to_mypage: マイページに戻る
       back_to_family_page: 家族の情報に戻る
+      back_to_children_page: 子どもの情報一覧に戻る
   views:
     pagination:
       first: "&laquo;"
