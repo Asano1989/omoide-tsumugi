@@ -153,3 +153,19 @@ ja:
       previous: "&lsaquo;"
       next: "&rsaquo;"
       truncate: "&hellip;"
+  auth:
+    login:
+      title: ログイン
+    signup:
+      title: 新規ユーザー登録
+  diaries:
+    edit:
+      title: 日記を編集
+    filter:
+      title: 日記を絞り込む
+    index:
+      title: ホーム（カレンダー）
+    new:
+      title: 日記を投稿
+    show:
+      title: 日記の詳細
