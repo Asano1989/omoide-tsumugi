@@ -186,7 +186,7 @@ ja:
         title: 家族（グループ）の情報
     members:
       index:
-        title: 家族のメンバー一覧
+        title: 家族のメンバー管理
       new:
         title: 家族にメンバーを招待
   mypages:
