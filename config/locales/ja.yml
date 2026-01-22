@@ -189,3 +189,13 @@ ja:
         title: 家族のメンバー一覧
       new:
         title: 家族にメンバーを招待
+  mypages:
+    edit:
+      title: プロフィール編集
+    show:
+      title: マイページ
+  passwords:
+    edit:
+      title: パスワードを設定
+    new:
+      title: パスワードを再設定
