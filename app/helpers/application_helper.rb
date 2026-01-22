@@ -7,4 +7,10 @@ module ApplicationHelper
     else "bg-gray-100 border border-gray-400 text-gray-700"
     end
   end
+
+  def page_title(title)
+    base_title = 'おもいでつむぎ'
+
+    title.empty? ? base_title : title + " | " +  base_title
+  end
 end
