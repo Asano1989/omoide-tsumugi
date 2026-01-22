@@ -169,3 +169,23 @@ ja:
       title: 日記を投稿
     show:
       title: 日記の詳細
+  families:
+    children:
+      edit:
+        title: 子どもの情報を編集
+      index:
+        title: 子どもの情報一覧
+      new:
+        title: 子どもの情報を登録
+    families:
+      edit:
+        title: 家族の情報を編集
+      new:
+        title: 家族（グループ）を作成
+      show:
+        title: 家族（グループ）の情報
+    members:
+      index:
+        title: 家族のメンバー一覧
+      new:
+        title: 家族にメンバーを招待
