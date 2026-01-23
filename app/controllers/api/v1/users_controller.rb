@@ -27,19 +27,11 @@ module Api
         else
           render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
         end
-
-      rescue => e
-        logger.error "Registration Error: #{e.message}"
-        render json: { error: "Internal Server Error" }, status: :internal_server_error
-      end
-
-      
       rescue ActionController::ParameterMissing => e
         render json: { error: e.message }, status: :bad_request
       rescue => e
-        # 予期せぬエラーのキャッチ
         render json: { error: "Internal Server Error: #{e.message}" }, status: :internal_server_error
-
+      end
     end
   end
 end
