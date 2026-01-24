@@ -8,7 +8,7 @@ module Api
       def index
         # 認証済みであることのみを伝える最小限のレスポンスに変更
         render json: {
-          authenticated: true, # 認証に成功したことだけを示す
+          authenticated: true # 認証に成功したことだけを示す
           # user_id: @current_user_payload['sub'] # IDは必要なければ削除
         }, status: :ok
       end
