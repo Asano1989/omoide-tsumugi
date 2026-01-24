@@ -72,9 +72,9 @@ class DiariesController < ApplicationController
     # 2. 子供での絞り込み (AND検索ロジック)
     if @target_child_ids.present?
       target_diary_ids = DiaryChild.where(child_id: @target_child_ids)
-                                  .group(:diary_id)
-                                  .having('COUNT(diary_id) = ?', @target_child_ids.size)
-                                  .pluck(:diary_id)
+                                   .group(:diary_id)
+                                   .having('COUNT(diary_id) = ?', @target_child_ids.size)
+                                   .pluck(:diary_id)
       # 絞り込まれたIDで日記をフィルタリング
       @diaries = @diaries.where(id: target_diary_ids)
       @selected_children = current_user.family.children.where(id: @target_child_ids)
