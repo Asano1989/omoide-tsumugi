@@ -8,8 +8,7 @@ module Families
       @members = @family.users
     end
 
-    def new
-    end
+    def new; end
 
     def create
       # 1. 入力されたメールアドレスからユーザーを探す

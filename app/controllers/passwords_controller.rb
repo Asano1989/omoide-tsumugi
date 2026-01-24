@@ -16,8 +16,7 @@ class PasswordsController < ApplicationController
   end
 
   # パスワード変更画面
-  def edit
-  end
+  def edit; end
 
   # パスワード更新実行
   def update

@@ -38,8 +38,7 @@ class AuthController < ApplicationController
     end
   end
 
-  def login
-  end
+  def login; end
 
   def create_login
     email = params[:session][:email]
