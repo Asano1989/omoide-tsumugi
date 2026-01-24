@@ -56,12 +56,12 @@ module Families
       end
 
       # 2. オーナー脱退時の制約チェック
-      if @user.id == @family.owner_id
-        # オーナー以外のメンバーが1人でも存在するか確認
-        if @family.users.count > 1
-          return redirect_to family_members_path(@family), alert: "他にメンバーがいる状態では、オーナーは脱退できません。"
-        end
-      end
+      return unless @user.id == @family.owner_id
+
+      # オーナー以外のメンバーが1人でも存在するか確認
+      return unless @family.users.count > 1
+
+      return redirect_to family_members_path(@family), alert: "他にメンバーがいる状態では、オーナーは脱退できません。"
     end
   end
 end

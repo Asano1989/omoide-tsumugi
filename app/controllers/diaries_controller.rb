@@ -87,9 +87,9 @@ class DiariesController < ApplicationController
     end
 
     # 4. 何も選択されていない時に日記を表示しない
-    if @target_child_ids.blank? && @target_emoji_id.blank?
-      @diaries = []
-    end
+    return unless @target_child_ids.blank? && @target_emoji_id.blank?
+
+    @diaries = []
   end
 
   def refresh_emoji
@@ -106,10 +106,10 @@ class DiariesController < ApplicationController
 
   def process_child_ids
     # 文字列を数値の配列に変換してセットする
-    if params[:diary][:child_ids].is_a?(String)
-      params[:diary][:child_ids] = params[:diary][:child_ids].split(',')
-      @diary.child_ids = params[:diary][:child_ids]
-    end
+    return unless params[:diary][:child_ids].is_a?(String)
+
+    params[:diary][:child_ids] = params[:diary][:child_ids].split(',')
+    @diary.child_ids = params[:diary][:child_ids]
   end
 
   def set_diary
@@ -120,9 +120,9 @@ class DiariesController < ApplicationController
   end
 
   def check_family
-    if current_user.family_id.blank?
-      # 家族に所属していない場合はトップページにリダイレクト
-      redirect_to root_path, alert: '家族への登録が必要です。'
-    end
+    return unless current_user.family_id.blank?
+
+    # 家族に所属していない場合はトップページにリダイレクト
+    redirect_to root_path, alert: '家族への登録が必要です。'
   end
 end

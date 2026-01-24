@@ -47,9 +47,9 @@ module Families
     end
 
     def authorize_owner
-      unless @family.owner_id == current_user.id
-        redirect_to root_path, alert: "権限がありません"
-      end
+      return if @family.owner_id == current_user.id
+
+      redirect_to root_path, alert: "権限がありません"
     end
 
     def child_params

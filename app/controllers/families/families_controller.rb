@@ -25,10 +25,10 @@ module Families
     end
 
     def show
-      if current_user.family.present?
-        @family = current_user.family
-        @members = @family.users
-      end
+      return unless current_user.family.present?
+
+      @family = current_user.family
+      @members = @family.users
     end
 
     def edit
