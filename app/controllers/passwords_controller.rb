@@ -72,7 +72,7 @@ class PasswordsController < ApplicationController
     else
       { success: false, error: body[:msg] || body[:error_description] || "メール送信に失敗しました" }
     end
-  rescue => e
+  rescue StandardError => e
     logger.error "Supabase Recover Error: #{e.message}"
     { success: false, error: "通信エラーが発生しました" }
   end
@@ -98,7 +98,7 @@ class PasswordsController < ApplicationController
     else
       { success: false, error: body[:msg] || "パスワードの更新に失敗しました" }
     end
-  rescue => e
+  rescue StandardError => e
     logger.error "Password Update Error: #{e.message}"
     { success: false, error: "通信エラーが発生しました" }
   end

@@ -162,7 +162,7 @@ class AuthController < ApplicationController
     else
       { success: false }
     end
-  rescue => e
+  rescue StandardError => e
     logger.error "エラー: #{e.message}"
     { success: false }
   end

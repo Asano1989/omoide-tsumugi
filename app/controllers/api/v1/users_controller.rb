@@ -21,7 +21,7 @@ module Api
         end
       rescue ActionController::ParameterMissing => e
         render json: { error: e.message }, status: :bad_request
-      rescue => e
+      rescue StandardError => e
         render json: { error: "Internal Server Error: #{e.message}" }, status: :internal_server_error
       end
     end

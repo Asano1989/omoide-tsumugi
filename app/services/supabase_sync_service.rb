@@ -13,7 +13,7 @@ class SupabaseSyncService
 
     # 2. Profiles (public.profiles) テーブルの更新
     update_public_profile
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error "Supabase Sync Error: #{e.message}"
     false
   end
