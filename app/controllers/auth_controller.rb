@@ -121,7 +121,7 @@ class AuthController < ApplicationController
     response = http.request(request)
     body = JSON.parse(response.body).with_indifferent_access
 
-    if response.code == "200" || response.code == "201"
+    if ['200', '201'].include?(response.code)
       uid = body[:user] ? body[:user][:id] : body[:id]
 
       if uid.present?

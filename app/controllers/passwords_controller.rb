@@ -67,7 +67,7 @@ class PasswordsController < ApplicationController
     response = http.request(request)
     body = JSON.parse(response.body).with_indifferent_access
 
-    if response.code == "200" || response.code == "201"
+    if ['200', '201'].include?(response.code)
       { success: true }
     else
       { success: false, error: body[:msg] || body[:error_description] || "メール送信に失敗しました" }
