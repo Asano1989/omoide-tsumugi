@@ -29,6 +29,7 @@ module Families
     end
 
     def destroy
+      # TODO：作成した家族からは脱退できないようにする
       if @user.update(family_id: nil)
         redirect_path = @user == current_user ? root_path : family_members_path(@family)
         redirect_to redirect_path, notice: "#{@user.name} さんを家族から削除（脱退）しました。", status: :see_other
@@ -61,7 +62,7 @@ module Families
       # オーナー以外のメンバーが1人でも存在するか確認
       return unless @family.users.count > 1
 
-      return redirect_to family_members_path(@family), alert: "他にメンバーがいる状態では、オーナーは脱退できません。"
+      redirect_to family_members_path(@family), alert: "他にメンバーがいる状態では、オーナーは脱退できません。"
     end
   end
 end
