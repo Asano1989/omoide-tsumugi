@@ -20,7 +20,7 @@ class SupabaseAuthService
   # @return [Hash, nil] 検証成功時はJWTペイロード（ユーザー情報）、失敗時はnil
   def self.verify_token(token)
     return nil unless token.present?
-    
+
     # 直接メソッド呼び出し結果をシークレットとして使用
     unless self.jwt_secret.present?
       Rails.logger.error "FATAL: SUPABASE_JWT_SECRET is missing from credentials. (Key check failed)"
@@ -31,7 +31,6 @@ class SupabaseAuthService
       # シークレットを直接メソッドから取得
       decoded_token = JWT.decode(token, self.jwt_secret, true, VERIFY_OPTIONS)
       decoded_token.first
-      
     rescue JWT::ExpiredSignature => e
       # 期限切れ
       Rails.logger.warn "JWT Expired: #{e.message}"

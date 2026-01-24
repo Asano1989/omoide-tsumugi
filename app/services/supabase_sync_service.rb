@@ -44,7 +44,7 @@ class SupabaseSyncService
       birthday: @user.birthday.to_s,
       updated_at: Time.current.iso8601
     }
-    
+
     client.patch(url, body.to_json)
   end
 end

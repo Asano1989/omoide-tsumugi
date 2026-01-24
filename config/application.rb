@@ -11,7 +11,7 @@ module App
     config.time_zone = "Asia/Tokyo"
     config.active_record.default_timezone = :local
     config.i18n.default_locale = :ja
-    
+
     config.beginning_of_week = :sunday
   end
 end

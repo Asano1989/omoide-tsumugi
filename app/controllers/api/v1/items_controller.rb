@@ -3,7 +3,7 @@ module Api
     class ItemsController < ApplicationController
       # このアクションを実行する前に、authenticate_user! を実行しJWTを検証する
       before_action :authenticate_user!
-      
+
       # GET /api/v1/items
       def index
         # 認証済みであることのみを伝える最小限のレスポンスに変更

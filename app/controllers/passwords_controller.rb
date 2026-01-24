@@ -54,15 +54,15 @@ class PasswordsController < ApplicationController
     # Supabaseのパスワードリカバリ用エンドポイント
     redirect_url = CGI.escape(edit_password_url)
     url = URI("#{ENV['SUPABASE_URL']}/auth/v1/recover?redirect_to=#{redirect_url}")
-    
+
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
-    
+
     request = Net::HTTP::Post.new(url)
     request["apikey"] = ENV['SUPABASE_SERVICE_ROLE_KEY']
     request["Authorization"] = "Bearer #{ENV['SUPABASE_SERVICE_ROLE_KEY']}"
     request["Content-Type"] = "application/json"
-    
+
     request.body = { email: email }.to_json
 
     response = http.request(request)
@@ -80,20 +80,20 @@ class PasswordsController < ApplicationController
 
   def update_supabase_password(token, new_password)
     url = URI("#{ENV['SUPABASE_URL']}/auth/v1/user")
-    
+
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
-    
+
     request = Net::HTTP::Put.new(url) # 更新なのでPUTメソッド
     request["apikey"] = ENV['SUPABASE_SERVICE_ROLE_KEY']
     request["Authorization"] = "Bearer #{token}" # ユーザーのトークンを渡す
     request["Content-Type"] = "application/json"
-    
+
     request.body = { password: new_password }.to_json
-    
+
     response = http.request(request)
     body = JSON.parse(response.body).with_indifferent_access
-    
+
     if response.code == "200"
       { success: true }
     else

@@ -4,7 +4,7 @@ class DiariesController < ApplicationController
   before_action :check_family, only: [:index, :show, :new, :create, :edit, :update, :destroy]
 
   DIARY_COUNT = 5
-  
+
   def index
     @diaries = current_user.family.diaries.order(date: :desc)
   end

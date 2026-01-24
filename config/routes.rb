@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   # パスワード更新画面
   get 'password/edit', to: 'passwords#edit', as: :edit_password
   patch 'password/update', to: 'passwords#update'
-  
+
   resource :mypage, only: [:show, :edit, :update]
 
   scope module: :families do
@@ -35,7 +35,7 @@ Rails.application.routes.draw do
       get 'filter'
     end
   end
-    
+
   # APIエンドポイントの定義
   namespace :api do
     namespace :v1 do
