@@ -14,17 +14,21 @@ module Families
       # 1. 入力されたメールアドレスからユーザーを探す
       @user = User.find_by(email: params[:email])
 
+      # 2. ユーザーが存在しない場合
       if @user.nil?
-        redirect_to family_path(@family), alert: "指定されたメールアドレスのユーザーが見つかりません。"
-      elsif @user.family_id.present?
-        redirect_to family_path(@family), alert: "そのユーザーは既に他の家族に所属しています。"
+        return redirect_to edit_family_path(@family), alert: "指定されたメールアドレスのユーザーが見つかりません。"
+      end
+
+      # 3. 既に家族に所属している場合
+      if @user.family_id.present?
+        return redirect_to edit_family_path(@family), alert: "そのユーザーは既に他の家族に所属しています。"
+      end
+
+      # 3. ユーザーのfamily_idを更新して所属させる
+      if @user.update(family_id: @family.id)
+        redirect_to edit_family_path(@family), notice: "#{@user.name} さんをメンバーに追加しました。", status: :see_other
       else
-        # 2. ユーザーのfamily_idを更新して所属させる
-        if @user.update(family_id: @family.id)
-          redirect_to family_path(@family), notice: "#{@user.name} さんをメンバーに追加しました。", status: :see_other
-        else
-          redirect_to family_path(@family), alert: "メンバーの追加に失敗しました。"
-        end
+        redirect_to edit_family_path(@family), alert: "メンバーの追加に失敗しました。"
       end
     end
 
