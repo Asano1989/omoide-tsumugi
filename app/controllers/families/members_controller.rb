@@ -15,14 +15,10 @@ module Families
       @user = User.find_by(email: params[:email])
 
       # 2. ユーザーが存在しない場合
-      if @user.nil?
-        return redirect_to edit_family_path(@family), alert: "指定されたメールアドレスのユーザーが見つかりません。"
-      end
+      return redirect_to edit_family_path(@family), alert: "指定されたメールアドレスのユーザーが見つかりません。" if @user.nil?
 
       # 3. 既に家族に所属している場合
-      if @user.family_id.present?
-        return redirect_to edit_family_path(@family), alert: "そのユーザーは既に他の家族に所属しています。"
-      end
+      return redirect_to edit_family_path(@family), alert: "そのユーザーは既に他の家族に所属しています。" if @user.family_id.present?
 
       # 3. ユーザーのfamily_idを更新して所属させる
       if @user.update(family_id: @family.id)
