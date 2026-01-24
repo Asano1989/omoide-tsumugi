@@ -30,7 +30,7 @@ module Families
 
     def destroy
       if @user.update(family_id: nil)
-        redirect_path = (@user == current_user) ? root_path : family_members_path(@family)
+        redirect_path = @user == current_user ? root_path : family_members_path(@family)
         redirect_to redirect_path, notice: "#{@user.name} さんを家族から削除（脱退）しました。", status: :see_other
       else
         redirect_to family_members_path(@family), alert: "メンバーの削除（脱退）に失敗しました。"
