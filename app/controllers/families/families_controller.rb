@@ -63,7 +63,7 @@ module Families
       end
 
       redirect_to root_path, notice: '家族を削除しました。', status: :see_other
-    rescue => e
+    rescue StandardError
       redirect_to family_path(@family), alert: '家族の削除に失敗しました。'
     end
 
