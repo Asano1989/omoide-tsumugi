@@ -4,7 +4,7 @@ class DiariesController < ApplicationController
   before_action :check_family, only: [:index, :show, :new, :create, :edit, :update, :destroy]
 
   DIARY_COUNT = 5
-  
+
   def index
     @diaries = current_user.family.diaries.order(date: :desc)
   end
@@ -58,7 +58,7 @@ class DiariesController < ApplicationController
   def date_index
     @date = params[:date]
     # 指定された日付に一致する日記を取得
-    @diaries =current_user.family.diaries.where(date: @date).order(created_at: :asc).page(params[:page]).per(DIARY_COUNT)
+    @diaries = current_user.family.diaries.where(date: @date).order(created_at: :asc).page(params[:page]).per(DIARY_COUNT)
   end
 
   def filter
@@ -72,9 +72,9 @@ class DiariesController < ApplicationController
     # 2. 子供での絞り込み (AND検索ロジック)
     if @target_child_ids.present?
       target_diary_ids = DiaryChild.where(child_id: @target_child_ids)
-                                  .group(:diary_id)
-                                  .having('COUNT(diary_id) = ?', @target_child_ids.size)
-                                  .pluck(:diary_id)
+                                   .group(:diary_id)
+                                   .having('COUNT(diary_id) = ?', @target_child_ids.size)
+                                   .pluck(:diary_id)
       # 絞り込まれたIDで日記をフィルタリング
       @diaries = @diaries.where(id: target_diary_ids)
       @selected_children = current_user.family.children.where(id: @target_child_ids)
@@ -87,9 +87,9 @@ class DiariesController < ApplicationController
     end
 
     # 4. 何も選択されていない時に日記を表示しない
-    if @target_child_ids.blank? && @target_emoji_id.blank?
-      @diaries = []
-    end
+    return unless @target_child_ids.blank? && @target_emoji_id.blank?
+
+    @diaries = []
   end
 
   def refresh_emoji
@@ -106,10 +106,10 @@ class DiariesController < ApplicationController
 
   def process_child_ids
     # 文字列を数値の配列に変換してセットする
-    if params[:diary][:child_ids].is_a?(String)
-      params[:diary][:child_ids] = params[:diary][:child_ids].split(',')
-      @diary.child_ids = params[:diary][:child_ids]
-    end
+    return unless params[:diary][:child_ids].is_a?(String)
+
+    params[:diary][:child_ids] = params[:diary][:child_ids].split(',')
+    @diary.child_ids = params[:diary][:child_ids]
   end
 
   def set_diary
@@ -120,9 +120,9 @@ class DiariesController < ApplicationController
   end
 
   def check_family
-    if current_user.family_id.blank?
-      # 家族に所属していない場合はトップページにリダイレクト
-      redirect_to root_path, alert: '家族への登録が必要です。'
-    end
+    return unless current_user.family_id.blank?
+
+    # 家族に所属していない場合はトップページにリダイレクト
+    redirect_to root_path, alert: '家族への登録が必要です。'
   end
 end

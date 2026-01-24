@@ -16,7 +16,7 @@ all_valid_chars.uniq!
 # 3. 新しい絵文字を登録、または既存のもののカテゴリを更新
 all_valid_chars.each do |char|
   category = emoji_categories.find { |_name, str| str.include?(char) }&.first.to_s
-  
+
   emoji = Emoji.find_or_initialize_by(character: char)
   emoji.category = category
   emoji.save!

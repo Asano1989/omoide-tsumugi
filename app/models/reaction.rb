@@ -14,8 +14,8 @@ class Reaction < ApplicationRecord
   def validate_reactions_count_limit
     # 自分がこの日記に既に付けているリアクションの数をカウント
     existing_count = user.reactions.where(diary_id: diary_id).count
-    if existing_count >= 5
-      errors.add(:base, "1つの日記に付けられるリアクションは5つまでです")
-    end
+    return unless existing_count >= 5
+
+    errors.add(:base, "1つの日記に付けられるリアクションは5つまでです")
   end
 end

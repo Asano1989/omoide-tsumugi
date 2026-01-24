@@ -38,8 +38,7 @@ class AuthController < ApplicationController
     end
   end
 
-  def login
-  end
+  def login; end
 
   def create_login
     email = params[:session][:email]
@@ -77,10 +76,10 @@ class AuthController < ApplicationController
   def destroy
     # Railsのセッションを空にする
     reset_session
-    
+
     # クッキーの削除
     cookies.delete(:rails_access_token, path: '/')
-    
+
     @current_user = nil
     redirect_to root_path, notice: "ログアウトしました。", status: :see_other
   end
@@ -107,24 +106,24 @@ class AuthController < ApplicationController
   # Supabase Auth API を叩くメソッド
   def signup_to_supabase(email, password)
     url = URI("#{ENV['SUPABASE_URL']}/auth/v1/signup")
-    
+
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
-    
+
     request = Net::HTTP::Post.new(url)
     request["apikey"] = ENV['SUPABASE_SERVICE_ROLE_KEY']
     request["Authorization"] = "Bearer #{ENV['SUPABASE_SERVICE_ROLE_KEY']}"
     request["Content-Type"] = "application/json"
-    
+
     # ユーザー作成のためのBody
     request.body = { email: email, password: password }.to_json
-    
+
     response = http.request(request)
     body = JSON.parse(response.body).with_indifferent_access
-    
-    if response.code == "200" || response.code == "201"
+
+    if ['200', '201'].include?(response.code)
       uid = body[:user] ? body[:user][:id] : body[:id]
-      
+
       if uid.present?
         { success: true, uid: uid }
       else
@@ -142,18 +141,18 @@ class AuthController < ApplicationController
   # Supabaseのログインエンドポイントを叩く
   def authenticate_with_supabase(email, password)
     url = URI("#{ENV['SUPABASE_URL']}/auth/v1/token?grant_type=password")
-    
+
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
-    
+
     request = Net::HTTP::Post.new(url)
     request["apikey"] = ENV['SUPABASE_SERVICE_ROLE_KEY']
     request["Content-Type"] = "application/json"
     request.body = { email: email, password: password }.to_json
-    
+
     response = http.request(request)
     body = JSON.parse(response.body)
-    
+
     if response.code == "200"
       {
         success: true,
@@ -163,7 +162,7 @@ class AuthController < ApplicationController
     else
       { success: false }
     end
-  rescue => e
+  rescue StandardError => e
     logger.error "エラー: #{e.message}"
     { success: false }
   end

@@ -9,37 +9,33 @@ module Api
 
       # POST /api/v1/users/register_on_rails
       def register_on_rails
-        # supabase_uid で既存ユーザーを探す、なければ新しく作る
-        @user = User.find_or_initialize_by(supabase_uid: user_params[:supabase_uid])
-        
+        set_user_supabase_uid
         is_new_record = @user.new_record?
-  
-        @user.email = user_params[:email] if user_params[:email].present?
-        @user.name = user_params[:name] if user_params[:name].present?
-        @user.birthday = user_params[:birthday] if user_params[:birthday].present?
-        @user.avatar.attach(user_params[:avatar]) if user_params[:avatar].present?
-
+        set_user
         if @user.save
           # 新規か既存かでメッセージを切り替える
           msg = is_new_record ? 'ユーザー登録が完了しました。' : 'ログインしました。'
-          
           render json: { status: 'success', message: msg, user: @user }, status: :ok
         else
           render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
         end
-
-      rescue => e
-        logger.error "Registration Error: #{e.message}"
-        render json: { error: "Internal Server Error" }, status: :internal_server_error
-      end
-
-      
       rescue ActionController::ParameterMissing => e
         render json: { error: e.message }, status: :bad_request
-      rescue => e
-        # 予期せぬエラーのキャッチ
+      rescue StandardError => e
         render json: { error: "Internal Server Error: #{e.message}" }, status: :internal_server_error
+      end
+    end
 
+    def set_user_supabase_uid
+      # supabase_uid で既存ユーザーを探す、なければ新しく作る
+      @user = User.find_or_initialize_by(supabase_uid: user_params[:supabase_uid])
+    end
+
+    def set_user
+      @user.email = user_params[:email] if user_params[:email].present?
+      @user.name = user_params[:name] if user_params[:name].present?
+      @user.birthday = user_params[:birthday] if user_params[:birthday].present?
+      @user.avatar.attach(user_params[:avatar]) if user_params[:avatar].present?
     end
   end
 end

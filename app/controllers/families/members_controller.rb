@@ -8,30 +8,30 @@ module Families
       @members = @family.users
     end
 
-    def new
-    end
+    def new; end
 
     def create
       # 1. 入力されたメールアドレスからユーザーを探す
       @user = User.find_by(email: params[:email])
 
-      if @user.nil?
-        redirect_to family_path(@family), alert: "指定されたメールアドレスのユーザーが見つかりません。"
-      elsif @user.family_id.present?
-        redirect_to family_path(@family), alert: "そのユーザーは既に他の家族に所属しています。"
+      # 2. ユーザーが存在しない場合
+      return redirect_to edit_family_path(@family), alert: "指定されたメールアドレスのユーザーが見つかりません。" if @user.nil?
+
+      # 3. 既に家族に所属している場合
+      return redirect_to edit_family_path(@family), alert: "そのユーザーは既に他の家族に所属しています。" if @user.family_id.present?
+
+      # 3. ユーザーのfamily_idを更新して所属させる
+      if @user.update(family_id: @family.id)
+        redirect_to edit_family_path(@family), notice: "#{@user.name} さんをメンバーに追加しました。", status: :see_other
       else
-        # 2. ユーザーのfamily_idを更新して所属させる
-        if @user.update(family_id: @family.id)
-          redirect_to family_path(@family), notice: "#{@user.name} さんをメンバーに追加しました。", status: :see_other
-        else
-          redirect_to family_path(@family), alert: "メンバーの追加に失敗しました。"
-        end
+        redirect_to edit_family_path(@family), alert: "メンバーの追加に失敗しました。"
       end
     end
 
     def destroy
+      # TODO：作成した家族からは脱退できないようにする
       if @user.update(family_id: nil)
-        redirect_path = (@user == current_user) ? root_path : family_members_path(@family)
+        redirect_path = @user == current_user ? root_path : family_members_path(@family)
         redirect_to redirect_path, notice: "#{@user.name} さんを家族から削除（脱退）しました。", status: :see_other
       else
         redirect_to family_members_path(@family), alert: "メンバーの削除（脱退）に失敗しました。"
@@ -57,13 +57,12 @@ module Families
       end
 
       # 2. オーナー脱退時の制約チェック
-      if @user.id == @family.owner_id
-        # オーナー以外のメンバーが1人でも存在するか確認
-        if @family.users.count > 1
-          return redirect_to family_members_path(@family),
-                            alert: "他にメンバーがいる状態では、オーナーは脱退できません。"
-        end
-      end
+      return unless @user.id == @family.owner_id
+
+      # オーナー以外のメンバーが1人でも存在するか確認
+      return unless @family.users.count > 1
+
+      redirect_to family_members_path(@family), alert: "他にメンバーがいる状態では、オーナーは脱退できません。"
     end
   end
 end

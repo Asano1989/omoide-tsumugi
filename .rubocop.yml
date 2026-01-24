@@ -1,0 +1,11 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Exclude:
+    - 'bin/*'
+    - 'lib/*'
+    - 'node_modules/**/*'
+    - 'db/**/*'
+    - 'test/**/**'
+  Rails:
+    enabled: true

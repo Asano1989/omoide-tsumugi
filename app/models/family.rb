@@ -4,5 +4,5 @@ class Family < ApplicationRecord
   has_many :children, dependent: :destroy
   has_many :diaries, through: :users
 
-  validates :name,    length: { in: 1..50 }
+  validates :name, length: { in: 1..50 }
 end

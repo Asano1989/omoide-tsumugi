@@ -37,14 +37,14 @@ class User < ApplicationRecord
   private
 
   def password_match
-    if password != password_confirmation
-      errors.add(:password_confirmation, "がパスワードと一致しません")
-    end
+    return unless password != password_confirmation
+
+    errors.add(:password_confirmation, "がパスワードと一致しません")
   end
 
   def must_not_belong_to_multiple_families
-    if family_id.present?
-      errors.add(:family, "は既に登録済みです。他の家族に参加することはできません。")
-    end
+    return unless family_id.present?
+
+    errors.add(:family, "は既に登録済みです。他の家族に参加することはできません。")
   end
 end

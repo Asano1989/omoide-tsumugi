@@ -5,9 +5,7 @@ module Families
     before_action :authorize_owner, only: [:edit, :update, :destroy]
 
     def new
-      unless current_user.can_create_family?
-        return redirect_to root_path, alert: "すでに家族に所属しているため、新しく作成することはできません。"
-      end
+      redirect_to root_path, alert: "すでに家族に所属しているため、新しく作成することはできません。" unless current_user.can_create_family?
 
       @family = Family.new
     end
@@ -25,10 +23,10 @@ module Families
     end
 
     def show
-      if current_user.family.present?
-        @family = current_user.family
-        @members = @family.users
-      end
+      return unless current_user.family.present?
+
+      @family = current_user.family
+      @members = @family.users
     end
 
     def edit
@@ -46,14 +44,10 @@ module Families
 
     def destroy
       # 条件1：家族のメンバーが自分（管理者）以外にいないこと
-      if @family.users.count > 1
-        return redirect_to family_path(@family), alert: '自分以外のメンバーがいる場合は家族を削除できません。'
-      end
+      return redirect_to family_path(@family), alert: '自分以外のメンバーがいる場合は家族を削除できません。' if @family.users.count > 1
 
       # 条件2：子どもの情報が一つも存在していないこと
-      if @family.children.count > 0
-        return redirect_to family_path(@family), alert: '子どもの情報がある場合は家族を削除できません。'
-      end
+      return redirect_to family_path(@family), alert: '子どもの情報がある場合は家族を削除できません。' if @family.children.count.positive?
 
       ActiveRecord::Base.transaction do
         # 1. ユーザーの family_id を空にする
@@ -63,7 +57,7 @@ module Families
       end
 
       redirect_to root_path, notice: '家族を削除しました。', status: :see_other
-    rescue => e
+    rescue StandardError
       redirect_to family_path(@family), alert: '家族の削除に失敗しました。'
     end
 

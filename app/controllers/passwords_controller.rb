@@ -16,8 +16,7 @@ class PasswordsController < ApplicationController
   end
 
   # パスワード変更画面
-  def edit
-  end
+  def edit; end
 
   # パスワード更新実行
   def update
@@ -54,52 +53,52 @@ class PasswordsController < ApplicationController
     # Supabaseのパスワードリカバリ用エンドポイント
     redirect_url = CGI.escape(edit_password_url)
     url = URI("#{ENV['SUPABASE_URL']}/auth/v1/recover?redirect_to=#{redirect_url}")
-    
+
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
-    
+
     request = Net::HTTP::Post.new(url)
     request["apikey"] = ENV['SUPABASE_SERVICE_ROLE_KEY']
     request["Authorization"] = "Bearer #{ENV['SUPABASE_SERVICE_ROLE_KEY']}"
     request["Content-Type"] = "application/json"
-    
+
     request.body = { email: email }.to_json
 
     response = http.request(request)
     body = JSON.parse(response.body).with_indifferent_access
 
-    if response.code == "200" || response.code == "201"
+    if ['200', '201'].include?(response.code)
       { success: true }
     else
       { success: false, error: body[:msg] || body[:error_description] || "メール送信に失敗しました" }
     end
-  rescue => e
+  rescue StandardError => e
     logger.error "Supabase Recover Error: #{e.message}"
     { success: false, error: "通信エラーが発生しました" }
   end
 
   def update_supabase_password(token, new_password)
     url = URI("#{ENV['SUPABASE_URL']}/auth/v1/user")
-    
+
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
-    
+
     request = Net::HTTP::Put.new(url) # 更新なのでPUTメソッド
     request["apikey"] = ENV['SUPABASE_SERVICE_ROLE_KEY']
     request["Authorization"] = "Bearer #{token}" # ユーザーのトークンを渡す
     request["Content-Type"] = "application/json"
-    
+
     request.body = { password: new_password }.to_json
-    
+
     response = http.request(request)
     body = JSON.parse(response.body).with_indifferent_access
-    
+
     if response.code == "200"
       { success: true }
     else
       { success: false, error: body[:msg] || "パスワードの更新に失敗しました" }
     end
-  rescue => e
+  rescue StandardError => e
     logger.error "Password Update Error: #{e.message}"
     { success: false, error: "通信エラーが発生しました" }
   end

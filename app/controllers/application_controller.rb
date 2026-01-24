@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     # ログインしていない場合はログイン画面へ飛ばす
-    unless logged_in?
-      redirect_to login_path, alert: "ログインが必要です。"
-    end
+    return if logged_in?
+
+    redirect_to login_path, alert: "ログインが必要です。"
   end
 end
