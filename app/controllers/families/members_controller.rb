@@ -35,7 +35,7 @@ module Families
       # 管理者ユーザー以外の脱退処理
       if @user.update(family_id: nil)
         redirect_path = @user == current_user ? root_path : family_members_path(@family)
-        redirect_to family_members_path(@family), notice: "#{@user.name} さんが家族から削除（脱退）されました。", status: :see_other
+        redirect_to redirect_path, notice: "#{@user.name} さんが家族から削除（脱退）されました。", status: :see_other
       else
         redirect_to family_members_path(@family), alert: "家族メンバーの削除（脱退）に失敗しました。"
       end
