@@ -28,7 +28,7 @@ class DiariesController < ApplicationController
     if @diary.save
       redirect_to diaries_path, notice: '日記を投稿しました。', status: :see_other
     else
-      @children = Child.where(family_id: current_user.family_id)
+      @children = current_user.family.children
       @emojis = Emoji.all
       flash.now[:alert] = '日記の投稿に失敗しました。'
       render :new, status: :unprocessable_entity
