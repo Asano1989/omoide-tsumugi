@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_26_020803) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_26_020001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,7 +58,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_26_020803) do
     t.bigint "emoji_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "family_id", null: false
     t.index ["emoji_id"], name: "index_diaries_on_emoji_id"
+    t.index ["family_id"], name: "index_diaries_on_family_id"
     t.index ["user_id"], name: "index_diaries_on_user_id"
   end
 
@@ -115,6 +117,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_26_020803) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "children", "families"
   add_foreign_key "diaries", "emojis"
+  add_foreign_key "diaries", "families"
   add_foreign_key "diaries", "users"
   add_foreign_key "diary_children", "children"
   add_foreign_key "diary_children", "diaries"
