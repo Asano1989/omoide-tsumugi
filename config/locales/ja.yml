@@ -98,7 +98,7 @@ ja:
         submit: 保存する
         update: 更新する
         destroy: 削除する
-        edit: 編集する
+        edit: 編集
       user:
         create: 登録する
         submit: ログイン

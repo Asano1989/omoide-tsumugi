@@ -62,7 +62,7 @@
     </div>
 
     <!-- Bottom section: User info moved to footer -->
-    <div class="min-w-full bg-lime-200/90 px-6 py-4 border-t-1 border-lime-500 flex items-center">
+    <div class="min-w-full bg-lime-200/90 px-4 py-4 border-t-1 border-lime-500 flex items-center">
       <div class="min-w-full flex items-center gap-3">
         <div class="size-12 rounded-full bg-gray-200 overflow-hidden ring-2 ring-lime-600">
           <%= image_tag @diary.user.display_avatar, class: "w-full h-full object-cover" %>
@@ -73,7 +73,7 @@
         </div>
         <% if @diary.user == current_user %>
         <div class="flex-auto text-right">
-          <%= button_to t('helpers.submit.diary.edit'), edit_diary_path(diary_id: @diary.id), method: :get, data: { turbo: false }, class: "bg-amber-400 hover:bg-amber-500 text-amber-800 font-bold py-2 px-6 rounded-full shadow-md transition duration-300 ease-in-out" %>
+          <%= button_to t('helpers.submit.diary.edit'), edit_diary_path(diary_id: @diary.id), method: :get, data: { turbo: false }, class: "bg-amber-400 hover:bg-amber-500 text-amber-800 font-bold text-sm py-2 px-3 rounded-full shadow-sm transition duration-300 ease-in-out" %>
         </div>
         <% end %>
       </div>
