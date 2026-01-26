@@ -2,7 +2,9 @@ class User < ApplicationRecord
   belongs_to :family, optional: true
   has_one :owned_family, class_name: 'Family', foreign_key: 'owner_id'
   has_one_attached :avatar
-  has_many :diaries, dependent: :nullify
+  has_many :diaries
+  # TODO: 将来的にユーザー情報削除機能を実装した場合に、以下の記述に変更する
+  # has_many :diaries, dependent: :nullify
   has_many :reactions
 
   attr_accessor :password, :password_confirmation

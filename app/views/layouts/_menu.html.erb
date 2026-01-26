@@ -14,7 +14,7 @@
   </div>
 
   <div id="search" class="flex flex-col items-center justify-center">
-    <%= link_to root_path, data: { turbo: false }, class: "flex flex-col items-center gap-1 group" do %>
+    <%= link_to diaries_path, data: { turbo: false }, class: "flex flex-col items-center gap-1 group" do %>
       <span class="icon-[lucide--search] text-2xl text-amber-500 transition-transform group-active:scale-95"></span>
       <span class="text-[10px] font-bold text-amber-800">検索</span>
     <% end %>
