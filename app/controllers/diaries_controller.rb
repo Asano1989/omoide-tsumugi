@@ -1,7 +1,7 @@
 class DiariesController < ApplicationController
   before_action :authenticate_user!
+  before_action :check_family
   before_action :set_diary, only: [:edit, :update, :destroy]
-  before_action :check_family, only: [:index, :show, :new, :create, :edit, :update, :destroy]
 
   DIARY_COUNT = 5
 
@@ -11,7 +11,7 @@ class DiariesController < ApplicationController
 
   def show
     @diary = current_user.family.diaries.find(params[:id])
-rescue ActiveRecord::RecordNotFound
+  rescue ActiveRecord::RecordNotFound
     redirect_to diaries_path, alert: '指定された日記が見つからないか、閲覧権限がありません。'
   end
 
