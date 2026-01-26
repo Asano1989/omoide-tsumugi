@@ -1,5 +1,5 @@
 class Diary < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
   belongs_to :emoji
 
   has_many :diary_children, dependent: :destroy
