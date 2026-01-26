@@ -2,7 +2,7 @@ class User < ApplicationRecord
   belongs_to :family, optional: true
   has_one :owned_family, class_name: 'Family', foreign_key: 'owner_id'
   has_one_attached :avatar
-  has_many :diaries, dependent: :destroy
+  has_many :diaries, dependent: :nullify
   has_many :reactions
 
   attr_accessor :password, :password_confirmation

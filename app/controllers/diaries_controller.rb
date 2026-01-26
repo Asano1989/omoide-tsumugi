@@ -10,23 +10,25 @@ class DiariesController < ApplicationController
   end
 
   def show
-    @diary = Diary.find(params[:id])
+    @diary = current_user.family.diaries.find(params[:id])
+rescue ActiveRecord::RecordNotFound
+    redirect_to diaries_path, alert: '指定された日記が見つからないか、閲覧権限がありません。'
   end
 
   def new
     @diary = Diary.new
-    @children = Child.where(family_id: current_user.family_id)
+    @children = current_user.family.children
     @emojis = Emoji.all
   end
 
   def create
-    @diary = Diary.new(diary_params)
+    @diary = current_user.diaries.build(diary_params.merge(family_id: current_user.family_id))
     process_child_ids
-    @diary.user_id = current_user.id
+
     if @diary.save
       redirect_to diaries_path, notice: '日記を投稿しました。', status: :see_other
     else
-      @children = Child.where(family_id: current_user.family_id)
+      @children = current_user.family.children
       @emojis = Emoji.all
       flash.now[:alert] = '日記の投稿に失敗しました。'
       render :new, status: :unprocessable_entity
@@ -34,7 +36,7 @@ class DiariesController < ApplicationController
   end
 
   def edit
-    @children = Child.where(family_id: current_user.family_id)
+    @children = current_user.family.children
     @emojis = Emoji.all
     @emoji = @diary.emoji
   end
@@ -44,7 +46,7 @@ class DiariesController < ApplicationController
     if @diary.update(diary_params)
       redirect_to diary_path(@diary.id), notice: '日記を更新しました。', status: :see_other
     else
-      @children = Child.where(family_id: current_user.family_id)
+      @children = current_user.family.children
       @emojis = Emoji.all
       render :edit, status: :unprocessable_entity
     end
@@ -62,7 +64,7 @@ class DiariesController < ApplicationController
   end
 
   def filter
-    # 1. ベースのクエリ（N+1対策含む）
+    # 1. ベースのクエリ
     @diaries = current_user.family.diaries.includes(:children, :emoji).order(date: :desc).page(params[:page]).per(DIARY_COUNT)
 
     # パラメータの整理
@@ -80,7 +82,7 @@ class DiariesController < ApplicationController
       @selected_children = current_user.family.children.where(id: @target_child_ids)
     end
 
-    # 3. 絵文字での絞り込み (if を独立させて子供の絞り込み結果に対してさらに絞り込む)
+    # 3. 絵文字での絞り込み
     if @target_emoji_id.present?
       @diaries = @diaries.where(emoji_id: @target_emoji_id)
       @selected_emoji = Emoji.find_by(id: @target_emoji_id)
@@ -113,8 +115,8 @@ class DiariesController < ApplicationController
   end
 
   def set_diary
-    # 他人の日記を編集できないよう、current_userから辿る
-    @diary = current_user.diaries.find(params[:id])
+    # current_userから辿り、現在の家族かつ自分が書いた日記のみ編集・削除可能とする
+    @diary = current_user.family.diaries.where(user_id: current_user.id).find(params[:id])
   rescue ActiveRecord::RecordNotFound
     redirect_to diaries_path, alert: '指定された日記が見つからないか、編集権限がありません。'
   end
