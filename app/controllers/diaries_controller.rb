@@ -10,19 +10,21 @@ class DiariesController < ApplicationController
   end
 
   def show
-    @diary = Diary.find(params[:id])
+    @diary = current_user.family.diaries.find(params[:id])
+rescue ActiveRecord::RecordNotFound
+    redirect_to diaries_path, alert: '指定された日記が見つからないか、閲覧権限がありません。'
   end
 
   def new
     @diary = Diary.new
-    @children = Child.where(family_id: current_user.family_id)
+    @children = current_user.family.children
     @emojis = Emoji.all
   end
 
   def create
-    @diary = Diary.new(diary_params)
+    @diary = current_user.diaries.build(diary_params.merge(family_id: current_user.family_id))
     process_child_ids
-    @diary.user_id = current_user.id
+
     if @diary.save
       redirect_to diaries_path, notice: '日記を投稿しました。', status: :see_other
     else
@@ -34,7 +36,7 @@ class DiariesController < ApplicationController
   end
 
   def edit
-    @children = Child.where(family_id: current_user.family_id)
+    @children = current_user.family.children
     @emojis = Emoji.all
     @emoji = @diary.emoji
   end
@@ -113,8 +115,8 @@ class DiariesController < ApplicationController
   end
 
   def set_diary
-    # 他人の日記を編集できないよう、current_userから辿る
-    @diary = current_user.diaries.find(params[:id])
+    # current_userから辿り、現在の家族かつ自分が書いた日記のみ編集・削除可能とする
+    @diary = current_user.family.diaries.where(user_id: current_user.id).find(params[:id])
   rescue ActiveRecord::RecordNotFound
     redirect_to diaries_path, alert: '指定された日記が見つからないか、編集権限がありません。'
   end
