@@ -46,7 +46,7 @@ rescue ActiveRecord::RecordNotFound
     if @diary.update(diary_params)
       redirect_to diary_path(@diary.id), notice: '日記を更新しました。', status: :see_other
     else
-      @children = Child.where(family_id: current_user.family_id)
+      @children = current_user.family.children
       @emojis = Emoji.all
       render :edit, status: :unprocessable_entity
     end
@@ -64,7 +64,7 @@ rescue ActiveRecord::RecordNotFound
   end
 
   def filter
-    # 1. ベースのクエリ（N+1対策含む）
+    # 1. ベースのクエリ
     @diaries = current_user.family.diaries.includes(:children, :emoji).order(date: :desc).page(params[:page]).per(DIARY_COUNT)
 
     # パラメータの整理
@@ -82,7 +82,7 @@ rescue ActiveRecord::RecordNotFound
       @selected_children = current_user.family.children.where(id: @target_child_ids)
     end
 
-    # 3. 絵文字での絞り込み (if を独立させて子供の絞り込み結果に対してさらに絞り込む)
+    # 3. 絵文字での絞り込み
     if @target_emoji_id.present?
       @diaries = @diaries.where(emoji_id: @target_emoji_id)
       @selected_emoji = Emoji.find_by(id: @target_emoji_id)
