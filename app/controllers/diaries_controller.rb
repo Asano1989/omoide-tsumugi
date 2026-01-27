@@ -108,7 +108,7 @@ rescue ActiveRecord::RecordNotFound
 
   def process_child_ids
     # 文字列を数値の配列に変換してセットする
-    return unless params[:diary][:child_ids].is_a?(String)
+    return unless params[:diary][:child_ids].present? && params[:diary][:child_ids].is_a?(String)
 
     params[:diary][:child_ids] = params[:diary][:child_ids].split(',')
     @diary.child_ids = params[:diary][:child_ids]
