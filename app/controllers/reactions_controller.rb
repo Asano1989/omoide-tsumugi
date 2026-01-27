@@ -2,9 +2,8 @@ class ReactionsController < ApplicationController
   def create
     @diary = Diary.find(params[:diary_id])
 
-    # 1. 家族チェック（日記の家族IDと、自分の家族IDが一致するか）
-    # 2. 自分自身ではないチェック（日記の投稿者と自分が一致しないか）
-    if @diary.user.family_id == current_user.family_id && @diary.user_id != current_user.id
+    # 日記の家族IDと自分の家族IDが一致する、かつ日記の投稿者と自分が一致しないかどうか
+    if @diary.family_id == current_user.family_id && @diary.user_id != current_user.id
       @reaction = @diary.reactions.new(
         user: current_user,
         emoji_id: params[:emoji_id]
