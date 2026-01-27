@@ -2,6 +2,7 @@ class DiariesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_diary, only: [:edit, :update, :destroy]
   before_action :check_family, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  before_action :process_child_ids, only: [:create, :update]
 
   DIARY_COUNT = 5
 
@@ -23,7 +24,6 @@ rescue ActiveRecord::RecordNotFound
 
   def create
     @diary = current_user.diaries.build(diary_params.merge(family_id: current_user.family_id))
-    process_child_ids
 
     if @diary.save
       redirect_to diaries_path, notice: '日記を投稿しました。', status: :see_other
@@ -42,7 +42,6 @@ rescue ActiveRecord::RecordNotFound
   end
 
   def update
-    process_child_ids
     if @diary.update(diary_params)
       redirect_to diary_path(@diary.id), notice: '日記を更新しました。', status: :see_other
     else
@@ -107,11 +106,9 @@ rescue ActiveRecord::RecordNotFound
   end
 
   def process_child_ids
+    return unless params[:diary][:child_ids].present? && params[:diary][:child_ids].is_a?(String)
     # 文字列を数値の配列に変換してセットする
-    return unless params[:diary][:child_ids].is_a?(String)
-
     params[:diary][:child_ids] = params[:diary][:child_ids].split(',')
-    @diary.child_ids = params[:diary][:child_ids]
   end
 
   def set_diary

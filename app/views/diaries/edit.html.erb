@@ -35,7 +35,12 @@
             <%= f.label :child_ids, "どの子？", class: "font-semibold text-amber-800 text-lg" %>
           </div>
           <div class="relative">
-            <%= f.select :child_ids, Diary.child_combination_options(current_user.family), { include_blank: "選択してください", selected: f.object.child_ids }, { name: "diary[child_ids][]", class: "w-full p-3 border border-amber-400 rounded-lg bg-white text-lime-800 text-md shadow-sm appearance-none cursor-pointer" } %>
+            <%= f.select :child_ids, Diary.child_combination_options(current_user.family), 
+            {
+              include_blank: "選択してください",
+              # 現在紐付いている子どものIDを、昇順でソートしてカンマ区切りの文字列に変換
+              selected: @diary.child_ids.sort.join(',')
+            }, { name: "diary[child_ids]", class: "w-full p-3 border border-amber-400 rounded-lg bg-white text-lime-800 text-md shadow-sm appearance-none cursor-pointer" } %>
           </div>
         </div>
 
