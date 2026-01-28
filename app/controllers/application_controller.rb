@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   def check_family
     return unless current_user.family_id.blank?
 
-    # 家族に所属していない場合はトップページにリダイレクト
+    # 家族に所属していない場合は案内ページにリダイレクト
     redirect_to families_guide_path, alert: '家族への登録が必要です。'
   end
 
