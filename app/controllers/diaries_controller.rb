@@ -1,7 +1,8 @@
 class DiariesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_diary, only: [:edit, :update, :destroy]
-  before_action :check_family, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  before_action :check_family
+  before_action :children_presence?, only: [:new, :create, :edit, :update]
   before_action :process_child_ids, only: [:create, :update]
 
   DIARY_COUNT = 5
@@ -116,12 +117,5 @@ rescue ActiveRecord::RecordNotFound
     @diary = current_user.family.diaries.where(user_id: current_user.id).find(params[:id])
   rescue ActiveRecord::RecordNotFound
     redirect_to diaries_path, alert: '指定された日記が見つからないか、編集権限がありません。'
-  end
-
-  def check_family
-    return unless current_user.family_id.blank?
-
-    # 家族に所属していない場合はトップページにリダイレクト
-    redirect_to root_path, alert: '家族への登録が必要です。'
   end
 end

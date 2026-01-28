@@ -18,6 +18,8 @@ Rails.application.routes.draw do
 
   resource :mypage, only: [:show, :edit, :update]
 
+  get 'families/guide', to: 'families#guide'
+
   scope module: :families do
     resources :families do
       resources :members, only: [:index, :new, :create, :destroy]

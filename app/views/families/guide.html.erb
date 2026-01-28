@@ -1,0 +1,59 @@
+<div class="min-h-full bg-lime-100 flex flex-col items-center py-6 px-4 sm:px-6 lg:px-8">
+  <div class="w-full max-w-md space-y-6 text-center">
+    
+    <div class="space-y-4">
+      <h1 class="text-2xl font-extrabold text-lime-900 px-4">
+        家族（グループ）に登録しよう
+      </h1>
+      <p class="text-amber-800 text-md leading-relaxed px-6">
+        育児日記を家族で共有するために、<br><span class="bg-rose-100 font-bold">まずは家族グループの作成か参加が必要</span>です。
+      </p>
+    </div>
+
+    <div class="space-y-6">
+      <div class="bg-white rounded-3xl shadow-md p-6 border-2 border-amber-200 relative overflow-hidden group">
+        <div class="flex items-start text-left space-x-4">
+          <div class="flex-grow">
+            <h2 class="text-lg font-bold text-amber-900 mb-1">新しく家族を作成する</h2>
+            <p class="text-sm text-amber-700 leading-relaxed mb-4">
+              あなたが管理者となってグループを作ります。あとから子どもの情報や、家族のメンバーを追加できます。
+            </p>
+            <%= link_to new_family_path, class: "inline-flex items-center justify-center w-full py-3 bg-lime-500 hover:bg-lime-600 text-white font-bold rounded-full shadow-md transition-all active:scale-95" do %>
+              家族を作成する
+              <span class="icon-[mdi--arrow-right] ml-2"></span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl shadow-md p-6 border-2 border-amber-200 relative overflow-hidden group">
+        <div class="flex items-start text-left space-x-4">
+          <div class="flex-grow">
+            <h2 class="text-lg font-bold text-amber-900 mb-1">既存の家族に参加する</h2>
+            <p class="text-sm text-amber-700 leading-relaxed">
+              家族がすでにグループを作っている場合は、<span class="bg-rose-100">管理者ユーザーに「メールアドレス」を伝え、メンバーに追加してもらってください。</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl p-3 border border-lime-300">
+      <div class="flex items-center justify-center space-x-2 mb-1">
+        <span class="icon-[mdi--shield-account-outline] text-amber-600"></span>
+        <h3 class="text-sm font-bold text-amber-900">プライバシーについて</h3>
+      </div>
+      <p class="text-xs text-amber-800 leading-relaxed">
+        日記の内容は家族（グループ）内のメンバーにのみ公開されます。<br>
+        <span class="font-bold">外部に公開されることはありません</span>のでご安心ください。
+      </p>
+    </div>
+
+    <div class="pt-2 text-center">
+      <%= link_to root_path, class: "inline-flex items-center text-lime-900 font-bold hover:text-amber-700 transition-colors" do %>
+        <span class="icon-[mdi--home-outline] mr-1"></span> トップページへ
+      <% end %>
+    </div>
+
+  </div>
+</div>

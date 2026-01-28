@@ -1,6 +1,7 @@
 module Families
   class FamiliesController < ApplicationController
     before_action :authenticate_user!
+    before_action :check_family, only: [:show, :edit, :update, :destroy]
     before_action :set_family, only: [:edit, :update, :destroy]
     before_action :authorize_owner, only: [:edit, :update, :destroy]
 
