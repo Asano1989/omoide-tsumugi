@@ -17,4 +17,10 @@ class ApplicationController < ActionController::Base
 
     redirect_to login_path, alert: "ログインが必要です。"
   end
+
+  def children_presence?
+    # ユーザーが所属する家族に子供がいない場合
+    return unless current_user.family.children.empty?
+    redirect_to family_path(current_user.family), alert: "子どもの情報が登録されていないため、日記の操作はできません。"
+  end
 end

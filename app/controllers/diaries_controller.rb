@@ -1,7 +1,8 @@
 class DiariesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_diary, only: [:edit, :update, :destroy]
-  before_action :check_family, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  before_action :check_family
+  before_action :children_presence?, only: [:new, :create, :edit, :update]
   before_action :process_child_ids, only: [:create, :update]
 
   DIARY_COUNT = 5
