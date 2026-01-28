@@ -118,11 +118,4 @@ rescue ActiveRecord::RecordNotFound
   rescue ActiveRecord::RecordNotFound
     redirect_to diaries_path, alert: '指定された日記が見つからないか、編集権限がありません。'
   end
-
-  def check_family
-    return unless current_user.family_id.blank?
-
-    # 家族に所属していない場合はトップページにリダイレクト
-    redirect_to root_path, alert: '家族への登録が必要です。'
-  end
 end
