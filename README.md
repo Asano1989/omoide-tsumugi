@@ -137,4 +137,4 @@
 ## ER図
  - https://www.mermaidchart.com/app/projects/8ef929a7-6ce2-47cc-8b6d-dabfd595e0e1/diagrams/ecf9d67c-e800-4b28-aa41-99b6c51f2afa/share/invite/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkb2N1bWVudElEIjoiZWNmOWQ2N2MtZTgwMC00YjI4LWFhNDEtOTliNmM1MWYyYWZhIiwiYWNjZXNzIjoiVmlldyIsImlhdCI6MTc2Mzc5NzkxMn0.PmJv0CZFbV6UB6tsgOEIIEtweJsKH6pgy6HSPZCAHnU
 
-[![おもいでつむぎ - ER図](https://i.gyazo.com/2c1e38d569e1a47b55ead42b250a5a79.png)](https://gyazo.com/2c1e38d569e1a47b55ead42b250a5a79)
+[![おもいでつむぎ - ER図](https://i.gyazo.com/c710f36097e90d238512b7aeca273631.png)](https://gyazo.com/c710f36097e90d238512b7aeca273631)
