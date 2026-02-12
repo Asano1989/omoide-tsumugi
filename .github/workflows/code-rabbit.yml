@@ -46,3 +46,12 @@ jobs:
             - New Feature: コメント追加のUIにキャンセルボタンが追加された
             ````
             回答は箇条書き1項目につき、日本語50-100文字にまとめること。
+          reviews:
+            suggested_reviewers: false
+            in_progress_fortune: false
+            poem: false
+            auto_review:
+              auto_incremental_review: false
+              target_branches:
+                - main
+                - develop
