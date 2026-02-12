@@ -13,7 +13,7 @@ class DiariesController < ApplicationController
 
   def show
     @diary = current_user.family.diaries.find(params[:id])
-rescue ActiveRecord::RecordNotFound
+  rescue ActiveRecord::RecordNotFound
     redirect_to diaries_path, alert: '指定された日記が見つからないか、閲覧権限がありません。'
   end
 
@@ -108,6 +108,7 @@ rescue ActiveRecord::RecordNotFound
 
   def process_child_ids
     return unless params[:diary][:child_ids].present? && params[:diary][:child_ids].is_a?(String)
+
     # 文字列を数値の配列に変換してセットする
     params[:diary][:child_ids] = params[:diary][:child_ids].split(',')
   end
