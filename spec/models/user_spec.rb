@@ -194,6 +194,16 @@ RSpec.describe User, type: :model do
       end
 
       context 'E2. password_confirmationのバリデーションが無効：' do
+        it 'password_confirmationが未入力のため無効' do
+          user = build(:user, password_confirmation: "" )
+          user.valid?
+          expect(user.errors.full_messages).to include("パスワード（確認）がパスワードと一致しません")
+        end
+        it 'password_confirmationがnilのため無効' do
+          user = build(:user, password_confirmation: nil )
+          user.valid?
+          expect(user.errors.full_messages).to include("パスワード（確認）がパスワードと一致しません")
+        end
         it 'password_confirmationがpasswordと不一致のため無効' do
           user = build(:user, password_confirmation: "passwords" )
           user.valid?

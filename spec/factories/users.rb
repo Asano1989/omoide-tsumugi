@@ -142,5 +142,13 @@ FactoryBot.define do
     trait :contain_half_width_symbol_password do
       password { "pass123!?" }
     end
+
+    trait :no_password_confirmation do
+      password_confirmation { "" }
+    end
+
+    trait :nil_password_confirmation do
+      password_confirmation { nil }
+    end
   end
 end
