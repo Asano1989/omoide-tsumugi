@@ -137,6 +137,69 @@ RSpec.describe User, type: :model do
         end
 =end
       end
+
+      context 'D1. passwordのバリデーションが有効：' do
+        it 'passwordが6文字であるため有効' do
+          expect(build(:user, :six_character_password)).to be_valid
+        end
+        it 'passwordに半角記号が含まれているため有効' do
+          expect(build(:user, :contain_half_width_symbol_password)).to be_valid
+        end
+      end
+
+      context 'D2. passwordのバリデーションが無効：' do
+        it 'passwordが6文字未満であるため無効' do
+          user = build(:user, :too_short_password)
+          user.valid?
+          expect(user.errors.full_messages).to include("パスワードは6文字以上で入力してください")
+        end
+        it 'passwordが空白であるため無効' do
+          user = build(:user, :blank_character_password)
+          user.valid?
+          expect(user.errors.full_messages).to include("パスワードを入力してください")
+        end
+        it 'passwordがnilであるため無効' do
+          user = build(:user, :nil_password)
+          user.valid?
+          expect(user.errors.full_messages).to include("パスワードを入力してください")
+        end
+=begin
+        it 'passwordが空白文字を含むため無効' do
+          user = build(:user, :contain_blank_password)
+          p user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+        it 'passwordが全角文字のみ入力されているため無効' do
+          user = build(:user, :only_full_width_character_password)
+          p user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+        it 'passwordに全角文字が含まれているため無効' do
+          user = build(:user, :contain_full_width_character_password)
+          p user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+        it 'passwordが半角記号のみ入力されているため無効' do
+          user = build(:user, :only_half_width_symbol_password)
+          p user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+=end
+      end
+
+      context 'E1. password_confirmationのバリデーションが有効：' do
+        it 'password_confirmationがpasswordと一致しているため有効' do
+          expect(build(:user, password: 'pass123word', password_confirmation: 'pass123word')).to be_valid
+        end
+      end
+
+      context 'E2. password_confirmationのバリデーションが無効：' do
+        it 'password_confirmationがpasswordと不一致のため無効' do
+          user = build(:user, password_confirmation: "passwords" )
+          user.valid?
+          expect(user.errors.full_messages).to include("パスワード（確認）がパスワードと一致しません")
+        end
+      end
     end
   end
 end

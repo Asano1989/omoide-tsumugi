@@ -102,5 +102,45 @@ FactoryBot.define do
     trait :except_domain_from_email do
       email { "test@" }
     end
+
+    trait :too_short_password do
+      password { "passw" }
+    end
+
+    trait :blank_character_password do
+      password { "" }
+    end
+
+    trait :nil_password do
+      password { nil }
+    end
+
+    trait :nil_password do
+      password { nil }
+    end
+
+    trait :contain_blank_password do
+      password { "pas sword" }
+    end
+
+    trait :only_full_width_character_password do
+      password { "パスワードテスト" }
+    end
+
+    trait :contain_full_width_character_password do
+      password { "パスword" }
+    end
+
+    trait :only_half_width_symbol_password do
+      password { "!@#$%^&*()_+" }
+    end
+
+    trait :six_character_password do
+      password { "pass12" }
+    end
+
+    trait :contain_half_width_symbol_password do
+      password { "pass123!?" }
+    end
   end
 end
