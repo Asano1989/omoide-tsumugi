@@ -8,5 +8,6 @@ AllCops:
     - 'node_modules/**/*'
     - 'db/**/*'
     - 'test/**/**'
+    - 'spec/**/*'
   Rails:
     enabled: true
