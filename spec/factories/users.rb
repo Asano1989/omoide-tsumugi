@@ -150,5 +150,18 @@ FactoryBot.define do
     trait :nil_password_confirmation do
       password_confirmation { nil }
     end
+
+    trait :future_birthday do
+      date = Date.today
+      birthday { date+1 }
+    end
+
+    trait :no_supabase_uid do
+      supabase_uid { "" }
+    end
+
+    trait :nil_supabase_uid do
+      supabase_uid { nil }
+    end
   end
 end

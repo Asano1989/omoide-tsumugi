@@ -195,12 +195,12 @@ RSpec.describe User, type: :model do
 
       context 'E2. password_confirmationのバリデーションが無効：' do
         it 'password_confirmationが未入力のため無効' do
-          user = build(:user, password_confirmation: "" )
+          user = build(:user, :no_password_confirmation)
           user.valid?
           expect(user.errors.full_messages).to include("パスワード（確認）がパスワードと一致しません")
         end
         it 'password_confirmationがnilのため無効' do
-          user = build(:user, password_confirmation: nil )
+          user = build(:user, :nil_password_confirmation)
           user.valid?
           expect(user.errors.full_messages).to include("パスワード（確認）がパスワードと一致しません")
         end
@@ -209,6 +209,37 @@ RSpec.describe User, type: :model do
           user.valid?
           expect(user.errors.full_messages).to include("パスワード（確認）がパスワードと一致しません")
         end
+      end
+
+      context 'F. birthdayのバリデーションが無効：' do
+=begin
+        it 'birthdayが未来の日付のため無効' do
+          user = build(:user, :future_birthday)
+          p user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+=end
+      end
+
+      context 'G1. supabase_uidのバリデーションが有効：' do
+        it 'supabase_uidが空白のため有効' do
+          expect(build(:user, :no_supabase_uid)).to be_valid
+        end
+        it 'supabase_uidがnilのため有効' do
+          expect(build(:user, :nil_supabase_uid)).to be_valid
+        end
+      end
+
+      context 'G2. supabase_uidのバリデーションが無効：' do
+=begin
+        it '既に存在するsupabase_uidのデータと被っているため無効' do
+          # uniqueness : true を付与すべきなのかどうかAIに相談
+          first_user = create(:user)
+          user = build(:user, supabase_uid: first_user.supabase_uid)
+          user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+=end
       end
     end
   end
