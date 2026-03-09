@@ -54,5 +54,53 @@ FactoryBot.define do
     trait :too_long_name do
       name { 'あ' * 51 }
     end
+
+    trait :no_email do
+      email { '' }
+    end
+
+    trait :nil_email do
+      email { nil }
+    end
+
+    trait :one_character_email do
+      email { 'a' }
+    end
+
+    trait :thousand_character_email do
+      email { 'a' * 500 + '@' + 'b' * 499 }
+    end
+
+    trait :contain_blank_email do
+      email { "test @example.com" }
+    end
+
+    trait :only_full_width_character_email do
+      email { 'メールアドレス' }
+    end
+
+    trait :contain_full_width_character_email do
+      email { "てすと@example.com" }
+    end
+
+    trait :except_atmark_from_email do
+      email { "testexample.com" }
+    end
+
+    trait :only_half_width_symbol_email do
+      email { "!@#$%^&*()_+" }
+    end
+
+    trait :contain_half_width_symbol_email do
+      email { "!#$%test@example^&*()+.com" }
+    end
+
+    trait :except_username_from_email do
+      email { "@example.com" }
+    end
+
+    trait :except_domain_from_email do
+      email { "test@" }
+    end
   end
 end

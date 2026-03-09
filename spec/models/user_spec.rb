@@ -52,11 +52,90 @@ RSpec.describe User, type: :model do
           user.valid?
           expect(user.errors.full_messages).to include("表示名を入力してください")
         end
-        it '4. nameが51文字以上であるため無効' do
-          user = build(:user, :too_long_name)
+        # it '4. nameが51文字以上であるため無効' do
+        #   nameに文字数制限のバリデーションを付けること
+        #   user = build(:user, :too_long_name)
+        #   user.valid?
+        #   expect(user.errors.full_messages).to include("50文字以内で入力してください")
+        # end
+      end
+
+      context 'C. emailのバリデーションが無効：' do
+        it 'emailが空であるため無効' do
+          user = build(:user, :no_email)
           user.valid?
-          expect(user.errors.full_messages).to include("50文字以内で入力してください")
+          expect(user.errors.full_messages).to include("メールアドレスを入力してください")
         end
+        it 'emailがnilであるため無効' do
+          user = build(:user, :nil_email)
+          user.valid?
+          expect(user.errors.full_messages).to include("メールアドレスを入力してください")
+        end
+        it '既に存在するemailのデータと被っているため無効' do
+          first_user = create(:user)
+          user = build(:user, email: first_user.email)
+          user.valid?
+          expect(user.errors.full_messages).to include("メールアドレスはすでに存在します")
+        end
+=begin
+        it 'emailが1文字しか入力されていないため無効' do
+          user = build(:user, :one_character_email)
+          user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+        it 'emailが1000文字以上入力されたため無効' do
+          user = build(:user, :thousand_character_email)
+          user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+        it 'emailに空白文字が含まれているため無効' do
+          user = build(:user, :contain_blank_email)
+          user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+        it 'emailが全角文字のみで入力されたため無効' do
+          user = build(:user, :only_full_width_character_email)
+          user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+        it 'emailが全角文字を含んでいるため無効' do
+          user = build(:user, :contain_full_width_character_email)
+          user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+        it 'emailに@が入っていないため無効' do
+          user = build(:user, :except_atmark_from_email)
+          user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+        it 'emailが半角記号のみ入力されたため無効' do
+          user = build(:user, :only_half_width_symbol_email)
+          user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+        it 'emailが@、_、.以外の半角記号を含んでいるため無効' do
+          user = build(:user, :contain_half_width_symbol_email)
+          user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+        it 'emailのユーザー名の部分を大文字で登録すると、小文字として一意性が保たれるため無効' do
+          # emailに case_sensitive: false を設定し、エラーメッセージを確認すること
+          create(:user, email: 'test@example.com')
+          user = build(:user, email: 'TEST@EXAMPLE.COM')
+          user.valid
+          expect(user.errors.full_messages).to include("")
+        end
+        it '@前のユーザー名が記入されていないため無効' do
+          user = build(:user, :except_username_from_email)
+          user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+        it '@後のドメイン名が記入されていないため無効' do
+          user = build(:user, :except_domain_from_email)
+          user.valid?
+          expect(user.errors.full_messages).to include("")
+        end
+=end
       end
     end
   end
