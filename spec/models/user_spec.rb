@@ -60,7 +60,14 @@ RSpec.describe User, type: :model do
         # end
       end
 
-      context 'C. emailのバリデーションが無効：' do
+      # context 'C1. emailのバリデーションが有効：' do
+      #   it 'emailが大文字で入力・保存されても、DB上では小文字で保存されている' do
+      #     user = create(:user, email: 'TEST@EXAMPLE.COM')
+      #     expect(user.reload.email).to eq 'test@example.com'
+      #   end
+      # end
+
+      context 'C2. emailのバリデーションが無効：' do
         it 'emailが空であるため無効' do
           user = build(:user, :no_email)
           user.valid?
@@ -240,6 +247,32 @@ RSpec.describe User, type: :model do
           expect(user.errors.full_messages).to include("")
         end
 =end
+      end
+    end
+
+    describe 'アソシエーション：' do
+      context 'A. 家族グループへの所属' do
+        let(:user) { create(:user) }
+        let(:family) { create(:family, owner_id: user.id) }
+        it 'Userのfamily_idに、存在するFamilyのIDを設定し、紐づけられたFamilyのオブジェクトが返ってくる' do
+          user.family_id = family.id
+          expect(user.family).to eq family
+        end
+        it 'Userのfamily_idがnilであっても有効となる' do
+          expect(build(:user, family_id: nil)).to be_valid
+        end
+      end
+
+      context 'B. 管理者ユーザーとしての家族グループの紐づけ' do
+        let!(:user) { create(:user) }
+        let!(:family) { create(:family, owner_id: user.id) }
+        it 'owned_familyでUserが管理者ユーザーとなっているFamilyのオブジェクトが返ってくる' do
+          expect(user.owned_family).to eq family
+        end
+        it 'いずれの家族グループの管理者ユーザーでない場合、owned_familyでnilが返ってくる' do
+          user = build(:user, owned_family: nil)
+          expect(user.owned_family).to eq nil
+        end
       end
     end
   end
