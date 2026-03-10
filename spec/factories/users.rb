@@ -115,10 +115,6 @@ FactoryBot.define do
       password { nil }
     end
 
-    trait :nil_password do
-      password { nil }
-    end
-
     trait :contain_blank_password do
       password { "pas sword" }
     end

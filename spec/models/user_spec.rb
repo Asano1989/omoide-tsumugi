@@ -204,12 +204,12 @@ RSpec.describe User, type: :model do
         it 'password_confirmationが未入力のため無効' do
           user = build(:user, :no_password_confirmation)
           user.valid?
-          expect(user.errors.full_messages).to include("パスワード（確認）がパスワードと一致しません")
+          expect(user.errors.details[:password_confirmation]).to include({:error => :blank})
         end
         it 'password_confirmationがnilのため無効' do
           user = build(:user, :nil_password_confirmation)
           user.valid?
-          expect(user.errors.full_messages).to include("パスワード（確認）がパスワードと一致しません")
+          expect(user.errors.details[:password_confirmation]).to include({:error => :blank})
         end
         it 'password_confirmationがpasswordと不一致のため無効' do
           user = build(:user, password_confirmation: "passwords" )
@@ -270,8 +270,8 @@ RSpec.describe User, type: :model do
           expect(user.owned_family).to eq family
         end
         it 'いずれの家族グループの管理者ユーザーでない場合、owned_familyでnilが返ってくる' do
-          user = build(:user, owned_family: nil)
-          expect(user.owned_family).to eq nil
+          user = create(:user)
+          expect(user.owned_family).to be_nil
         end
       end
     end
