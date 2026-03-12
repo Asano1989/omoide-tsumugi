@@ -11,7 +11,9 @@ class User < ApplicationRecord
 
   validates :email, presence: true,
                     uniqueness: { case_sensitive: false },
-                    format: { with: URI::MailTo::EMAIL_REGEXP }
+                    length: { maximum: 500 }
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/ix
+  validates :email, format: { with: VALID_EMAIL_REGEX, message: 'の形式が正しくありません' }
   validates :password, presence: true,
                        format: { with: /\A(?=.*[a-zA-Z0-9])[!-~]+\z/,
                                  message: 'は英数字のいずれかを必ず含む、英数字と半角記号のみにしてください' },
