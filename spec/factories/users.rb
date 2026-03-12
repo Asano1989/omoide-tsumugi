@@ -67,8 +67,8 @@ FactoryBot.define do
       email { 'a' }
     end
 
-    trait :thousand_character_email do
-      email { 'a' * 500 + '@' + 'b' * 499 }
+    trait :too_long_email do
+      email { 'a' * 200 + '@' + 'b' * 300 }
     end
 
     trait :contain_blank_email do
