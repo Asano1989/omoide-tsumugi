@@ -40,7 +40,7 @@ FactoryBot.define do
     end
 
     trait :only_full_width_symbol_name do
-      name { "！＠＃＄％＆（）＝＊＋ー「」？＞＜" }
+      name { "！＠＃＄％＆（）＝＊＋「」？＞＜" }
     end
 
     trait :mixed_half_width_and_full_width_character_name do
