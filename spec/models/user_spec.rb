@@ -52,20 +52,19 @@ RSpec.describe User, type: :model do
           user.valid?
           expect(user.errors.full_messages).to include("表示名を入力してください")
         end
-        # it '4. nameが51文字以上であるため無効' do
-        #   nameに文字数制限のバリデーションを付けること
-        #   user = build(:user, :too_long_name)
-        #   user.valid?
-        #   expect(user.errors.full_messages).to include("50文字以内で入力してください")
-        # end
+        it '4. nameが51文字以上であるため無効' do
+          user = build(:user, :too_long_name)
+          user.valid?
+          expect(user.errors.full_messages).to include("表示名は50文字以内で入力してください")
+        end
       end
 
-      # context 'C1. emailのバリデーションが有効：' do
-      #   it 'emailが大文字で入力・保存されても、DB上では小文字で保存されている' do
-      #     user = create(:user, email: 'TEST@EXAMPLE.COM')
-      #     expect(user.reload.email).to eq 'test@example.com'
-      #   end
-      # end
+      context 'C1. emailのバリデーションが有効：' do
+        it 'emailが大文字で入力・保存されても、DB上では小文字で保存されている' do
+          user = create(:user, email: 'TEST@EXAMPLE.COM')
+          expect(user.reload.email).to eq 'test@example.com'
+        end
+      end
 
       context 'C2. emailのバリデーションが無効：' do
         it 'emailが空であるため無効' do
@@ -125,13 +124,14 @@ RSpec.describe User, type: :model do
           user.valid?
           expect(user.errors.full_messages).to include("")
         end
+=end
         it 'emailのユーザー名の部分を大文字で登録すると、小文字として一意性が保たれるため無効' do
-          # emailに case_sensitive: false を設定し、エラーメッセージを確認すること
           create(:user, email: 'test@example.com')
           user = build(:user, email: 'TEST@EXAMPLE.COM')
-          user.valid
-          expect(user.errors.full_messages).to include("")
+          user.valid?
+          expect(user.errors.full_messages).to include("メールアドレスはすでに存在します")
         end
+=begin
         it '@前のユーザー名が記入されていないため無効' do
           user = build(:user, :except_username_from_email)
           user.valid?
