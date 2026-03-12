@@ -20,7 +20,8 @@ class User < ApplicationRecord
                        length: { minimum: 6 }, on: :create
   validates :password_confirmation, presence: true, on: :create
   validate :password_match, on: :create
-  validates :name, presence: true, length: { maximum: 50 }
+  VALID_NAME_REGEX = /[\p{alnum}\p{hiragana}\p{katakana}\p{han}]/
+  validates :name, presence: true, length: { maximum: 50 }, format: { with: VALID_NAME_REGEX, message: 'を記号やスペースのみで入力することはできません' }
   validate :birthday_cannot_be_in_the_future
   validates :supabase_uid, uniqueness: true, allow_nil: true
 
