@@ -12,7 +12,10 @@ class User < ApplicationRecord
   validates :email, presence: true,
                     uniqueness: { case_sensitive: false },
                     format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password, presence: true, length: { minimum: 6 }, on: :create
+  validates :password, presence: true,
+                       format: { with: /\A(?=.*[a-zA-Z0-9])[!-~]+\z/,
+                                 message: 'は英数字のいずれかを必ず含む、英数字と半角記号のみにしてください' },
+length: { minimum: 6 }, on: :create
   validates :password_confirmation, presence: true, on: :create
   validate :password_match, on: :create
   validates :name, presence: true, length: { maximum: 50 }
