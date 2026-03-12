@@ -7,14 +7,15 @@ class User < ApplicationRecord
 
   attr_accessor :password, :password_confirmation
 
-before_save { self.email = self.email.downcase }
+  before_save { self.email = self.email.downcase }
 
   validates :email, presence: true,
-uniqueness: { case_sensitive: false },
+                    uniqueness: { case_sensitive: false },
                     format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, presence: true, length: { minimum: 6 }, on: :create
   validates :password_confirmation, presence: true, on: :create
   validate :password_match, on: :create
+  validates :name, presence: true, length: { maximum: 50 }
   validates :supabase_uid, uniqueness: true, allow_nil: true
 
   def can_create_family?
