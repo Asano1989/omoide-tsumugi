@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   attr_accessor :password, :password_confirmation
 
-  before_save { self.email = self.email.downcase }
+  before_save { self.email = email.downcase }
 
   validates :email, presence: true,
                     uniqueness: { case_sensitive: false },
@@ -15,7 +15,7 @@ class User < ApplicationRecord
   validates :password, presence: true,
                        format: { with: /\A(?=.*[a-zA-Z0-9])[!-~]+\z/,
                                  message: 'は英数字のいずれかを必ず含む、英数字と半角記号のみにしてください' },
-length: { minimum: 6 }, on: :create
+                       length: { minimum: 6 }, on: :create
   validates :password_confirmation, presence: true, on: :create
   validate :password_match, on: :create
   validates :name, presence: true, length: { maximum: 50 }
