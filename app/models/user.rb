@@ -16,6 +16,7 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true, on: :create
   validate :password_match, on: :create
   validates :name, presence: true, length: { maximum: 50 }
+  validate :birthday_cannot_be_in_the_future
   validates :supabase_uid, uniqueness: true, allow_nil: true
 
   def can_create_family?
@@ -42,5 +43,11 @@ class User < ApplicationRecord
     return unless password != password_confirmation
 
     errors.add(:password_confirmation, "がパスワードと一致しません")
+  end
+
+  def birthday_cannot_be_in_the_future
+    return unless birthday > Date.today
+
+    errors.add(:birthday, "を未来の日付にすることはできません")
   end
 end
