@@ -7,7 +7,11 @@ class User < ApplicationRecord
 
   attr_accessor :password, :password_confirmation
 
-  validates :email, presence: true, uniqueness: true
+before_save { self.email = self.email.downcase }
+
+  validates :email, presence: true,
+uniqueness: { case_sensitive: false },
+                    format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, presence: true, length: { minimum: 6 }, on: :create
   validates :password_confirmation, presence: true, on: :create
   validate :password_match, on: :create
