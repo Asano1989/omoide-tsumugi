@@ -15,7 +15,7 @@ uniqueness: { case_sensitive: false },
   validates :password, presence: true, length: { minimum: 6 }, on: :create
   validates :password_confirmation, presence: true, on: :create
   validate :password_match, on: :create
-  validates :name, presence: true
+  validates :supabase_uid, uniqueness: true, allow_nil: true
 
   def can_create_family?
     family_id.nil? && owned_family.nil?
