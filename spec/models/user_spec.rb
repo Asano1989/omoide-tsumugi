@@ -237,7 +237,7 @@ RSpec.describe User, type: :model do
 
       context 'G2. supabase_uidのバリデーションが無効：' do
         it '1. 既に存在するsupabase_uidのデータと被っているため無効' do
-          first_user = create(:user)
+          first_user = create(:user, supabase_uid: 'supabase_uid')
           user = build(:user, supabase_uid: first_user.supabase_uid)
           user.valid?
           expect(user.errors.full_messages).to include("Supabase uidはすでに存在します")
