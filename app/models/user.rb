@@ -23,6 +23,7 @@ class User < ApplicationRecord
   VALID_NAME_REGEX = /[\p{alnum}\p{hiragana}\p{katakana}\p{han}]/
   validates :name, presence: true, length: { maximum: 50 }, format: { with: VALID_NAME_REGEX, message: 'を記号やスペースのみで入力することはできません' }
   validate :birthday_cannot_be_in_the_future
+  before_validation { self.supabase_uid = supabase_uid.presence }
   validates :supabase_uid, uniqueness: true, allow_nil: true
 
   def can_create_family?
@@ -52,6 +53,7 @@ class User < ApplicationRecord
   end
 
   def birthday_cannot_be_in_the_future
+    return if birthday.blank?
     return unless birthday > Date.today
 
     errors.add(:birthday, "を未来の日付にすることはできません")
