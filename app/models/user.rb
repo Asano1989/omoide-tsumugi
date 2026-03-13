@@ -63,7 +63,7 @@ class User < ApplicationRecord
   end
 
   def updating_password?
-    ActiveModel::Type::Boolean.new.cast(`@updating_password`)
+    ActiveModel::Type::Boolean.new.cast(@updating_password)
   end
 
   def birthday_cannot_be_in_the_future
