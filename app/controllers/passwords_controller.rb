@@ -40,9 +40,7 @@ class PasswordsController < ApplicationController
     @user.updating_password = true
 
     # User モデルのバリデーションを実行
-    unless @user.valid?
-      return render :edit, status: :unprocessable_entity
-    end
+    return render :edit, status: :unprocessable_entity unless @user.valid?
 
     response = update_supabase_password(access_token, new_password)
 

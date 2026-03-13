@@ -5,8 +5,7 @@ class User < ApplicationRecord
   has_many :diaries
   has_many :reactions
 
-  attr_accessor :password, :password_confirmation
-  attr_accessor :updating_password
+  attr_accessor :password, :password_confirmation, :updating_password
 
   before_save { self.email = email.downcase }
 
