@@ -16,7 +16,9 @@ class PasswordsController < ApplicationController
   end
 
   # パスワード変更画面
-  def edit; end
+  def edit
+    @user = User.new
+  end
 
   # パスワード更新実行
   def update
@@ -25,14 +27,20 @@ class PasswordsController < ApplicationController
     # 明示的に params から取る
     access_token = params[:access_token].presence || cookies[:rails_access_token]
 
-    # バリデーション
-    if new_password.blank? || new_password != password_confirmation
-      flash.now[:alert] = "パスワードが一致しないか、入力されていません"
+    if access_token.blank?
+      flash.now[:alert] = "トークンが見つかりません。メールのリンクからやり直してください"
       return render :edit, status: :unprocessable_entity
     end
 
-    if access_token.blank?
-      flash.now[:alert] = "トークンが見つかりません。メールのリンクからやり直してください"
+    # バリデーション用の User インスタンスを作成
+    @user = User.new(
+      password: new_password,
+      password_confirmation: password_confirmation
+    )
+    @user.updating_password = true
+
+    # User モデルのバリデーションを実行
+    unless @user.valid?
       return render :edit, status: :unprocessable_entity
     end
 
