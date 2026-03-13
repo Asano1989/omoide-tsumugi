@@ -40,7 +40,7 @@ FactoryBot.define do
     end
 
     trait :only_full_width_symbol_name do
-      name { "！＠＃＄％＆（）＝＊＋ー「」？＞＜" }
+      name { "！＠＃＄％＆（）＝＊＋「」？＞＜" }
     end
 
     trait :mixed_half_width_and_full_width_character_name do
@@ -67,8 +67,8 @@ FactoryBot.define do
       email { 'a' }
     end
 
-    trait :thousand_character_email do
-      email { 'a' * 500 + '@' + 'b' * 499 }
+    trait :too_long_email do
+      email { 'a' * 200 + '@' + 'b' * 300 }
     end
 
     trait :contain_blank_email do

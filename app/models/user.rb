@@ -3,20 +3,28 @@ class User < ApplicationRecord
   has_one :owned_family, class_name: 'Family', foreign_key: 'owner_id'
   has_one_attached :avatar
   has_many :diaries
-  # TODO: 将来的にユーザー情報削除機能を実装した場合に、以下の記述に変更する
-  # has_many :diaries, dependent: :nullify
   has_many :reactions
 
   attr_accessor :password, :password_confirmation
 
-  validates :email, presence: true, uniqueness: true
-  validates :password, presence: true, length: { minimum: 6 }, on: :create
+  before_save { self.email = email.downcase }
+
+  validates :email, presence: true,
+                    uniqueness: { case_sensitive: false },
+                    length: { maximum: 500 }
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/ix
+  validates :email, format: { with: VALID_EMAIL_REGEX, message: 'の形式が正しくありません' }
+  validates :password, presence: true,
+                       format: { with: /\A(?=.*[a-zA-Z0-9])[!-~]+\z/,
+                                 message: 'は英数字のいずれかを必ず含む、英数字と半角記号のみにしてください' },
+                       length: { minimum: 6 }, on: :create
   validates :password_confirmation, presence: true, on: :create
   validate :password_match, on: :create
-  validates :name, presence: true
-
-  # 招待時のロジックなどで、既に家族がいる場合はエラーにする
-  validate :must_not_belong_to_multiple_families, on: :create_membership
+  VALID_NAME_REGEX = /[\p{alnum}\p{hiragana}\p{katakana}\p{han}]/
+  validates :name, presence: true, length: { maximum: 50 }, format: { with: VALID_NAME_REGEX, message: 'を記号やスペースのみで入力することはできません' }
+  validate :birthday_cannot_be_in_the_future
+  before_validation { self.supabase_uid = supabase_uid.presence }
+  validates :supabase_uid, uniqueness: true, allow_nil: true
 
   def can_create_family?
     family_id.nil? && owned_family.nil?
@@ -31,7 +39,7 @@ class User < ApplicationRecord
       # 外部ストレージのURLを返す
       Rails.application.routes.url_helpers.url_for(avatar)
     else
-      # assets内などのデフォルト画像のパスを返す
+      # デフォルト画像のパスを返す
       ActionController::Base.helpers.asset_path('default-avatar.png')
     end
   end
@@ -44,9 +52,10 @@ class User < ApplicationRecord
     errors.add(:password_confirmation, "がパスワードと一致しません")
   end
 
-  def must_not_belong_to_multiple_families
-    return unless family_id.present?
+  def birthday_cannot_be_in_the_future
+    return if birthday.blank?
+    return unless birthday > Date.today
 
-    errors.add(:family, "は既に登録済みです。他の家族に参加することはできません。")
+    errors.add(:birthday, "を未来の日付にすることはできません")
   end
 end
