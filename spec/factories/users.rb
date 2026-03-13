@@ -5,7 +5,6 @@ FactoryBot.define do
     password_confirmation { password }
     name { '名前太郎' }
     birthday { '1999-01-01' }
-    sequence(:supabase_uid) { "supabase_uid_test#{_1}" }
 
     trait :no_name do
       name { '' }
