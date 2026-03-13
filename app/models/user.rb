@@ -5,7 +5,8 @@ class User < ApplicationRecord
   has_many :diaries
   has_many :reactions
 
-  attr_accessor :password, :password_confirmation, :updating_password
+  attr_accessor :password, :password_confirmation
+  attr_writer :updating_password
 
   before_save { self.email = email.downcase }
 
@@ -14,7 +15,7 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false },
                     length: { maximum: 500 },
                     format: { with: VALID_EMAIL_REGEX, message: 'の形式が正しくありません' },
-                    unless: :updating_password
+                    unless: :updating_password?
   validates :password, presence: true,
                        format: { with: /\A(?=.*[a-zA-Z0-9])[!-~]+\z/,
                                  message: 'は英数字のいずれかを必ず含む、英数字と半角記号のみにしてください' },
@@ -26,7 +27,7 @@ class User < ApplicationRecord
   validates :name, presence: true,
                    length: { maximum: 50 },
                    format: { with: VALID_NAME_REGEX, message: 'を記号やスペースのみで入力することはできません' },
-                   unless: :updating_password
+                   unless: :updating_password?
   validate :birthday_cannot_be_in_the_future
   before_validation { self.supabase_uid = supabase_uid.presence }
   validates :supabase_uid, uniqueness: true, allow_nil: true
@@ -58,7 +59,11 @@ class User < ApplicationRecord
   end
 
   def should_validate_password?
-    (new_record? && supabase_uid.blank?) || updating_password
+    (new_record? && supabase_uid.blank?) || updating_password?
+  end
+
+  def updating_password?
+    ActiveModel::Type::Boolean.new.cast(`@updating_password`)
   end
 
   def birthday_cannot_be_in_the_future
