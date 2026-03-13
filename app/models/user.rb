@@ -6,22 +6,28 @@ class User < ApplicationRecord
   has_many :reactions
 
   attr_accessor :password, :password_confirmation
+  attr_accessor :updating_password
 
   before_save { self.email = email.downcase }
 
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/ix
   validates :email, presence: true,
                     uniqueness: { case_sensitive: false },
-                    length: { maximum: 500 }
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/ix
-  validates :email, format: { with: VALID_EMAIL_REGEX, message: 'の形式が正しくありません' }
+                    length: { maximum: 500 },
+                    format: { with: VALID_EMAIL_REGEX, message: 'の形式が正しくありません' },
+                    unless: :updating_password
   validates :password, presence: true,
                        format: { with: /\A(?=.*[a-zA-Z0-9])[!-~]+\z/,
                                  message: 'は英数字のいずれかを必ず含む、英数字と半角記号のみにしてください' },
-                       length: { minimum: 6 }, on: :create
-  validates :password_confirmation, presence: true, on: :create
-  validate :password_match, on: :create
+                       length: { minimum: 6 },
+                       if: :should_validate_password?
+  validates :password_confirmation, presence: true, if: :should_validate_password?
+  validate :password_match, if: :should_validate_password?
   VALID_NAME_REGEX = /[\p{alnum}\p{hiragana}\p{katakana}\p{han}]/
-  validates :name, presence: true, length: { maximum: 50 }, format: { with: VALID_NAME_REGEX, message: 'を記号やスペースのみで入力することはできません' }
+  validates :name, presence: true,
+                   length: { maximum: 50 },
+                   format: { with: VALID_NAME_REGEX, message: 'を記号やスペースのみで入力することはできません' },
+                   unless: :updating_password
   validate :birthday_cannot_be_in_the_future
   before_validation { self.supabase_uid = supabase_uid.presence }
   validates :supabase_uid, uniqueness: true, allow_nil: true
@@ -50,6 +56,10 @@ class User < ApplicationRecord
     return unless password != password_confirmation
 
     errors.add(:password_confirmation, "がパスワードと一致しません")
+  end
+
+  def should_validate_password?
+    (new_record? && supabase_uid.blank?) || updating_password
   end
 
   def birthday_cannot_be_in_the_future
