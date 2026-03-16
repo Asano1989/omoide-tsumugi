@@ -18,31 +18,50 @@ RSpec.describe Family, type: :model do
           expect(build(:family, :fifty_characters_name, owner: user)).to be_valid
         end
         it 'nameが通常の文字列で構成されている場合、有効であること' do
-          expect(build(:family, :regular_string_name, owner: user)).to be_valid
+          expect(build(:family, name: '家族ファミリーFamily123', owner: user)).to be_valid
+        end
+        it 'nameに日本語が使用できること' do
+          expect(build(:family, name: '田中家', owner: user)).to be_valid
+        end
+        it 'nameに英数字が使用できること' do
+          expect(build(:family, name: 'Tanaka Family 2024', owner: user)).to be_valid
+        end
+        it 'nameにハイフンが使用できること' do
+          expect(build(:family, name: '田中-佐藤家', owner: user)).to be_valid
+        end
+        it 'nameにカッコが使用できること' do
+          expect(build(:family, name: '田中家（東京）', owner: user)).to be_valid
+        end
+        it 'nameに中点が使用できること' do
+          expect(build(:family, name: '田中・佐藤家', owner: user)).to be_valid
         end
       end
 
       context 'B2. nameのバリデーションが無効' do
-        it 'nameが空であるため無効' do
+        it 'nameが空であるため無効であること' do
           family = build(:family, :no_name, owner: user)
           expect(family).to be_invalid
           expect(family.errors.full_messages).to include("家族（グループ）名は1文字以上で入力してください")
         end
-        it 'nameがnilであるため無効' do
+        it 'nameがnilであるため無効であること' do
           family = build(:family, :nil_name, owner: user)
           expect(family).to be_invalid
           expect(family.errors.full_messages).to include("家族（グループ）名は1文字以上で入力してください")
         end
-        # it 'nameが空白文字のみであるため無効' do
-        # 空文字を弾くバリデーションを追加すること
-        #   family = build(:family, :blank_name, owner: user)
-        #   expect(family).to be_invalid
-        #   expect(family.errors.full_messages).to include("家族（グループ）名は1文字以上で入力してください")
-        # end
-        it 'nameが51文字以上であるため無効' do
+        it 'nameが空白文字のみであるため無効であること' do
+          family = build(:family, :blank_name, owner: user)
+          expect(family).to be_invalid
+          expect(family.errors.full_messages).to include("家族（グループ）名は1文字以上で入力してください")
+        end
+        it 'nameが51文字以上であるため無効であること' do
           family = build(:family, :fifty_one_characters_name, owner: user)
           expect(family).to be_invalid
           expect(family.errors.full_messages).to include("家族（グループ）名は50文字以内で入力してください")
+        end
+        it '特殊記号を使用しているため無効であること' do
+          family = build(:family, name: '田中家<script>', owner: user)
+          expect(family).to be_invalid
+          expect(family.errors.full_messages).to include('家族（グループ）名は日本語、英数字、スペース、ハイフン、カッコ、中点のみ使用できます')
         end
       end
     end
