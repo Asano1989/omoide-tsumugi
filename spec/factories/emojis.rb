@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :emoji do
-    character { '🥳' }
+    sequence(:character) { |n| ['😆', '🥳', '😀', '😊', '😭', '🎉', '❤️'][n % 7] + n.to_s }
   end
 end
