@@ -33,33 +33,33 @@ RSpec.describe User, type: :model do
       context 'B2. nameのバリデーションが無効：' do
         it 'nameが空の場合、無効であること' do
           user = build(:user, :no_name)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("表示名を入力してください")
         end
         it 'nameがnilの場合、無効であること' do
           user = build(:user, :nil_name)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("表示名を入力してください")
         end
         it 'nameが空白文字のみの場合、無効であること' do
           user = build(:user, :blank_character_name)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("表示名を入力してください")
           expect(user.errors.full_messages).to include("表示名を記号やスペースのみで入力することはできません")
         end
         it 'nameが51文字以上の場合、無効であること' do
           user = build(:user, :too_long_name)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("表示名は50文字以内で入力してください")
         end
         it 'nameが半角記号のみの場合、無効であること' do
           user = build(:user, :only_half_width_symbol_name)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("表示名を記号やスペースのみで入力することはできません")
         end
         it 'nameが全角記号のみの場合、無効であること' do
           user = build(:user, :only_full_width_symbol_name)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("表示名を記号やスペースのみで入力することはできません")
         end
       end
@@ -74,75 +74,75 @@ RSpec.describe User, type: :model do
       context 'C2. emailのバリデーションが無効：' do
         it 'emailが空の場合、無効であること' do
           user = build(:user, :no_email)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("メールアドレスを入力してください")
         end
         it 'emailがnilの場合、無効であること' do
           user = build(:user, :nil_email)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("メールアドレスを入力してください")
         end
         it '既に存在するemailのデータと被っている場合、無効であること' do
           first_user = create(:user)
           user = build(:user, email: first_user.email)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("メールアドレスはすでに存在します")
         end
         it 'emailが1文字の場合、無効であること' do
           user = build(:user, :one_character_email)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("メールアドレスの形式が正しくありません")
         end
         it 'emailが501文字以上の場合、無効であること' do
           user = build(:user, :too_long_email)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("メールアドレスは500文字以内で入力してください")
           expect(user.errors.full_messages).to include("メールアドレスの形式が正しくありません")
         end
         it 'emailに空白文字が含まれる場合、無効であること' do
           user = build(:user, :contain_blank_email)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("メールアドレスの形式が正しくありません")
         end
         it 'emailが全角文字のみの場合、無効であること' do
           user = build(:user, :only_full_width_character_email)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("メールアドレスの形式が正しくありません")
         end
         it 'emailが全角文字を含む場合、無効であること' do
           user = build(:user, :contain_full_width_character_email)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("メールアドレスの形式が正しくありません")
         end
         it 'emailに@が入っていない場合、無効であること' do
           user = build(:user, :except_atmark_from_email)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("メールアドレスの形式が正しくありません")
         end
         it 'emailが半角記号のみの場合、無効であること' do
           user = build(:user, :only_half_width_symbol_email)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("メールアドレスの形式が正しくありません")
         end
         it 'emailが許可されていない半角記号を含む場合、無効であること' do
           user = build(:user, :contain_half_width_symbol_email)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("メールアドレスの形式が正しくありません")
         end
         it 'emailのユーザー名の部分を大文字で登録した場合、小文字として一意性が保たれるため無効であること' do
           create(:user, email: 'test@example.com')
           user = build(:user, email: 'TEST@EXAMPLE.COM')
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("メールアドレスはすでに存在します")
         end
         it '@前のユーザー名が入力されていない場合、無効であること' do
           user = build(:user, :except_username_from_email)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("メールアドレスの形式が正しくありません")
         end
         it '@後のドメイン名が入力されていない場合、無効であること' do
           user = build(:user, :except_domain_from_email)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("メールアドレスの形式が正しくありません")
         end
       end
@@ -159,37 +159,37 @@ RSpec.describe User, type: :model do
       context 'D2. passwordのバリデーションが無効：' do
         it 'passwordが6文字未満の場合、無効であること' do
           user = build(:user, :too_short_password)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("パスワードは6文字以上で入力してください")
         end
         it 'passwordが空白の場合、無効であること' do
           user = build(:user, :blank_character_password)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("パスワードを入力してください")
         end
         it 'passwordがnilの場合、無効であること' do
           user = build(:user, :nil_password)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("パスワードを入力してください")
         end
         it 'passwordが空白文字を含む場合、無効であること' do
           user = build(:user, :contain_blank_password)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("パスワードは英数字のいずれかを必ず含む、英数字と半角記号のみにしてください")
         end
         it 'passwordが全角文字のみの場合、無効であること' do
           user = build(:user, :only_full_width_character_password)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("パスワードは英数字のいずれかを必ず含む、英数字と半角記号のみにしてください")
         end
         it 'passwordに全角文字が含まれる場合、無効であること' do
           user = build(:user, :contain_full_width_character_password)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("パスワードは英数字のいずれかを必ず含む、英数字と半角記号のみにしてください")
         end
         it 'passwordが半角記号のみの場合、無効であること' do
           user = build(:user, :only_half_width_symbol_password)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("パスワードは英数字のいずれかを必ず含む、英数字と半角記号のみにしてください")
         end
       end
@@ -203,17 +203,17 @@ RSpec.describe User, type: :model do
       context 'E2. password_confirmationのバリデーションが無効：' do
         it 'password_confirmationが未入力の場合、無効であること' do
           user = build(:user, :no_password_confirmation)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.details[:password_confirmation]).to include({:error => :blank})
         end
         it 'password_confirmationがnilの場合、無効であること' do
           user = build(:user, :nil_password_confirmation)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.details[:password_confirmation]).to include({:error => :blank})
         end
         it 'password_confirmationがpasswordと不一致の場合、無効であること' do
           user = build(:user, password_confirmation: "passwords" )
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("パスワード（確認）がパスワードと一致しません")
         end
       end
@@ -221,7 +221,7 @@ RSpec.describe User, type: :model do
       context 'F. birthdayのバリデーションが無効：' do
         it 'birthdayが未来の日付の場合、無効であること' do
           user = build(:user, :future_birthday)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("誕生日を未来の日付にすることはできません")
         end
       end
@@ -239,7 +239,7 @@ RSpec.describe User, type: :model do
         it '既に存在するsupabase_uidのデータと被る場合、無効であること' do
           first_user = create(:user, supabase_uid: 'supabase_uid')
           user = build(:user, supabase_uid: first_user.supabase_uid)
-          user.valid?
+          expect(user).to be_invalid
           expect(user.errors.full_messages).to include("Supabase uidはすでに存在します")
         end
       end
