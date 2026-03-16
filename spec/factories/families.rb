@@ -25,9 +25,5 @@ FactoryBot.define do
     trait :fifty_one_characters_name do
       name { 'a' * 51 }
     end
-
-    trait :regular_string_name do
-      name { '家族ファミリーfamily123４５６' }
-    end
   end
 end
