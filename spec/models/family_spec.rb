@@ -61,12 +61,11 @@ RSpec.describe Family, type: :model do
 
       context 'usersとの関連' do
         it 'Familyが複数のusersを持てること' do
-          user.update!(family: family)
           user1 = create(:user, family: family)
           user2 = create(:user, family: family)
           
-          expect(family.users.count).to eq 3
-          expect(family.users).to include(user, user1, user2)
+          expect(family.users.count).to eq 2
+          expect(family.users).to include(user1, user2)
         end
       end
 
@@ -112,16 +111,11 @@ RSpec.describe Family, type: :model do
           it 'Familyを削除できないこと' do
             user2 = create(:user, family: family)
             expect { family.destroy }.to raise_error(ActiveRecord::InvalidForeignKey)
-            
             expect(Family.find_by(id: family.id)).to be_present
           end
           it '関連するuserは削除されないこと' do
             user2 = create(:user, family: family)
-            begin
-              family.destroy
-            rescue ActiveRecord::InvalidForeignKey
-              # エラーは無視
-            end
+            expect { family.destroy }.to raise_error(ActiveRecord::InvalidForeignKey)
             expect(User.find_by(id: user2.id)).to be_present
           end
         end
@@ -135,10 +129,6 @@ RSpec.describe Family, type: :model do
             family.destroy
             expect(User.find_by(id: owner_id)).to be_present
           end
-        end
-        it 'Familyに関連するusersが存在する場合、Familyを削除できないこと' do
-          user2 = create(:user, family: family)
-          expect { family.destroy }.to raise_error(ActiveRecord::InvalidForeignKey)
         end
       end
     end
