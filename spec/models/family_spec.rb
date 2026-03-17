@@ -69,7 +69,7 @@ RSpec.describe Family, type: :model do
     describe 'アソシエーション：' do
       let!(:user) { create(:user) }
       let!(:family) { create(:family, owner: user) }
-      context 'ownerとの関連' do
+      context 'A. ownerとの関連' do
         it 'Familyがownerを持つこと' do
           expect(family.owner).to be_present
         end
@@ -78,7 +78,7 @@ RSpec.describe Family, type: :model do
         end
       end
 
-      context 'usersとの関連' do
+      context 'B. usersとの関連' do
         it 'Familyが複数のusersを持てること' do
           user1 = create(:user, family: family)
           user2 = create(:user, family: family)
@@ -88,7 +88,7 @@ RSpec.describe Family, type: :model do
         end
       end
 
-      context 'childrenとの関連' do
+      context 'C. childrenとの関連' do
         it 'Familyが複数のchildrenを持てること' do
           child1 = create(:child, family: family)
           child2 = create(:child, family: family)
@@ -98,7 +98,7 @@ RSpec.describe Family, type: :model do
         end
       end
 
-      context 'diariesとの関連' do
+      context 'D. diariesとの関連' do
         let(:child) { create(:child, family: family) }
         let(:emoji) { create(:emoji) }
         it 'Familyが複数のdiariesを持てること' do
@@ -110,7 +110,7 @@ RSpec.describe Family, type: :model do
         end
       end
 
-      context 'dependent: :destroy' do
+      context 'E. dependent: :destroyの確認' do
         let(:child) { create(:child, family: family) }
         let(:emoji) { create(:emoji) }
         it 'Familyを削除すると、関連するchildrenも削除されること' do
