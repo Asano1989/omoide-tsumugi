@@ -25,9 +25,9 @@ RSpec.describe Diary, type: :model do
       end
       it 'dateが未来の日付の場合、無効であること' do
         pending 'バリデーション実装後に追加予定'
-        # diary = build(:diary, :future_date)
-        # expect(diary).to be_invalid
-        # expect(diary.errors.full_messages).to include('')
+        diary = build(:diary, :future_date)
+        expect(diary).to be_invalid
+        expect(diary.errors.full_messages).to include('')
       end
       it 'dateが日付データである場合、有効であること' do
         diary = create(:diary, date: Date.parse('2000-01-01'), family_instance: family)
@@ -48,9 +48,9 @@ RSpec.describe Diary, type: :model do
       end
       it 'bodyが空白文字の場合、無効であること' do
         pending 'バリデーション実装後に追加予定'
-        # diary = build(:diary, :blank_character_body, family_instance: family)
-        # expect(diary).to be_invalid
-        # expect(diary.errors.full_messages).to include('')
+        diary = build(:diary, :blank_character_body, family_instance: family)
+        expect(diary).to be_invalid
+        expect(diary.errors.full_messages).to include('')
       end
       it 'bodyが通常の文字列の場合、有効であること' do
         diary = create(:diary, body: '適切な文字列', family_instance: family)
@@ -91,11 +91,11 @@ RSpec.describe Diary, type: :model do
         diary = create(:diary, user: user, family_instance: family)
         expect(diary.user).to eq(user)
       end
-      it 'Userがnilでも保存できること（optional: true の確認）' # do
-        # diary = create(:diary, user: nil)
-        # diary.save!
-        # expect(diary).to be_valid
-      # end
+      it 'Userがnilでも保存できること（optional: true の確認）' do
+        pending 'マイグレーション修正後に追加予定'
+        diary = create(:diary, user: nil)
+        expect(diary).to be_valid
+      end
     end
 
     context 'B. Familyとの関連' do
