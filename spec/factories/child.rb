@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :child do
-    name { '子ども' }
+    sequence(:name) { |n| "子ども#{n}" }
     birthday { Date.today }
     association :family
   end
