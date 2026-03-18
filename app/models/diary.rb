@@ -8,6 +8,7 @@ class Diary < ApplicationRecord
   has_many :reactions, dependent: :destroy
 
   validates :date, :body, :children, presence: true
+  validate :date_cannot_be_in_the_future
 
   def self.child_combination_options(family)
     return [] unless family
@@ -24,5 +25,14 @@ class Diary < ApplicationRecord
       end
     end
     options
+  end
+
+  private
+
+  def date_cannot_be_in_the_future
+    return if date.blank?
+    return unless date > Date.today
+
+    errors.add(:date, "を未来の日にすることはできません")
   end
 end

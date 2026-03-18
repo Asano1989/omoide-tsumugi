@@ -24,10 +24,9 @@ RSpec.describe Diary, type: :model do
         expect(diary.errors.full_messages).to include('日付を入力してください')
       end
       it 'dateが未来の日付の場合、無効であること' do
-        pending 'バリデーション実装後に追加予定'
         diary = build(:diary, :future_date)
         expect(diary).to be_invalid
-        expect(diary.errors.full_messages).to include('')
+        expect(diary.errors.full_messages).to include('日付を未来の日にすることはできません')
       end
       it 'dateが日付データである場合、有効であること' do
         diary = create(:diary, date: Date.parse('2000-01-01'), family_instance: family)
