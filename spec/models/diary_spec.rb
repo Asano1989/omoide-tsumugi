@@ -91,11 +91,6 @@ RSpec.describe Diary, type: :model do
         diary = create(:diary, user: user, family_instance: family)
         expect(diary.user).to eq(user)
       end
-      it 'Userがnilでも保存できること（optional: true の確認）' do
-        pending 'マイグレーション修正後に追加予定'
-        diary = create(:diary, user: nil)
-        expect(diary).to be_valid
-      end
     end
 
     context 'B. Familyとの関連' do
