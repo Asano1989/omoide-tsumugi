@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :family do
     name { 'ファミリー' }
+    association :owner, factory: :user
 
     trait :no_name do
       name { '' }
