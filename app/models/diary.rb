@@ -1,5 +1,5 @@
 class Diary < ApplicationRecord
-  belongs_to :user, optional: true
+  belongs_to :user
   belongs_to :family
   belongs_to :emoji
 
