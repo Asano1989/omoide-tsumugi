@@ -6,6 +6,9 @@
     
     <div class="bg-white rounded-3xl shadow-md p-7 border border-amber-200">
       <%= form_with(model: [@family, @child], data: { turbo: false }, class: "space-y-6") do |f| %>
+        <%# エラー表示 %>
+        <%= render 'shared/error_messages', object: f.object %>
+        
         <div class="space-y-2">
           <div class="flex items-center ml-1">
             <span class="icon-[cil--child] text-xl text-amber-600 mr-2"></span>
