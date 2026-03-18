@@ -39,12 +39,9 @@ class Diary < ApplicationRecord
 
   def body_contains_meaningful_content
     return if body.blank?
-    
+
     # ひらがな、カタカナ、漢字、英数字が1文字以上含まれているかチェック
     has_meaningful_chars = body.match?(/[ぁ-んァ-ヶー一-龠々a-zA-Z0-9]/)
-    
-    unless has_meaningful_chars
-      errors.add(:body, 'には文字を含めてください')
-    end
+    errors.add(:body, 'には文字を含めてください') unless has_meaningful_chars
   end
 end
