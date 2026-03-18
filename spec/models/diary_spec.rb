@@ -45,11 +45,42 @@ RSpec.describe Diary, type: :model do
         expect(diary).to be_invalid
         expect(diary.errors.full_messages).to include('本文を入力してください')
       end
-      it 'bodyが空白文字の場合、無効であること' do
-        pending 'バリデーション実装後に追加予定'
+      it 'bodyが空白文字のみの場合、無効であること' do
         diary = build(:diary, :blank_character_body, family_instance: family)
         expect(diary).to be_invalid
-        expect(diary.errors.full_messages).to include('')
+        expect(diary.errors.full_messages).to include('本文を入力してください')
+      end
+      it 'bodyが記号のみの場合、無効であること' do
+        diary = build(:diary, body: '!!!???', family_instance: family)
+        expect(diary).to be_invalid
+        expect(diary.errors.full_messages).to include('本文には文字を含めてください')
+      end
+      
+      it 'bodyが絵文字のみの場合、無効であること' do
+        diary = build(:diary, body: '😀😃😄', family_instance: family)
+        expect(diary).to be_invalid
+        expect(diary.errors.full_messages).to include('本文には文字を含めてください')
+      end
+      
+      it 'bodyが空白と記号と絵文字の組み合わせの場合、無効であること' do
+        diary = build(:diary, body: '  ！？ 😀 ', family_instance: family)
+        expect(diary).to be_invalid
+        expect(diary.errors.full_messages).to include('本文には文字を含めてください')
+      end
+      
+      it 'bodyに文字が含まれていれば、記号があっても有効であること' do
+        diary = build(:diary, body: '今日は楽しかった！', family_instance: family)
+        expect(diary).to be_valid
+      end
+      
+      it 'bodyに文字が含まれていれば、絵文字があっても有効であること' do
+        diary = build(:diary, body: '今日は楽しかった😀', family_instance: family)
+        expect(diary).to be_valid
+      end
+      
+      it 'bodyに文字が含まれていれば、記号と絵文字の両方があっても有効であること' do
+        diary = build(:diary, body: '今日は楽しかった！😀', family_instance: family)
+        expect(diary).to be_valid
       end
       it 'bodyが通常の文字列の場合、有効であること' do
         diary = create(:diary, body: '適切な文字列', family_instance: family)

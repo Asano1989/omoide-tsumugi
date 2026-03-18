@@ -9,6 +9,7 @@ class Diary < ApplicationRecord
 
   validates :date, :body, :children, presence: true
   validate :date_cannot_be_in_the_future
+  validate :body_contains_meaningful_content
 
   def self.child_combination_options(family)
     return [] unless family
@@ -34,5 +35,16 @@ class Diary < ApplicationRecord
     return unless date > Date.today
 
     errors.add(:date, "を未来の日にすることはできません")
+  end
+
+  def body_contains_meaningful_content
+    return if body.blank?
+    
+    # ひらがな、カタカナ、漢字、英数字が1文字以上含まれているかチェック
+    has_meaningful_chars = body.match?(/[ぁ-んァ-ヶー一-龠々a-zA-Z0-9]/)
+    
+    unless has_meaningful_chars
+      errors.add(:body, 'には文字を含めてください')
+    end
   end
 end
