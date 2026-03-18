@@ -41,6 +41,18 @@ FactoryBot.define do
       body { ' ' }
     end
 
+    trait :symbol_only_body do
+      body { '!!!???' }
+    end
+
+    trait :emoji_only_body do
+      body { '😀😃😄' }
+    end
+
+    trait :blank_and_symbol_and_emoji_only_body do
+      body { '  ！？ 😀 ' }
+    end
+
     trait :with_two_children do
       after(:build) do |diary|
         diary.children.clear

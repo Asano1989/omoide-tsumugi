@@ -35,35 +35,27 @@ RSpec.describe Diary, type: :model do
     end
 
     context 'C. bodyのバリデーション' do
-      it 'bodyが0文字の場合、無効であること' do
-        diary = build(:diary, :zero_character_body, family_instance: family)
-        expect(diary).to be_invalid
-        expect(diary.errors.full_messages).to include('本文を入力してください')
-      end
-      it 'bodyがnilの場合、無効であること' do
-        diary = build(:diary, :nil_body, family_instance: family)
-        expect(diary).to be_invalid
-        expect(diary.errors.full_messages).to include('本文を入力してください')
-      end
-      it 'bodyが空白文字のみの場合、無効であること' do
-        diary = build(:diary, :blank_character_body, family_instance: family)
-        expect(diary).to be_invalid
-        expect(diary.errors.full_messages).to include('本文を入力してください')
+      it 'bodyが空の場合（nil、空文字、空白のみ）、無効であること' do
+        [nil, '', '   '].each do |invalid_body|
+          diary = build(:diary, body: invalid_body, family_instance: family)
+          expect(diary).to be_invalid
+          expect(diary.errors.full_messages).to include('本文を入力してください')
+        end
       end
       it 'bodyが記号のみの場合、無効であること' do
-        diary = build(:diary, body: '!!!???', family_instance: family)
+        diary = build(:diary, :symbol_only_body, family_instance: family)
         expect(diary).to be_invalid
         expect(diary.errors.full_messages).to include('本文には文字を含めてください')
       end
       
       it 'bodyが絵文字のみの場合、無効であること' do
-        diary = build(:diary, body: '😀😃😄', family_instance: family)
+        diary = build(:diary, :emoji_only_body, family_instance: family)
         expect(diary).to be_invalid
         expect(diary.errors.full_messages).to include('本文には文字を含めてください')
       end
       
       it 'bodyが空白と記号と絵文字の組み合わせの場合、無効であること' do
-        diary = build(:diary, body: '  ！？ 😀 ', family_instance: family)
+        diary = build(:diary, :blank_and_symbol_and_emoji_only_body, family_instance: family)
         expect(diary).to be_invalid
         expect(diary.errors.full_messages).to include('本文には文字を含めてください')
       end
@@ -196,6 +188,7 @@ RSpec.describe Diary, type: :model do
         end
         
         it '子どもが2人の場合、3つの組み合わせが返ること' do
+          # 2^2 - 1 = 3通り（個別2つ + 組み合わせ1つ）
           child1 = create(:child, name: '太郎', family: family)
           child2 = create(:child, name: '花子', family: family)
           
@@ -204,6 +197,7 @@ RSpec.describe Diary, type: :model do
         end
         
         it '子どもが3人の場合、7つの組み合わせが返ること' do
+          # 2^3 - 1 = 7通り（個別3つ + 組み合わせ4つ）
           create_list(:child, 3, family: family)
           
           result = Diary.child_combination_options(family)
