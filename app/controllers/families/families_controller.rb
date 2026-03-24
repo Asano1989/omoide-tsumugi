@@ -45,7 +45,7 @@ module Families
 
     def destroy
       # 条件1：家族のメンバーが自分（管理者）以外にいないこと
-      return redirect_to family_path(@family), alert: '自分以外のメンバーがいる場合は家族を削除できません。' if @family.users.count.positive?
+      return redirect_to family_path(@family), alert: '自分以外のメンバーがいる場合は家族を削除できません。' if @family.users.count > 1
 
       # 条件2：子どもの情報が一つも存在していないこと
       return redirect_to family_path(@family), alert: '子どもの情報がある場合は家族を削除できません。' if @family.children.count.positive?
