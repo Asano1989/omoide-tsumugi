@@ -33,6 +33,7 @@ module Families
 
     def destroy
       return redirect_to family_children_path(@family), alert: '子どもに紐づいた日記がある場合は、子どもの情報を削除できません。' if @child.diaries.count.positive?
+
       @child.destroy
       redirect_to family_path(@family), notice: "子どもの情報を削除しました", status: :see_other
     end
