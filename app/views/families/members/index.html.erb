@@ -1,0 +1,53 @@
+<% content_for(:title, t('.title')) %>
+
+<div class="min-h-full bg-lime-100 flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
+  <div class="w-full max-w-md space-y-6">
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-extrabold text-lime-900">家族メンバーの管理</h1>
+      <p class="text-sm text-amber-800 mt-2">メンバーの確認と削除</p>
+    </div>
+    
+    <div class="space-y-4">
+    <% @members.each do |member| %>
+      <div class="bg-white rounded-3xl shadow-md p-5 border border-amber-200">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center min-w-0">
+            <div class="size-12 rounded-full bg-lime-100 flex items-center justify-center mr-4 shadow-inner flex-shrink-0 overflow-hidden border-2 border-white">
+              <%= image_tag member.display_avatar, class: "w-full h-full object-cover" %>
+            </div>
+            
+            <div class="truncate">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-amber-900 truncate">
+                  <%= member.name %>
+                </span>
+                <% if member.id == current_user.id %>
+                  <span class="text-[10px] bg-amber-200 text-amber-800 px-2 py-0.5 rounded-full font-bold whitespace-nowrap">あなた</span>
+                <% end %>
+              </div>
+              <p class="text-xs text-amber-600 truncate"><%= member.email %></p>
+            </div>
+          </div>
+          
+          <% if member.id == @family.owner_id %>
+            <span class="flex-shrink-0 flex items-center text-xs font-bold text-lime-800 bg-lime-200 px-2 py-1 rounded-full ml-2"> <span class="icon-[mdi--shield-check] mr-1"></span><%= t('activerecord.attributes.family.owner') %></span>
+          <% end %>
+        </div>
+        
+        <% if member.id == current_user.id && @family.owner_id != current_user.id || @family.owner_id == current_user.id && member.id != current_user.id %>
+          <div class="pt-3 border-t border-amber-50">
+            <%= button_to family_member_path(@family, member), method: :delete, data: { turbo_confirm: "本当にこのメンバーを家族から削除しますか？" }, class: "w-full py-2.5 bg-white border-2 border-rose-400 text-rose-500 hover:bg-rose-50 font-bold rounded-full text-sm transition-all active:scale-95 flex items-center justify-center cursor-pointer" do %> <span class="icon-[mdi--account-remove-outline] mr-2 text-lg"></span>
+              <%= delete_or_optout(member) %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    </div>
+    
+    <div class="text-center pt-6">
+      <%= link_to family_path(@family), data: { turbo: false }, class: "inline-flex items-center text-lime-900 font-bold hover:text-amber-700 transition-colors" do %> <span class="icon-[mdi--arrow-left] mr-1"></span> <%= t('helpers.link.back_to_family_page') %>
+      <% end %>
+    </div>
+  </div>
+</div>

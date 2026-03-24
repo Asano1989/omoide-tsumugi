@@ -1,0 +1,105 @@
+<% content_for(:title, t('.title')) %>
+
+<div class="min-h-full bg-lime-100 flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
+  <h1 class="text-2xl font-extrabold text-lime-900 text-center mb-6">家族情報の編集</h1>
+
+  <div class="w-full max-w-md space-y-6">
+    <div class="bg-white rounded-2xl shadow-md p-5 border border-amber-200">
+      <div class="flex items-center mb-4">
+        <span class="icon-[material-symbols--family-group-rounded] text-2xl text-amber-600 mr-3"></span>
+        <h2 class="text-md font-bold text-amber-800"><%= t('activerecord.attributes.family.name') %>を編集</h2>
+      </div>
+      <%= form_with model: @family, url: family_path(id: @family.id), data: { turbo: false }, local: true, class: "space-y-4" do |f| %>
+        <div class="flex flex-col space-y-3">
+          <%= f.text_field :name, class: "w-full p-3 bg-lime-50 border border-lime-400 rounded-xl text-lg font-bold text-lime-900 focus:ring-2 focus:ring-lime-500 focus:border-transparent outline-none transition-all", placeholder: "家族名を入力" %>
+          <%= f.submit t('helpers.submit.family.update'), data: { turbo: false }, class: "w-full py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-full shadow-sm transition-all active:scale-95 cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="bg-white rounded-2xl shadow-md p-5 border border-amber-200">
+      <div class="flex items-center mb-4">
+        <span class="icon-[mdi--account-group] text-2xl text-amber-600 mr-2"></span>
+        <h2 class="text-md font-bold text-amber-800"><%= t('activerecord.attributes.family.members') %></h2>
+      </div>
+      <ul class="space-y-3 my-4">
+        <% @members.each do |member| %>
+          <li class="w-full flex flex-wrap items-center justify-between bg-amber-100/50 rounded-2xl p-3 shadow-sm">
+            <div class="w-full flex items-center">
+              <div class="size-10 rounded-full flex flex-none items-center justify-center mr-3 shadow-inner overflow-hidden">
+                <%= image_tag member.display_avatar, class: "w-full h-full object-cover" %>
+              </div>
+              <div class="text-wrap">
+                <span class="<%= current_user.id == member.id ? "bg-rose-200 font-semibold text-md text-amber-900" : "font-semibold text-md text-amber-900" %>"><%= member.name %></span>
+              </div>
+              <% if member.id == @family.owner_id %>
+                <div class="flex flex-nowrap items-center ml-auto text-xs font-medium text-lime-900 bg-lime-300/70 px-2 py-1 rounded-full">
+                  <span class="icon-[mdi--shield-check] mr-1"></span>
+                  <span class="text-nowrap"><%= t('activerecord.attributes.family.owner') %></span>
+                </div>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+
+      <div class="space-y-3">
+        <% if current_user.id == @family.owner_id %>
+          <%= link_to new_family_member_path(family_id: @family.id), class: "flex items-center justify-center w-full py-3 bg-lime-500 hover:bg-lime-600 text-white font-bold rounded-full shadow-md transition-all active:scale-95" do %>
+            <span class="icon-[mdi--account-plus] mr-2 text-lg"></span><%= t('helpers.button.family.add_member') %>
+          <% end %>
+          <% if @members.count > 1 %>
+            <%= link_to family_members_path(family_id: @family.id), class: "flex items-center justify-center w-full py-3 bg-white border-2 border-rose-400 text-rose-500 hover:bg-rose-50 font-bold rounded-full transition-all active:scale-95" do %>
+              <span class="icon-[mdi--account-remove] mr-2 text-lg"></span><%= t('helpers.button.family.delete_member') %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <%= link_to family_members_path(family_id: @family.id), class: "flex items-center justify-center w-full py-3 bg-white border-2 border-rose-400 text-rose-500 hover:bg-rose-50 font-bold rounded-full transition-all active:scale-95" do %>
+            <span class="icon-[mdi--logout] mr-2 text-lg"></span><%= t('helpers.button.family.optout_family') %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+      
+      <div class="bg-white rounded-2xl shadow-md p-5 border border-amber-200">
+        <div class="flex items-center mb-4">
+          <span class="icon-[mdi--baby-face-outline] text-2xl text-amber-600 mr-2"></span>
+          <h2 class="text-md font-bold text-amber-800"><%= t('activerecord.attributes.family.children') %></h2>
+        </div>
+        <% if @family.children.any? %>
+          <ul class="grid grid-cols-2 gap-3 mb-6">
+            <% @family.children.each do |child| %>
+              <li class="bg-amber-50 rounded-2xl p-4 text-center border border-amber-100 shadow-sm">
+                <span class="font-extrabold text-amber-900"><%= child.name %></span>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-amber-800 text-sm text-center mb-6 italic bg-amber-50 py-4 rounded-xl border border-amber-100"><%= t('helpers.message.no_children_data') %></p>
+        <% end %>
+        
+        <div class="space-y-3">
+          <%= link_to new_family_child_path(family_id: @family.id), data: { turbo: false }, class: "flex items-center justify-center w-full py-3 bg-lime-500 hover:bg-lime-600 text-white font-bold rounded-full shadow-md transition-all active:scale-95" do %>
+            <span class="icon-[mdi--plus-circle] mr-2 text-lg"></span><%= t('helpers.button.children.add_child') %>
+          <% end %>
+          <% if @family.children.count > 0 %>
+            <%= link_to family_children_path(family_id: @family.id), data: { turbo: false }, class: "flex items-center justify-center w-full py-3 bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold rounded-full transition-all active:scale-95" do %>
+              <span class="icon-[mdi--account-edit] mr-2 text-lg"></span><%= t('helpers.button.children.edit_children') %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+    <div class="space-y-3">
+      <%= button_to family_path(family_id: @family.id), method: :delete, data: { turbo_confirm: "本当にこの家族を削除しますか？" }, class: "flex items-center justify-center w-full py-3 bg-rose-500/80 hover:bg-rose-600/80 text-white font-bold rounded-full shadow-md transition-all active:scale-95" do %>
+        <span class="icon-[mdi--house-off] mr-2 text-lg"></span><%= t('helpers.submit.family.destroy') %>
+      <% end %>
+    </div>
+      
+    <div class="pt-4 text-center">
+      <%= link_to family_path(@family), data: { turbo: false }, class: "inline-flex items-center text-lime-900 font-bold hover:text-amber-700 transition-colors" do %>
+        <span class="icon-[mdi--arrow-left] mr-1"></span> <%= t('helpers.link.back_to_family_page') %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= page_title(content_for(:title)) %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="turbo-cache-control" content="no-cache">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "simple_calendar", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body class="grid grid-rows-[auto_1fr_auto] h-[100dvh] overflow-hidden">
+    <div id="header">
+      <%= render 'layouts/header' %>
+    </div>
+    <div id="main" class="overflow-y-auto grow">
+      <div id="flash_messages" class="fixed sm:top-[10dvh] sm:top-[10dvh] lg:top-[8dvh] left-0 right-0 z-100 pointer-events-none">
+        <%= render 'shared/flash_messages' %>
+      </div>
+
+      <%= yield %>
+    </div>
+    <div id="menu">
+      <%= render 'layouts/menu' %>
+    </div>
+  </body>
+</html>

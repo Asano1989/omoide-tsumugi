@@ -1,0 +1,50 @@
+<% content_for(:title, t('.title')) %>
+
+<div class="min-h-full bg-lime-100 flex flex-col items-center py-4 px-4 lg:px-8">
+  <h1 class="text-2xl font-bold text-lime-900 text-center mb-3">マイページ</h1>
+
+  <div class="w-full max-w-md mb-6 bg-amber-50 rounded-3xl shadow-md overflow-hidden border border-amber-300">
+    <div class="px-4 py-6 flex flex-col items-center border-b border-amber-300 bg-white/50">
+      <div class="relative mb-2">
+        <div class="size-28 rounded-full bg-lime-200 overflow-hidden shadow-xs">
+          <%= image_tag current_user.display_avatar, class: "w-full h-full object-cover" %>
+        </div>
+      </div>
+      
+      <h2 class="text-lg font-extrabold text-amber-900"><%= current_user.name %></h2>
+      <h2 class="text-md italic text-amber-600 mb-4"><%= current_user.email %></h2>
+      
+      <%= link_to edit_mypage_path, class: "flex items-center justify-center w-full py-3 px-6 bg-lime-500 hover:bg-lime-600 text-white font-bold rounded-full shadow-sm transition duration-300 ease-in-out transform hover:scale-105" do %>
+        <span class="icon-[mdi--account-edit] mr-2 text-xl"></span>
+        ユーザー情報を確認
+      <% end %>
+    </div>
+
+    <div class="p-4 space-y-4">
+      <div class="flex items-center mb-4">
+        <span class="icon-[fluent-mdl2--family] text-2xl text-amber-600 mr-2"></span>
+        <h3 class="text-md font-bold text-amber-900">家族の情報</h3>
+      </div>
+
+      <% if current_user.family.present? %>
+        <div class="bg-white p-4 rounded-2xl border border-amber-100 shadow-sm mb-4">
+          <p class="text-amber-900 font-semibold text-md text-center"><%= current_user.family.name %></p>
+        </div>
+        <%= link_to family_path(current_user.family.id), class: "flex items-center justify-center w-full py-3 px-6 mb-2 bg-lime-500 hover:bg-lime-600 text-white font-bold rounded-full shadow-sm transition duration-300 ease-in-out transform hover:scale-105" do %>
+          <span class="icon-[material-symbols--family-home-rounded] mr-2 text-xl"></span>
+          家族の情報を確認
+        <% end %>
+      <% else %>
+        <p class="text-amber-800 text-sm text-center mb-6 italic">家族グループに所属していません</p>
+        <%= link_to new_family_path, class: "flex items-center justify-center w-full py-3 px-6 mb-2 bg-lime-500 hover:bg-lime-600 text-white font-bold rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105" do %>
+          <span class="icon-[mdi--house-plus] mr-2 text-xl"></span>
+          家族（グループ）に入る・作成
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div>
+  <%= render 'layouts/footer' %>
+</div>

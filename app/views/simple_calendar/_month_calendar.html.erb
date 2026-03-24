@@ -1,0 +1,84 @@
+<div class="simple-calendar bg-amber-50 min-h-full py-2 font-sans text-[#5D2E17]">
+  <div class="max-w-md mx-auto m-2 px-4">
+    <div class="flex items-center justify-between">
+      <!-- Year & Month Previous Buttons -->
+      <div class="flex gap-2">
+        <%= link_to url_for(params.permit(:start_date).to_h.merge(start_date: start_date.beginning_of_year - 1.year)),
+            class: "w-10 h-10 flex items-center justify-center rounded-full bg-white border border-amber-200 shadow-sm text-amber-600 hover:bg-amber-50 transition-all active:scale-95",
+            title: "Previous Year" do %>
+          <span class="icon-[lucide--chevrons-left] text-xl"></span>
+        <% end %>
+        <%= link_to url_for(params.permit(:start_date).to_h.merge(start_date: start_date.beginning_of_month - 1.month)),
+            class: "w-10 h-10 flex items-center justify-center rounded-full bg-white border border-amber-200 shadow-sm text-amber-600 hover:bg-amber-50 transition-all active:scale-95",
+            title: "Previous Month" do %>
+          <span class="icon-[lucide--chevron-left] text-xl"></span>
+        <% end %>
+      </div>
+      <!-- Centered Month and Year -->
+      <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-amber-900">
+        <%= start_date.year %>年 <%= t('date.month_names')[start_date.month] %>
+      </h2>
+      <!-- Month & Year Next Buttons -->
+      <div class="flex gap-2">
+        <%= link_to url_for(params.permit(:start_date).to_h.merge(start_date: start_date.beginning_of_month + 1.month)),
+            class: "w-10 h-10 flex items-center justify-center rounded-full bg-white border border-amber-200 shadow-sm text-amber-600 hover:bg-amber-50 transition-all active:scale-95",
+            title: "Next Month" do %>
+          <span class="icon-[lucide--chevron-right] text-xl"></span>
+        <% end %>
+        <%= link_to url_for(params.permit(:start_date).to_h.merge(start_date: start_date.beginning_of_year + 1.year)),
+            class: "w-10 h-10 flex items-center justify-center rounded-full bg-white border border-amber-200 shadow-sm text-amber-600 hover:bg-amber-50 transition-all active:scale-95",
+            title: "Next Year" do %>
+          <span class="icon-[lucide--chevrons-right] text-xl"></span>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Today Button centered below -->
+    <div class="flex justify-center my-2.5 lg:my-4">
+      <%= link_to t('simple_calendar.today', default: 'Today'), calendar.url_for_today_view,
+          class: "text-xs font-bold text-amber-700 bg-amber-200/50 hover:bg-amber-200 px-3 py-1.5 rounded-full transition-colors" %>
+    </div>
+  </div>
+
+  <div class="max-w-full mx-2 bg-amber-100 rounded-3xl sm:rounded-2xl py-3 px-1 shadow-md border border-amber-200/50">
+    <div class="grid grid-cols-7 mb-2">
+      <% date_range.slice(0, 7).each do |day| %>
+        <div class="grid justify-items-stretch gap-2">
+          <div class="text-center py-1">
+            <span class="text-md sm:text-md font-black text-lime-700">
+              <%= t('date.abbr_day_names')[day.wday] %>
+            </span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="grid grid-cols-7 gap-x-1">
+      <% date_range.each do |day| %>
+        <%= content_tag :div, class: "relative group transition-all" do %>
+          <!-- Increased cell size on mobile and ensured fixed height with hidden scrollbars -->
+          <div class="aspect-[4/5] min-h-[65px] flex flex-col items-stretch transition-all overflow-hidden
+            <%= day.month == start_date.month ? 'bg-amber-50' : 'bg-lime-100/50 opacity-40' %>
+            border border-lime-400/50 cursor-pointer rounded-md lg:rounded-x2 my-1"
+          >
+            <!-- Date link positioned at the top-center of the cell -->
+            <div class="text-center pt-1 relative inline-flex items-center justify-center">
+              <% if day == Date.today %>
+                <div class="absolute w-6 h-6 bg-rose-200/70 rounded-full blur-xs"></div>
+              <% end %>
+              <%= link_to day.day, date_index_diaries_path(date: day), class: "text-base font-bold transition-colors text-amber-800 hover:text-rose-600 #{day == Date.today ? 'relative': ''}" %>
+            </div>
+            <!-- Scrollable container with no-scrollbar class to hide ugly browser scrollbars -->
+            <div class="flex-grow overflow-y-auto no-scrollbar">
+              <div class="flex flex-wrap items-center justify-center gap-1 min-h-full">
+                <!-- Centered emoji container with stable positioning -->
+                <div class="text-xl leading-none flex flex-wrap justify-center gap-1">
+                  <% instance_exec(day, calendar.sorted_events_for(day), &passed_block) %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

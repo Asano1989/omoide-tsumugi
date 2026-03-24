@@ -1,0 +1,55 @@
+<% content_for(:title, t('.title')) %>
+
+<div class="min-h-full bg-lime-50 flex flex-col justify-center items-center py-4 px-4 sm:px-6 lg:px-8">
+  <h2 class="text-3xl font-extrabold text-lime-900 text-center mb-4">ユーザー登録</h2>
+
+  <div class="w-full max-w-sm bg-amber-100/60 rounded-2xl shadow-lg p-6 space-y-6 border border-amber-200 mb-4">
+  <%= form_with(model: @user, url: signup_path, method: :post, local: true, multipart: true, class: "space-y-6") do |f| %>
+    <%# エラー表示 %>
+    <%= render 'shared/error_messages', object: f.object %>
+    
+    <%# メールアドレス %>
+    <div>
+      <%= f.label :email, t('activerecord.attributes.user.email'), class: "block text-base font-semibold text-amber-800 mb-2" %>
+      <%= f.email_field :email, required: true, class: "w-full p-3 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-lime-800 shadow-sm", placeholder: "メールアドレスを入力してください" %>
+    </div>
+    
+    <%# パスワード %>
+    <div>
+      <%= f.label :password, t('activerecord.attributes.user.password'), class: "block text-base font-semibold text-amber-800 mb-2" %>
+      <%= f.password_field :password, required: true, class: "w-full p-3 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-lime-800 shadow-sm", placeholder: "パスワードを入力してください" %>
+    </div>
+    
+    <%# パスワード（確認） %>
+    <div>
+      <%= f.label :password_confirmation, t('activerecord.attributes.user.password_confirmation'), class: "block text-base font-semibold text-amber-800 mb-2" %>
+      <%= f.password_field :password_confirmation, required: true, class: "w-full p-3 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-lime-800 shadow-sm", placeholder: "パスワードをもう一度入力してください" %>
+    </div>
+    
+    <%# 表示名 %>
+    <div>
+      <%= f.label :name, t('activerecord.attributes.user.name'), class: "block text-base font-semibold text-amber-800 mb-2" %>
+      <%= f.text_field :name, class: "w-full p-3 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-lime-800 shadow-sm", placeholder: "表示名を入力してください" %>
+    </div>
+    
+    <%# 誕生日 %>
+    <div>
+      <%= f.label :birthday, t('activerecord.attributes.user.birthday'), class: "block text-base font-semibold text-amber-800 mb-2" %>
+      <%= f.date_field :birthday, class: "w-full p-3 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-lime-800 shadow-sm" %>
+    </div>
+    
+    <%# プロフィール画像 %>
+    <div>
+      <%= f.label :avatar, t('activerecord.attributes.user.avatar'), class: "block text-base font-semibold text-amber-800 mb-2" %>
+      <%= f.file_field :avatar, accept: "image/*", class: "w-full p-2.5 border border-amber-300 rounded-lg bg-white text-lime-800 shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-amber-100 file:text-amber-700 hover:file:bg-amber-200" %>
+    </div>
+    
+    <%# 登録ボタン %>
+    <%= f.submit t('helpers.submit.user.create'), class: "w-full bg-rose-400 text-white font-bold py-3 px-6 rounded-full shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-rose-600 focus:ring-opacity-50 tracking-wide my-2" %>
+    <% end %>
+  </div>
+  
+  <div class="my-4 text-center">
+    <%= link_to t('helpers.link.go_to_login'), login_path, class: "text-base font-medium text-lime-600 hover:text-lime-700 transition-colors duration-200" %>
+  </div>
+</div>

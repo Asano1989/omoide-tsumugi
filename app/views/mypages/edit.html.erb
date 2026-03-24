@@ -1,0 +1,64 @@
+<% content_for(:title, t('.title')) %>
+
+<div class="min-h-full bg-lime-100 flex flex-col items-center pb-8 px-4 sm:px-6 lg:px-8">
+  <h1 class="text-2xl font-bold text-lime-900 text-center my-4">プロフィール編集</h1>
+
+  <div class="w-full max-w-md bg-amber-50/90 rounded-3xl shadow-md p-6 space-y-7 border border-amber-200">
+    <div id="user_form">
+    <%= form_with model: @user, url: mypage_path, method: :patch, data: { turbo: false }, local: true, class: "space-y-6" do |f| %>
+      <%# エラー表示 %>
+      <%= render 'shared/error_messages', object: f.object %>
+      
+      <div class="flex flex-col items-center space-y-3 mb-8">
+        <div class="relative">
+          <div class="size-24 rounded-full bg-lime-200 overflow-hidden shadow-xs">
+            <%= image_tag @user.display_avatar, class: "w-full h-full object-cover" %>
+          </div>
+        </div>
+        
+        <div class="w-full">
+          <div class="flex items-center">
+            <span class="icon-[mdi--camera-outline] text-xl text-amber-600 mr-2 mb-2"></span>
+            <%= f.label :avatar, "プロフィール画像を変更", class: "font-semibold text-amber-800 mb-2" %>
+          </div>
+          <%= f.file_field :avatar, accept: "image/*", class: "w-full p-2 text-sm text-amber-800 bg-white rounded-lg border border-amber-300 shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-lime-100 file:text-lime-700 hover:file:bg-lime-200 cursor-pointer" %>
+        </div>
+      </div>
+      
+      <div class="space-y-1">
+        <div class="flex items-center">
+          <span class="icon-[mdi--account-outline] text-xl text-amber-600 mr-2"></span>
+          <%= f.label :name, t('activerecord.attributes.user.name'), class: "font-bold text-amber-800" %>
+        </div>
+        <%= f.text_field :name, class: "w-full p-3 border border-amber-300 rounded-xl focus:ring-2 focus:ring-lime-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-amber-800 shadow-sm", placeholder: "名前を入力してください" %>
+      </div>
+        
+      <div class="space-y-1">
+        <div class="flex items-center">
+          <span class="icon-[mdi--cake-variant-outline] text-xl text-amber-600 mr-2"></span>
+          <%= f.label :birthday, t('activerecord.attributes.user.birthday'), class: "font-bold text-amber-800" %>
+        </div>
+        <%= f.date_field :birthday, class: "w-full p-3 border border-amber-300 rounded-xl focus:ring-2 focus:ring-lime-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-amber-800 shadow-sm" %>
+      </div>
+      
+      <div class="text-center">
+        <div class="flex flex-col gap-4">
+          <%= f.submit t('helpers.submit.user.update'), data: { turbo: false }, class: "w-full bg-lime-600 hover:bg-lime-700 text-white font-bold py-3 px-6 rounded-full shadow-sm transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer" %>
+
+          <%= link_to edit_password_path, data: { turbo: false }, class: "w-full bg-amber-500 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-full shadow-sm transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer" do %>
+            <span><%= t('helpers.button.mypages.edit_password') %></span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    </div>
+  </div>
+
+  <div class="text-center my-8">
+    <%= link_to t('helpers.link.back_to_mypage'), mypage_path, data: { turbo: false }, class: "inline-flex items-center text-amber-900 font-medium hover:text-lime-600 transition-colors duration-200" %>
+  </div>
+</div>
+
+<div>
+  <%= render 'layouts/footer' %>
+</div>

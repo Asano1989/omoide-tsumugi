@@ -1,0 +1,58 @@
+<% content_for(:title, t('.title')) %>
+
+<div class="min-h-full bg-lime-50 flex flex-col items-center py-3 px-4 sm:px-6 lg:px-8">
+  <!-- Container -->
+  <div class="w-full max-w-md p-2 space-y-4">
+    <!-- Header Section -->
+    <h1 class="text-3xl font-extrabold text-lime-800 text-center mb-4">日記を投稿</h1>
+
+    <!-- Form Card -->
+    <div class="bg-amber-50 rounded-2xl shadow-md border-2 border-amber-100 p-6 sm:p-8 space-y-4">
+      <%= form_with(model: @diary, method: :post, data: { turbo: false }, local: true) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+
+        <div class="mb-6">
+          <div class="flex items-center mb-2">
+            <span class="icon-[formkit--date] text-xl text-amber-600 mr-2"></span>
+            <%= f.label :date, t('activerecord.attributes.diary.date'), class: "font-semibold text-amber-800 text-lg" %>
+          </div>
+          <%= f.date_field :date, class: "w-full p-3 border border-amber-400 rounded-lg bg-white text-lime-800 shadow-sm" %>
+        </div>
+
+        <div class="mb-6">
+          <div class="flex items-center mb-2">
+            <span class="icon-[lucide--smile-plus] text-xl text-amber-600 mr-2"></span>
+            <%= f.label :emoji_id, t('activerecord.attributes.diary.emoji'), class: "font-semibold text-amber-800 text-lg" %>
+          </div>
+          <div class="relative">
+            <%= f.collection_select :emoji_id, @emojis, :id, :character, { include_blank: "選択してください" }, { class: "w-full p-3 border border-amber-400 rounded-lg bg-white text-lime-800 text-md shadow-sm appearance-none cursor-pointer" } %>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <div class="flex items-center mb-2">
+            <span class="icon-[hugeicons--child] text-xl text-amber-600 mr-2"></span>
+            <%= f.label :child_ids, "どの子？", class: "font-semibold text-amber-800 text-lg" %>
+          </div>
+          <div class="relative">
+            <%= f.select :child_ids, Diary.child_combination_options(current_user.family), { include_blank: "選択してください", selected: f.object.child_ids }, { name: "diary[child_ids]", class: "w-full p-3 border border-amber-400 rounded-lg bg-white text-lime-800 text-md shadow-sm appearance-none cursor-pointer" } %>
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <div class="flex items-center mb-2">
+            <span class="icon-[mdi--lead-pencil] text-xl text-amber-600 mr-2"></span>
+            <%= f.label :body, "今日は何があった？", class: "font-semibold text-amber-800 text-lg" %>
+          </div>
+          <%= f.text_area :body, class: "w-full p-3 border border-amber-400 rounded-lg h-28 resize-y bg-white text-lime-800 shadow-sm", placeholder: "今日あったことを書いてみよう！" %>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+          <%= f.submit t('helpers.submit.diary.create'), class: "w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-full shadow-md transition duration-300 ease-in-out" %>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>
