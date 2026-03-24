@@ -52,23 +52,21 @@
 
   <!-- コンテンツ本体: 日記本文 -->
   <div class="flex flex-col flex-1 mt-1">
-    <p class="text-[#4a4238] dark:text-[#dcd6ce] text-[15px] leading-relaxed font-normal whitespace-pre-wrap">
-      <%= diary.body %>
-    </p>
+    <p class="text-[#4a4238] dark:text-[#dcd6ce] text-[15px] leading-relaxed font-normal whitespace-pre-wrap break-words"><%= diary.body %></p>
   </div>
 
   <!-- フッター: タグとリアクションボタン -->
   <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 gap-2">
     <!-- タグ -->
-    <!-- % if diary.tags.any? % -->
-      <div class="flex flex-wrap gap-2">
-        <!-- % diary.tags.each do |tag| % -->
-          <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-lime-100 dark:bg-lime-900/30 text-lime-800 dark:text-lime-200 transition-colors">
-            <span class="text-xs font-semibold"># タグ<%# = tag.name %></span>
-          </div>
-        <!-- % end % -->
-      </div>
-    <!-- % end % -->
+    <%# if diary.tags.any? %>
+      <%# div class="flex flex-wrap gap-2" %>
+        <%# diary.tags.each do |tag| %>
+          <%# div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-lime-100 dark:bg-lime-900/30 text-lime-800 dark:text-lime-200 transition-colors" %>
+            <%# span class="text-xs font-semibold"><%# タグ %><%# = tag.name %><%# /span %>
+          <%# /div %>
+        <%# end %>
+      <%# /div %>
+    <%# end %>
     
     <!-- リアクションボタン -->
     <div class="flex items-center justify-end gap-1 z-20">

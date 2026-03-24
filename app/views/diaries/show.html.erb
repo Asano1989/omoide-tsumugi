@@ -41,21 +41,19 @@
         <% end %>
       </div>
 
-      <!-- Body text -->
-      <p class="text-neutral-700 text-base p-4">
-        <%= @diary.body %>
-      </p>
+      <!-- 本文 -->
+      <p class="text-neutral-700 text-base p-4 whitespace-pre-wrap"><%= @diary.body %></p>
 
-      <!-- Tags -->
-      <div class="flex flex-wrap gap-2">
-        <!-- % if @diary.tags.any? % -->
-          <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-lime-200/80 text-lime-800">
-            <span class="text-xs font-semibold"># タグ<%# = tag.name %></span>
-          </div>
-        <!-- % end % -->
-      </div>
+      <!-- タグ -->
+      <%# div class="flex flex-wrap gap-2" %>
+        <%# if @diary.tags.any? %>
+          <%# div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-lime-200/80 text-lime-800" %>
+            <%# span class="text-xs font-semibold" %><%# # タグ %><%# = tag.name %><%# /span %>
+          <%# /div %>
+        <%# end %>
+      <%# /div %>
 
-      <!-- Reactions -->
+      <!-- リアクション -->
       <div class="w-full flex justify-end border-t-1 border-neutral-100 mt-4">
         <%= render 'reaction', diary: @diary %>
       </div>
