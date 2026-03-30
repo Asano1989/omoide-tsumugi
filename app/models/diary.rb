@@ -32,7 +32,7 @@ class Diary < ApplicationRecord
 
   def date_cannot_be_in_the_future
     return if date.blank?
-    return unless date > Date.today
+    return unless date > Date.current
 
     errors.add(:date, "を未来の日にすることはできません")
   end
