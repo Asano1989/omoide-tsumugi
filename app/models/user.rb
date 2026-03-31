@@ -68,7 +68,7 @@ class User < ApplicationRecord
 
   def birthday_cannot_be_in_the_future
     return if birthday.blank?
-    return unless birthday > Date.today
+    return unless birthday > Date.current
 
     errors.add(:birthday, "を未来の日付にすることはできません")
   end
