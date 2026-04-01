@@ -62,10 +62,10 @@
           >
             <!-- Date link positioned at the top-center of the cell -->
             <div class="text-center pt-1 relative inline-flex items-center justify-center">
-              <% if day == Date.today %>
+              <% if day == Date.current %>
                 <div class="absolute w-6 h-6 bg-rose-200/70 rounded-full blur-xs"></div>
               <% end %>
-              <%= link_to day.day, date_index_diaries_path(date: day), class: "text-base font-bold transition-colors text-amber-800 hover:text-rose-600 #{day == Date.today ? 'relative': ''}" %>
+              <%= link_to day.day, date_index_diaries_path(date: day), class: "text-base font-bold transition-colors text-amber-800 hover:text-rose-600 #{day == Date.current ? 'relative': ''}" %>
             </div>
             <!-- Scrollable container with no-scrollbar class to hide ugly browser scrollbars -->
             <div class="flex-grow overflow-y-auto no-scrollbar">
